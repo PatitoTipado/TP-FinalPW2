@@ -1,0 +1,44 @@
+    <div class="w3-container">
+        <div class="w3-card-4 register-box w3-light-grey">
+            <form class="w3-container" method="POST" action="/Registro/registrarUsuario">
+                <h2 class="w3-center">Registrarse</h2>
+
+                <label for="nombre">Ingresar nombre</label>
+                <input class="w3-input" type="text" id="nombre" name="nombre" required>
+
+                <label for="anio">Ingresar año de nacimiento</label>
+                <input class="w3-input" type="number" id="anio" name="anio" required>
+
+                <label for="sexo">Sexo</label>
+                <select class="w3-select" id="sexo" name="sexo" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                    <option value="no-cargar">Prefiero no cargarlo</option>
+                </select>
+
+                <label for="pais">País</label>
+                <input class="w3-input" type="text" id="pais" name="pais" required>
+
+                <label for="ciudad">Ciudad</label>
+                <input class="w3-input" type="text" id="ciudad" name="ciudad" required>
+
+                <label for="email">Mail</label>
+                <input class="w3-input" type="email" id="email" name="email" required>
+
+                <label for="contrasena">Contraseña</label>
+                <input class="w3-input" type="password" id="contrasena" name="contrasena" required>
+
+                <label for="repetir-contrasena">Repetir contraseña</label>
+                <input class="w3-input" type="password" id="repetir-contrasena" name="repetir-contrasena" required>
+
+                <label for="usuario">Ingresa tu nombre de usuario</label>
+                <input class="w3-input" type="text" id="usuario" name="usuario" required>
+
+                <label for="foto">Ingresar foto de perfil</label>
+                <input class="w3-input" type="file" id="foto" name="foto">
+
+                <button class="w3-button w3-teal w3-margin-top" type="submit">Registrarse</button>
+            </form>
+        </div>
+    </div>
