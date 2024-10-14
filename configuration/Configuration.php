@@ -4,14 +4,9 @@ include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 
-include_once("model/PresentacionesModel.php");
-include_once("model/CancionesModel.php");
 include_once ("model/RegistroModel.php");
 include_once("model/LoginModel.php");
 
-include_once("controller/PresentancionesController.php");
-include_once("controller/CancionesController.php");
-include_once("controller/LaBandaController.php");
 include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
@@ -26,34 +21,9 @@ class Configuration
     {
     }
 
-    public function getPresentacionesController()
-    {
-        return new PresentancionesController($this->getPresentacionesModel(), $this->getPresenter());
-    }
-
-    public function getCancionesController()
-    {
-        return new CancionesController($this->getCancionesModel(), $this->getPresenter());
-    }
-
-    public function getLaBandaController()
-    {
-        return new LaBandaController($this->getPresenter());
-    }
-
     public function getPruebaController()
     {
         return new PruebaController($this->getPresenter());
-    }
-
-    private function getPresentacionesModel()
-    {
-        return new PresentacionesModel($this->getDatabase());
-    }
-
-    private function getCancionesModel()
-    {
-        return new CancionesModel($this->getDatabase());
     }
 
     private function getPresenter()

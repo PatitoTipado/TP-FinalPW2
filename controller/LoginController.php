@@ -23,6 +23,7 @@ class LoginController
 
             //pegarle al modelo para validar que el usuario sea correcto
             if($this->model->validarLogin($username,$password)){
+                $_SESSION['user']= $username;
                 header("location:/home");
             }else{
                 header("location:/login");
