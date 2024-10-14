@@ -14,6 +14,9 @@ class HomeController
 
     public function show()
     {
+        if(!isset($_SESSION['user'])){
+            header("location:/");
+        }
         $this->presenter->show('home',[]);
     }
 
