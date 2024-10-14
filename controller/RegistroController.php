@@ -6,7 +6,7 @@ class RegistroController
     private $model;
     private $presenter;
 
-    public function __construct($model, $presenter)
+    public function __construct($presenter,$model)
     {
         $this->model = $model;
         $this->presenter = $presenter;
@@ -15,7 +15,7 @@ class RegistroController
     //este metodo lo solemos usar cuando queremos que se cargue la vista con algun dato especial,
     //si solo tenemos la vista, con redireccionar estaremo bien (CREO) xd
     public function show() {
-        $this->presenter->show('registro');
+        $this->presenter->show('registro' , []);
     }
 
     public function registrarUsuario()

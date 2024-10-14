@@ -9,9 +9,12 @@ class LoginModel
         $this->database = $database;
     }
 
-    public function validarLogin()
+    public function validarLogin($username,$password)
     {
-        //return $this->database->query("SELECT * FROM canciones");
+        if($username=="123" && $password=="1234"){
+            return true;
+        }
+        return false;
     }
 
 }

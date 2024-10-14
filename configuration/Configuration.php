@@ -6,7 +6,7 @@ include_once("helper/MustachePresenter.php");
 
 include_once("model/PresentacionesModel.php");
 include_once("model/CancionesModel.php");
-
+include_once ("model/RegistroModel.php");
 include_once("model/LoginModel.php");
 
 include_once("controller/PresentancionesController.php");
@@ -14,6 +14,9 @@ include_once("controller/CancionesController.php");
 include_once("controller/LaBandaController.php");
 include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
+include_once("controller/HomeController.php");
+include_once("controller/RegistroController.php");
+
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -87,12 +90,23 @@ class Configuration
 
     public function getRegistroController()
     {
-        return new RegistroController($this->getRegistroModel(), $this->getPresenter());
+        return new RegistroController($this->getPresenter(), $this->getRegistroModel());
     }
 
     public function getRegistroModel()
     {
         return new RegistroModel($this->getDatabase());
     }
+
+    private function getHomeModel()
+    {
+        return new HomeModel($this->getDatabase());
+    }
+
+    public function getHomeController()
+    {
+        return new HomeController($this->getPresenter(),$this->getLoginModel());
+    }
+
 
 }
