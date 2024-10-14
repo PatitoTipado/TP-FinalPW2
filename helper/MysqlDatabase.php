@@ -11,9 +11,23 @@ class MysqlDatabase
         }
     }
 
-    public function query($sql){
+    public function query($sql)
+    {
         $result = mysqli_query($this->conn, $sql);
-        return  mysqli_fetch_all($result, MYSQLI_ASSOC);
+        if (!$result) {
+            die("Error en la consulta SQL: " . mysqli_error($this->conn));
+        }
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    public function execute($sql)
+    {
+        return  mysqli_query($this->conn, $sql);
+    }
+
+    public function getConn()
+    {
+        return $this->conn;
     }
 
     public function __destruct()

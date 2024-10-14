@@ -25,13 +25,23 @@ class LoginController
             if($this->model->validarLogin($username,$password)){
                 header("location:/home");
             }else{
-                header("location:/registro");
+                header("location:/login");
             }
             //si lo es redigir al home desde controler
             //si no recargar la pagina e imprimir contraseña o username incorrecto
         }
 
     }
+
+    public function cerrarSesion()
+    {
+        session_unset();
+        session_destroy();
+        header("Location: /Login");
+
+        exit();
+    }
+
 
 
 }

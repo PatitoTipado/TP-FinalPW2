@@ -1,44 +1,143 @@
-    <div class="w3-container">
-        <div class="w3-card-4 register-box w3-light-grey">
-            <form class="w3-container" method="POST" action="/Registro/registrarUsuario">
-                <h2 class="w3-center">Registrarse</h2>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Formulario de Registro</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center">Registrarse</h2>
+                <form id="registroForm" class="needs-validation" method="POST" action="/Registro/registrarUsuario" enctype="multipart/form-data">
 
-                <label for="nombre">Ingresar nombre</label>
-                <input class="w3-input" type="text" id="nombre" name="nombre" required>
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Ingresar nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" pattern="[A-Za-z\s]+" title="El nombre solo debe contener letras" required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa un nombre válido (solo letras).
+                        </div>
+                    </div>
 
-                <label for="anio">Ingresar año de nacimiento</label>
-                <input class="w3-input" type="number" id="anio" name="anio" required>
+                    <!-- Año de nacimiento -->
+                    <div class="mb-3">
+                        <label for="anio" class="form-label">Ingresar año de nacimiento</label>
+                        <input type="number" class="form-control" id="anio" name="anio" min="1900" max="2024" required>
+                        <div class="invalid-feedback">
+                            Ingresa un año de nacimiento válido.
+                        </div>
+                    </div>
 
-                <label for="sexo">Sexo</label>
-                <select class="w3-select" id="sexo" name="sexo" required>
-                    <option value="" disabled selected>Selecciona</option>
-                    <option value="masculino">Masculino</option>
-                    <option value="femenino">Femenino</option>
-                    <option value="no-cargar">Prefiero no cargarlo</option>
-                </select>
+                    <!-- Sexo -->
+                    <div class="mb-3">
+                        <label for="sexo" class="form-label">Sexo</label>
+                        <select class="form-select" id="sexo" name="sexo" required>
+                            <option value="" disabled selected>Selecciona</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="no-cargar">Prefiero no cargarlo</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona una opción.
+                        </div>
+                    </div>
 
-                <label for="pais">País</label>
-                <input class="w3-input" type="text" id="pais" name="pais" required>
+                    <!-- País -->
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">País</label>
+                        <input type="text" class="form-control" id="pais" name="pais" required>
+                        <div class="invalid-feedback">
+                            Ingresa un país válido.
+                        </div>
+                    </div>
 
-                <label for="ciudad">Ciudad</label>
-                <input class="w3-input" type="text" id="ciudad" name="ciudad" required>
+                    <!-- Ciudad -->
+                    <div class="mb-3">
+                        <label for="ciudad" class="form-label">Ciudad</label>
+                        <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+                        <div class="invalid-feedback">
+                            Ingresa una ciudad válida.
+                        </div>
+                    </div>
 
-                <label for="email">Mail</label>
-                <input class="w3-input" type="email" id="email" name="email" required>
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Mail</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">
+                            Ingresa un correo electrónico válido.
+                        </div>
+                    </div>
 
-                <label for="contrasena">Contraseña</label>
-                <input class="w3-input" type="password" id="contrasena" name="contrasena" required>
+                    <!-- Contraseña -->
+                    <div class="mb-3">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+                        <div class="invalid-feedback">
+                            La contraseña debe contener al menos 8 caracteres, incluyendo mayúsculas, minúsculas y números.
+                        </div>
+                    </div>
 
-                <label for="repetir-contrasena">Repetir contraseña</label>
-                <input class="w3-input" type="password" id="repetir-contrasena" name="repetir-contrasena" required>
+                    <!-- Repetir Contraseña -->
+                    <div class="mb-3">
+                        <label for="repetir-contrasena" class="form-label">Repetir contraseña</label>
+                        <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" required>
+                        <div class="invalid-feedback">
+                            Las contraseñas no coinciden.
+                        </div>
+                    </div>
 
-                <label for="usuario">Ingresa tu nombre de usuario</label>
-                <input class="w3-input" type="text" id="usuario" name="usuario" required>
+                    <!-- Nombre de usuario -->
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Ingresa tu nombre de usuario</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" required>
+                        <div class="invalid-feedback">
+                            Ingresa un nombre de usuario válido.
+                        </div>
+                    </div>
 
-                <label for="foto">Ingresar foto de perfil</label>
-                <input class="w3-input" type="file" id="foto" name="foto">
+                    <!-- Foto de perfil agregate la foto
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Ingresar foto de perfil</label>
+                        <input type="file" class="form-control" id="foto" name="foto">
+                    </div>
+                    -->
+                    <!-- Botón de Registro -->
+                    <button class="btn btn-primary w-100" type="submit">Registrarse</button>
 
-                <button class="w3-button w3-teal w3-margin-top" type="submit">Registrarse</button>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+
+    <input type="text" name="resultado" value="{{resultado}}" readonly>
+    <input type="text" name="vacio" value="{{vacio}}" readonly>
+    <input type="text" name="invalido" value="{{invalido}}" readonly>
+
+
+    <script>
+        // Validar coincidencia de contraseñas
+        document.getElementById('registroForm').addEventListener('submit', function (event) {
+            var form = this;
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            // Validar que las contraseñas coincidan
+            var password = document.getElementById('contrasena').value;
+            var confirmPassword = document.getElementById('repetir-contrasena').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('repetir-contrasena').setCustomValidity("Las contraseñas no coinciden");
+            } else {
+                document.getElementById('repetir-contrasena').setCustomValidity("");
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
