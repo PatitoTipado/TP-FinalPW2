@@ -1,6 +1,6 @@
 <?php
 
-class HomeController
+class PerfilController
 {
 
     private $presenter;
@@ -16,6 +16,6 @@ class HomeController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $this->presenter->show('home', ['user' => $_SESSION['user']]);
+        $this->presenter->show('perfil', ['user' => $_SESSION['user']]);
     }
 }

@@ -9,7 +9,7 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $sexo, $pais, $ciudad)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $sexo, $pais, $ciudad, $foto)
     {
         //añadi interaccion con el usuario si por alguna razon la base de datos no agrega lo que debe agregar
         //por limitacion de la misma ej un correo o usuario repetido
@@ -42,8 +42,25 @@ class UserModel
             return "El formato del email es incorrecto.";
         }
 
-        $query = "INSERT INTO usuarios (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad)
-          VALUES ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad')";
+        //foto
+        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/imagenes/';
+        if (
+            isset($_FILES["foto"]) &&
+            $_FILES["foto"]["error"] == 0 &&
+            $_FILES["foto"]["size"] > 0
+        ) {
+            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+                $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
+                move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
+                $foto = 'public/imagenes/' . $nombre . ".jpg";
+            } else {
+                return "Sólo puedes publicar imágenes png, jpg o jpeg";
+            }
+        }
+
+        $query = "INSERT INTO usuarios (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad, imagen_url)
+          VALUES ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$foto')";
 
         $result = $this->database->execute($query);
 
@@ -52,7 +69,6 @@ class UserModel
         } else {
             return "Error al registrar el usuario.";
         }
-
     }
 
     public function validarLogin($username, $password)
@@ -79,7 +95,5 @@ class UserModel
         } else {
             return false; // Contraseña incorrecta
         }
-
     }
-
 }
