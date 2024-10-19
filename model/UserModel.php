@@ -55,31 +55,33 @@ class UserModel
 
     }
 
-    public function validarLogin($username, $password)
+    public function validarLogin($usuario, $password)
     {
-        // Obtener la conexión a la base de datos
-        $conn = $this->database->getConn();
 
-        // Sanitizar el nombre de usuario
-        $username = mysqli_real_escape_string($conn, $username);
+        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND contrasena LIKE '$password'";
 
-        // Consulta para obtener el usuario
-        $query = "SELECT contrasena FROM usuarios WHERE nombre_de_usuario = '$username'";
-        $result = mysqli_query($conn, $query);
+        $result = $this->database->execute($sql);
 
-        if (!$result) {
-            die("Error en la consulta SQL: " . mysqli_error($conn));
-        }
+        if ($result->num_rows == 1) {
 
-        // Verificar si el usuario existe
-        if (mysqli_num_rows($result) > 0) {
-            // Verificar la contraseña
-            return true; // Usuario y contraseña válidos
+            $usuario = $result->fetch_assoc();
 
+            $_SESSION["user"] = $usuario["nombre_de_usuario"];
+            //supongo que para las consultas lo usaremos mas adelante
+            $_SESSION['id_usuario'] = $usuario['id'];
+            $_SESSION['rol'] = $usuario['rol'];
+
+            return true;
         } else {
-            return false; // Contraseña incorrecta
-        }
 
+            $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario'";
+
+            $result = $this->database->execute($sql);
+
+            $_SESSION['error_login'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente";
+
+            return false;
+        }
     }
 
 }
