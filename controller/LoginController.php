@@ -12,7 +12,9 @@ class LoginController
 
     public function show()
     {
-        $this->presenter->show('login',[]);
+        $this->presenter->show('login',$_SESSION);
+        //cada vez que cargo la pagina me saca el error feo
+        unset($_SESSION["error_login"]);
     }
 
     public function validarLogin()
@@ -21,15 +23,12 @@ class LoginController
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            //pegarle al modelo para validar que el usuario sea correcto
             if($this->model->validarLogin($username,$password)){
-                $_SESSION['user']= $username;
                 header("location:/home");
+                unset($_SESSION["error_login"]);
             }else{
                 header("location:/login");
             }
-            //si lo es redigir al home desde controler
-            //si no recargar la pagina e imprimir contraseña o username incorrecto
         }
 
     }
