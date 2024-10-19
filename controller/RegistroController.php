@@ -18,6 +18,7 @@ class RegistroController
         $resultado = isset($_SESSION["resultado"]) ? $_SESSION["resultado"] : "";
         $vacio=isset($_SESSION["error_vacio"])?$_SESSION["resultado"] : "" ;
         $invalido= isset($_SESSION["invalido"]) ? $_SESSION["resultado"] : "";
+
         $this->presenter->show('registro' , ['resultado' => $resultado, 'vacio' => $vacio, 'invalido' => $invalido]);
     }
 

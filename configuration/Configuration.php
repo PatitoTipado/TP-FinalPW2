@@ -4,8 +4,7 @@ include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 
-include_once ("model/RegistroModel.php");
-include_once("model/LoginModel.php");
+include_once ("model/UserModel.php");
 
 include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
@@ -48,34 +47,24 @@ class Configuration
         return new Router($this, "getLoginController", "show");
     }
 
-    private function getLoginModel()
+    public function getUserModel()
     {
-        return new LoginModel($this->getDatabase());
+        return new UserModel($this->getDatabase());
     }
 
     public function getLoginController()
     {
-        return new LoginController($this->getPresenter(),$this->getLoginModel());
+        return new LoginController($this->getPresenter(),$this->getUserModel());
     }
 
     public function getRegistroController()
     {
-        return new RegistroController($this->getPresenter(), $this->getRegistroModel());
-    }
-
-    public function getRegistroModel()
-    {
-        return new RegistroModel($this->getDatabase());
-    }
-
-    private function getHomeModel()
-    {
-        return new HomeModel($this->getDatabase());
+        return new RegistroController($this->getPresenter(), $this->getUserModel());
     }
 
     public function getHomeController()
     {
-        return new HomeController($this->getPresenter(),$this->getLoginModel());
+        return new HomeController($this->getPresenter(),$this->getUserModel());
     }
 
 
