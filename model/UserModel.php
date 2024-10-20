@@ -12,6 +12,7 @@ class UserModel
     public function registrarUsuario
     ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena,$repetir_contrasena, $sexo, $pais, $ciudad)
     {
+
         if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
         ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)) {
             $_SESSION['error_registro'] = "ningun parametro puede estar vacio o las contraseñas no ser iguales.";
@@ -25,6 +26,11 @@ class UserModel
 
         if ($this->validarContrasena($contrasena)) {
             $_SESSION['error_registro'] = "la contraseña no cumple con la longuitud requerida.";
+            return false;
+        }
+
+        if($this->validarQueSoloTengaCaracteres($nombre)){
+            $_SESSION['error_registro'] = "el nombre debe tener solo letras y sin espacios.";
             return false;
         }
 
@@ -64,7 +70,7 @@ class UserModel
 
     public function validarLogin($usuario, $password)
     {
-
+        //TODO: VALIDAR  QUE ESTE VERIFICADO
         $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND contrasena LIKE '$password'";
 
         $result = $this->database->execute($sql);
@@ -80,7 +86,7 @@ class UserModel
 
             return true;
         } else {
-
+            //TODO: VALIDAR QUE ESTE VERIFICADO
             $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario'";
 
             $result = $this->database->execute($sql);
@@ -112,6 +118,11 @@ class UserModel
     private function validarContrasena($contrasena){
 
         return strlen($contrasena)<=8;
+    }
+
+    private function validarQueSoloTengaCaracteres($nombre)
+    {
+        return !(ctype_alpha($nombre));
     }
 
 }
