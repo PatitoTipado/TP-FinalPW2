@@ -9,48 +9,55 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $sexo, $pais, $ciudad)
+    public function registrarUsuario
+    ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena,$repetir_contrasena, $sexo, $pais, $ciudad)
     {
-        //añadi interaccion con el usuario si por alguna razon la base de datos no agrega lo que debe agregar
-        //por limitacion de la misma ej un correo o usuario repetido
-        //si queres bindea las consultas, pero con esto asi creo que dijo que estaba para aprobar
-
-        // Obtener la conexión a la base de datos
-        $conn = $this->database->getConn();
-
-        // 1. Validar que el nombre de usuario sea único
-        $nombre_de_usuario = mysqli_real_escape_string($conn, $nombre_de_usuario);
-        $query = "SELECT COUNT(*) as count FROM usuarios WHERE nombre_de_usuario = '$nombre_de_usuario'";
-
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            die("Error en la consulta SQL: " . mysqli_error($conn));
+        if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
+        ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)) {
+            $_SESSION['error_registro'] = "ningun parametro puede estar vacio o las contraseñas no ser iguales.";
+            return false;
         }
 
-        $row = mysqli_fetch_assoc($result);
-        if ($row['count'] > 0) {
-            return "El nombre de usuario ya existe. Elige otro.";
+        if ($this->validarNombreUsuario($nombre_de_usuario)) {
+            $_SESSION['error_registro'] = "el nombre de usuario elegido ya esta registrado.";
+            return false;
         }
 
-        // 2. Validar que el nombre solo contenga letras y espacios
-        if (!preg_match("/^[a-zA-Z\s]+$/", $nombre)) {
-            return "El nombre solo debe contener letras.";
+        if ($this->validarContrasena($contrasena)) {
+            $_SESSION['error_registro'] = "la contraseña no cumple con la longuitud requerida.";
+            return false;
         }
 
-        // 3. Validar el formato del email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return "El formato del email es incorrecto.";
+        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
+
+        if(isset($_FILES["foto"]) &&
+            $_FILES["foto"]["error"] == 0 &&
+            $_FILES["foto"]["size"] > 0) {
+            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+            if ($extension == "PNG" || $extension == 'jpg' || $extension == 'jpeg') {
+                $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
+                move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
+                $foto = 'public/' . $_FILES["foto"]["name"] . ".jpg";
+            } else {
+                $_SESSION['error_registro'] = "la imagen no se subio correctamente.";
+                return false;
+            }
         }
 
-        $query = "INSERT INTO usuarios (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad)
-          VALUES ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad')";
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $fecha_actual = new DateTime();
+        $fecha_registro = $fecha_actual->format('Y-m-d H:i:s');
 
-        $result = $this->database->execute($query);
+        $sql = "INSERT INTO usuarios 
+        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url) 
+        VALUES 
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto')";
 
-        if ($result) {
-            return "Usuario registrado exitosamente.";
+        if ($this->database->execute($sql)) {
+            return true;
         } else {
-            return "Error al registrar el usuario.";
+            $_SESSION['error_registro'] = "ocurrio un error en la base de datos.";
+            return false;
         }
 
     }
@@ -82,6 +89,29 @@ class UserModel
 
             return false;
         }
+    }
+
+    private function validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
+    ($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$repetir_contrasena,$sexo,$pais,$ciudad)
+    {
+        if(empty(trim($nombre_de_usuario)) || empty(trim($nombre)) || empty(trim($anio_de_nacimiento)) ||
+            empty(trim($email)) || empty(trim($contrasena)) || empty(trim($repetir_contrasena)) ||
+            empty(trim($sexo)) || empty(trim($pais)) || empty(trim($ciudad)) || !(strcmp($contrasena,$repetir_contrasena)==0)){
+            return true;
+        }
+        return false;
+    }
+
+    private function validarNombreUsuario($nombre_de_usuario){
+        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$nombre_de_usuario'";
+        $result = $this->database->execute($sql);
+
+        return $result->num_rows == 1;
+    }
+
+    private function validarContrasena($contrasena){
+
+        return strlen($contrasena)<=8;
     }
 
 }
