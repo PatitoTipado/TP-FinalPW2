@@ -3,6 +3,7 @@ include_once("helper/MysqlDatabase.php");
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
+include_once ("helper/FileEmailSender.php");
 
 include_once ("model/UserModel.php");
 
@@ -10,7 +11,6 @@ include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
 include_once("controller/RegistroController.php");
-
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -28,6 +28,11 @@ class Configuration
     private function getPresenter()
     {
         return new MustachePresenter("./view");
+    }
+
+    private function getFileEmailSender()
+    {
+        return new FileEmailSender();
     }
 
     private function getDatabase()
@@ -49,7 +54,7 @@ class Configuration
 
     public function getUserModel()
     {
-        return new UserModel($this->getDatabase());
+        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
     }
 
     public function getLoginController()

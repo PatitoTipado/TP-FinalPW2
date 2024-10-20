@@ -3,9 +3,11 @@
 class UserModel
 {
     private $database;
+    private $emailSender;
 
-    public function __construct($database)
+    public function __construct($database,$emailSender)
     {
+        $this->emailSender=$emailSender;
         $this->database = $database;
     }
 
@@ -36,30 +38,26 @@ class UserModel
 
         $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
 
-        if(isset($_FILES["foto"]) &&
-            $_FILES["foto"]["error"] == 0 &&
-            $_FILES["foto"]["size"] > 0) {
-            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
-            if ($extension == "PNG" || $extension == 'jpg' || $extension == 'jpeg') {
-                $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
-                move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
-                $foto = 'public/' . $_FILES["foto"]["name"] . ".jpg";
-            } else {
-                $_SESSION['error_registro'] = "la imagen no se subio correctamente.";
-                return false;
-            }
+        if($this->esUnaImagenValida()){
+            $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
+            $foto = 'public/' . $nombre_de_usuario . ".jpg";
+        } else {
+            $_SESSION['error_registro'] = "la imagen no se subio correctamente.";
+            return false;
         }
 
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
-        $fecha_actual = new DateTime();
-        $fecha_registro = $fecha_actual->format('Y-m-d H:i:s');
+        $fecha_registro= $this->obtenerFechaRegistro();
+
+        $hash= $this->obtenerHash();
 
         $sql = "INSERT INTO usuarios 
-        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url) 
+        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url,hash) 
         VALUES 
-        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto')";
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto','$hash')";
 
         if ($this->database->execute($sql)) {
+            $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'" );
             return true;
         } else {
             $_SESSION['error_registro'] = "ocurrio un error en la base de datos.";
@@ -68,10 +66,39 @@ class UserModel
 
     }
 
+    public function validarHash($hash)
+    {
+        $sql= "SELECT * FROM usuarios WHERE hash = '$hash'";
+        $result = $this->database->execute($sql);
+
+        if($result->num_rows==0){
+            $_SESSION["error_hash"]="codigo hash incorrecto";
+            return false;
+        }
+
+        $usuario = $result->fetch_assoc();
+
+        if ($usuario['estado'] == 'inactivo') {
+
+            $idUsuario = $usuario['id'];
+            $updateQuery = "UPDATE usuarios SET estado = 'activo' WHERE id = $idUsuario";
+            $success= $this->database->execute($updateQuery);
+            if ($success) {
+                $_SESSION['validacion_exitosa']="la validacion fue exitosa";
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            $_SESSION['error_hash'] = "El usuario ya está activo.";
+            return false;
+        }
+    }
+
     public function validarLogin($usuario, $password)
     {
-        //TODO: VALIDAR  QUE ESTE VERIFICADO
-        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND contrasena LIKE '$password'";
+        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND contrasena LIKE '$password' AND estado LIKE'activo'";
 
         $result = $this->database->execute($sql);
 
@@ -86,12 +113,11 @@ class UserModel
 
             return true;
         } else {
-            //TODO: VALIDAR QUE ESTE VERIFICADO
-            $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario'";
+            $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND estado LIKE'activo'";
 
             $result = $this->database->execute($sql);
 
-            $_SESSION['error_login'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente";
+            $_SESSION['error_login'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
 
             return false;
         }
@@ -123,6 +149,49 @@ class UserModel
     private function validarQueSoloTengaCaracteres($nombre)
     {
         return !(ctype_alpha($nombre));
+    }
+
+    private function obtenerHash()
+    {
+        $flag=false;
+
+        while(!$flag){
+
+            $hash= rand(1,1000);
+
+            $sql= "SELECT * FROM usuarios WHERE hash='$hash'";
+            $result = $this->database->execute($sql);
+
+            if($result->num_rows==0){
+                $flag=true;
+            }
+
+        }
+
+        return $hash;
+
+    }
+
+    private function obtenerFechaRegistro()
+    {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $fecha_actual = new DateTime();
+
+        return $fecha_actual->format('Y-m-d H:i:s');
+    }
+
+    private function esUnaImagenValida()
+    {
+        if(isset($_FILES["foto"]) &&
+            $_FILES["foto"]["error"] == 0 &&
+            $_FILES["foto"]["size"] > 0) {
+            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+                return true;
+            }
+        }else{
+            return false;
+        }
     }
 
 }
