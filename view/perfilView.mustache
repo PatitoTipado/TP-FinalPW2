@@ -1,95 +1,39 @@
-  <div class="container mt-5">
+  <div class="w3-container mt-5" style="text-align: center;">
    <div>
-    <h2>
-     Nombre de la pagina
-    </h2>
-    <h2>
-     Vista Perfil
-    </h2>
+    <h1>Nombre de la pagina</h1>
+    <h2>Perfil</h2>
    </div>
-   <div>
-    <img alt="User profile picture" class="rounded-circle" height="50" src="{{ imagen_url }}" width="50"/>
-    <h3 class="btn btn-secondary">
-     {{user}}
-    </h3>
-    <h2 class="btn btn-secondary">
-     Puntaje maximo alcanzado
-    </h2>
-    <button class="btn btn-secondary">
-     QR
-    </button>
+  </div>
+
+  <div class="w3-container mt-5">
+   <div style="display: flex; justify-content: center; align-items: center; gap: 100px;">
+   <img alt="User profile picture" class="rounded-circle" height="100" src="{{ imagen_url }}" width="50" />
+    <div>
+      <h3>{{user}}</h3>
+      <h3>Puntaje máximo alcanzado:</h3>
+      <h3>QR</h3>
    </div>
-   <div>
-    <button class="btn btn-secondary mb-3">
-     Listado de partidas
-    </button>
-    <div class="row">
-     <div class="col">
-      Fecha
-     </div>
-     <div class="col">
-      Puntaje total
-     </div>
-     <div class="col">
-      nivel
-     </div>
-     <div class="col">
-      Cantidad de respuestas
-     </div>
-     <div class="col">
-      Estado
-     </div>
-    </div>
-    <div class="row">
-     <div class="col">
-      Fecha
-     </div>
-     <div class="col">
-      Puntaje total
-     </div>
-     <div class="col">
-      nivel
-     </div>
-     <div class="col">
-      Cantidad de respuestas
-     </div>
-     <div class="col">
-      Estado
-     </div>
-    </div>
-    <div class="row">
-     <div class="col">
-      Fecha
-     </div>
-     <div class="col">
-      Puntaje total
-     </div>
-     <div class="col">
-      nivel
-     </div>
-     <div class="col">
-      Cantidad de respuestas
-     </div>
-     <div class="col">
-      Estado
-     </div>
-    </div>
-    <div class="row">
-     <div class="col">
-      Fecha
-     </div>
-     <div class="col">
-      Puntaje total
-     </div>
-     <div class="col">
-      nivel
-     </div>
-     <div class="col">
-      Cantidad de respuestas
-     </div>
-     <div class="col">
-      Estado
-     </div>
-    </div>
    </div>
+</div>
+
+  <div class="w3-container w3-padding">
+     <h2 class="mb-3">Listado de partidas</h2>
+     <table class="w3-table">
+        <tr>
+            <th>Fecha</th>
+            <th>Puntaje total</th>
+            <th>Nivel</th>
+            <th>Cantidad de respuestas</th>
+            <th>Estado</th>
+        </tr>
+        {{#partidas}}
+        <tr>
+            <td>{{fecha}}</td>
+            <td>{{puntaje}}</td>
+            <td>{{nivel}} </td>
+            <td>{{respuestas}} </td>
+            <td>{{estado}} </td>
+        </tr>
+        {{/partidas}}
+    </table>  
   </div>
