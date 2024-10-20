@@ -43,7 +43,7 @@ class UserModel
         }
 
         //foto
-        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/imagenes/';
+        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
         if (
             isset($_FILES["foto"]) &&
             $_FILES["foto"]["error"] == 0 &&
@@ -53,7 +53,7 @@ class UserModel
             if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
                 $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
                 move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
-                $foto = 'public/imagenes/' . $nombre . ".jpg";
+                $foto = 'public/' . $nombre . ".jpg";
             } else {
                 return "Sólo puedes publicar imágenes png, jpg o jpeg";
             }
