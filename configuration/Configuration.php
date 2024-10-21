@@ -3,6 +3,7 @@ include_once("helper/MysqlDatabase.php");
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
+include_once ("helper/FileEmailSender.php");
 
 include_once("model/UserModel.php");
 
@@ -28,6 +29,11 @@ class Configuration
         return new MustachePresenter("./view");
     }
 
+    private function getFileEmailSender()
+    {
+        return new FileEmailSender();
+    }
+
     private function getDatabase()
     {
         $config = parse_ini_file('configuration/config.ini');
@@ -47,7 +53,7 @@ class Configuration
 
     public function getUserModel()
     {
-        return new UserModel($this->getDatabase());
+        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
     }
 
     public function getLoginController()
