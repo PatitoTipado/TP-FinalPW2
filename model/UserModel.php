@@ -11,10 +11,8 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario
-    ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena,$repetir_contrasena, $sexo, $pais, $ciudad)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $sexo, $pais, $ciudad, $foto)
     {
-
         if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
         ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)) {
             $_SESSION['error_registro'] = "ningun parametro puede estar vacio o las contraseñas no ser iguales.";
@@ -47,6 +45,25 @@ class UserModel
             return false;
         }
 
+        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
+        if (
+            isset($_FILES["foto"]) &&
+            $_FILES["foto"]["error"] == 0 &&
+            $_FILES["foto"]["size"] > 0
+        ) {
+            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+                $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
+                move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
+                $foto = 'public/' . $nombre . ".jpg";
+            } else {
+                return "Sólo puedes publicar imágenes png, jpg o jpeg";
+            }
+        }
+
+        $query = "INSERT INTO usuarios (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad, imagen_url)
+          VALUES ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$foto')";
+
         $fecha_registro= $this->obtenerFechaRegistro();
 
         $hash= $this->obtenerHash();
@@ -63,7 +80,6 @@ class UserModel
             $_SESSION['error_registro'] = "ocurrio un error en la base de datos.";
             return false;
         }
-
     }
 
     public function validarHash($hash)
@@ -169,7 +185,6 @@ class UserModel
         }
 
         return $hash;
-
     }
 
     private function obtenerFechaRegistro()
@@ -193,5 +208,4 @@ class UserModel
             return false;
         }
     }
-
 }

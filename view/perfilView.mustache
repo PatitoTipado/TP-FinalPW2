@@ -1,0 +1,43 @@
+  <div class="pag-perfil">
+  <div class="btn-inicio">
+   <a href="../home">Inicio</a>
+  </div>
+   <div class="w3-container mt-5" style="text-align: center;">
+    <h1>Nombre de la pagina</h1>
+    <h2>Perfil</h2>
+   </div>
+  </div>
+  
+
+  <div class="w3-container mt-5 perfil">
+   <div class="foto">
+   <img alt="Foto de perfil" src="{{ imagen_url }}" width="100" />
+    <div>
+      <h3>{{user}}</h3>
+      <h3>Puntaje máximo alcanzado:</h3>
+      <h3>QR</h3>
+   </div>
+   </div>
+</div>
+
+  <div class="w3-container w3-padding">
+     <h2 class="mb-3">Listado de partidas</h2>
+     <table class="w3-table">
+        <tr>
+            <th>Fecha</th>
+            <th>Puntaje total</th>
+            <th>Nivel</th>
+            <th>Cantidad de respuestas</th>
+            <th>Estado</th>
+        </tr>
+        {{#partidas}}
+        <tr>
+            <td>{{fecha}}</td>
+            <td>{{puntaje}}</td>
+            <td>{{nivel}} </td>
+            <td>{{respuestas}} </td>
+            <td>{{estado}} </td>
+        </tr>
+        {{/partidas}}
+    </table>  
+  </div>

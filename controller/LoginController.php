@@ -4,9 +4,9 @@ class LoginController
 {
     private $presenter;
     private $model;
-    public function __construct( $presenter,$model)
+    public function __construct($presenter, $model)
     {
-        $this->model=$model;
+        $this->model = $model;
         $this->presenter = $presenter;
     }
 
@@ -19,7 +19,7 @@ class LoginController
 
     public function validarLogin()
     {
-        if (isset($_POST["username"])&& isset($_POST["password"])) {
+        if (isset($_POST["username"]) && isset($_POST["password"])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
@@ -30,7 +30,6 @@ class LoginController
                 header("location:/login");
             }
         }
-
     }
 
     public function cerrarSesion()
@@ -41,7 +40,4 @@ class LoginController
 
         exit();
     }
-
-
-
 }

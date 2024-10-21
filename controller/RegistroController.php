@@ -6,14 +6,13 @@ class RegistroController
     private $model;
     private $presenter;
 
-    public function __construct($presenter,$model)
+    public function __construct($presenter, $model)
     {
         $this->model = $model;
         $this->presenter = $presenter;
     }
 
     public function show() {
-
         $this->presenter->show('registro' , $_SESSION);
         unset($_SESSION["error_registro"]);
     }

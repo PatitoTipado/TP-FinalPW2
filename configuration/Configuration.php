@@ -5,20 +5,19 @@ include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 include_once ("helper/FileEmailSender.php");
 
-include_once ("model/UserModel.php");
+include_once("model/UserModel.php");
 
 include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
 include_once("controller/RegistroController.php");
+include_once("controller/PerfilController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
 class Configuration
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getPruebaController()
     {
@@ -59,7 +58,7 @@ class Configuration
 
     public function getLoginController()
     {
-        return new LoginController($this->getPresenter(),$this->getUserModel());
+        return new LoginController($this->getPresenter(), $this->getUserModel());
     }
 
     public function getRegistroController()
@@ -69,8 +68,11 @@ class Configuration
 
     public function getHomeController()
     {
-        return new HomeController($this->getPresenter(),$this->getUserModel());
+        return new HomeController($this->getPresenter(), $this->getUserModel());
     }
 
-
+    public function getPerfilController()
+    {
+        return new PerfilController($this->getPresenter(), $this->getUserModel());
+    }
 }
