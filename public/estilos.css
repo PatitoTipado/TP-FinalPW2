@@ -1,3 +1,56 @@
+body {
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.header,
+.footer {
+  display: flex; 
+  justify-content: space-between;
+  padding: 10px 50px;
+  background-color: #e9ecef;
+  margin-bottom: 20px;
+}
+
+.header div,
+.footer div {
+  background-color: #d3d3d3;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.main-content {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.main-content h2 {
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  margin-bottom: 20px;
+}
+
+.btn-group .a {
+  background-color: #d3d3d3;
+  color: #000000 !important;
+  border: none;
+  margin: 0 10px;
+}
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  background-color: #d3d3d3;
+  border: none;
+  padding: 10px;
+}
+
 .pag-perfil {
   padding: 20px;
   border-radius: 8px;
