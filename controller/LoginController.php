@@ -12,6 +12,10 @@ class LoginController
 
     public function show()
     {
+        if (isset($_SESSION['user'])) {
+            header("location:/home");
+            exit();
+        }
         $this->presenter->show('login',$_SESSION);
         //cada vez que cargo la pagina me saca el error feo
         unset($_SESSION["error_login"]);
@@ -26,8 +30,10 @@ class LoginController
             if($this->model->validarLogin($username,$password)){
                 header("location:/home");
                 unset($_SESSION["error_login"]);
+                exit();
             }else{
                 header("location:/login");
+                exit();
             }
         }
     }

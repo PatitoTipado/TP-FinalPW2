@@ -7,7 +7,6 @@ include_once ("helper/FileEmailSender.php");
 
 include_once("model/UserModel.php");
 
-include_once("controller/PruebaController.php");
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
 include_once("controller/RegistroController.php");
@@ -19,42 +18,7 @@ class Configuration
 {
     public function __construct() {}
 
-    public function getPruebaController()
-    {
-        return new PruebaController($this->getPresenter());
-    }
-
-    private function getPresenter()
-    {
-        return new MustachePresenter("./view");
-    }
-
-    private function getFileEmailSender()
-    {
-        return new FileEmailSender();
-    }
-
-    private function getDatabase()
-    {
-        $config = parse_ini_file('configuration/config.ini');
-        return new MysqlDatabase(
-            $config['host'],
-            $config['port'],
-            $config['user'],
-            $config['password'],
-            $config["database"]
-        );
-    }
-
-    public function getRouter()
-    {
-        return new Router($this, "getLoginController", "show");
-    }
-
-    public function getUserModel()
-    {
-        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
-    }
+    //CONTROLADOR
 
     public function getLoginController()
     {
@@ -75,4 +39,41 @@ class Configuration
     {
         return new PerfilController($this->getPresenter(), $this->getUserModel());
     }
+
+    //MODELOS
+
+    public function getUserModel()
+    {
+        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
+    }
+
+    //HELPER
+
+    public function getRouter()
+    {
+        return new Router($this, "getLoginController", "show");
+    }
+
+    private function getDatabase()
+    {
+        $config = parse_ini_file('configuration/config.ini');
+        return new MysqlDatabase(
+            $config['host'],
+            $config['port'],
+            $config['user'],
+            $config['password'],
+            $config["database"]
+        );
+    }
+
+    private function getPresenter()
+    {
+        return new MustachePresenter("./view");
+    }
+
+    private function getFileEmailSender()
+    {
+        return new FileEmailSender();
+    }
+
 }
