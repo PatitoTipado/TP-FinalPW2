@@ -13,6 +13,10 @@ class RegistroController
     }
 
     public function show() {
+        if (isset($_SESSION['user'])) {
+            header("location:/home");
+            exit();
+        }
         $this->presenter->show('registro' , $_SESSION);
         unset($_SESSION["error_registro"]);
     }
@@ -29,17 +33,31 @@ class RegistroController
         $repetir_contrasena = $_POST['repetir-contrasena'] ?? '';
         $nombre_de_usuario = $_POST['usuario'] ?? '';
 
+        //opcion con bool
+
+        //opcion devolviendo un string $var= $this->model->registrarUsuario(); == nombre de usuario existe
+
+        //if ($var==ta bien)
+
+        //else{$_SESION['ERROR_REGISTRO']=$var}
+
         if($this->model->registrarUsuario($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$repetir_contrasena,$sexo,$pais,$ciudad)){
             header("location:/registro/validarCorreo");
             unset($_SESSION["error_registro"]);
+            exit();
         }else{
             header("location: /registro");
+            exit();
         }
 
     }
 
     public function validarCorreo()
     {
+        if (isset($_SESSION['user'])) {
+            header("location:/home");
+            exit();
+        }
         $this->presenter->show('validarCorreo' , $_SESSION);
         unset($_SESSION["error_hash"]);
     }
@@ -49,8 +67,10 @@ class RegistroController
         $hash= $_POST['codigo'];
         if($this->model->validarHash($hash)){
             header("location: /registro/validacionExitosa");
+            exit();
         }else{
             header("location: /registro/validarCorreo");
+            exit();
         }
     }
 
@@ -61,6 +81,7 @@ class RegistroController
             unset($_SESSION["validacion_exitosa"]);
         }else{
             header("location: /validacionCorreo");
+            exit();
         }
     }
 

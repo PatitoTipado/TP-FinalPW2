@@ -11,7 +11,7 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $sexo, $pais, $ciudad, $foto)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena,$repetir_contrasena, $sexo, $pais, $ciudad, $foto)
     {
         if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
         ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)) {
@@ -36,7 +36,7 @@ class UserModel
 
         $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
 
-        if($this->esUnaImagenValida()){
+        if($this->esUnaImagenValida()){ //cambiar al controller
             $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
             move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
             $foto = 'public/' . $nombre_de_usuario . ".jpg";
@@ -44,25 +44,6 @@ class UserModel
             $_SESSION['error_registro'] = "la imagen no se subio correctamente.";
             return false;
         }
-
-        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
-        if (
-            isset($_FILES["foto"]) &&
-            $_FILES["foto"]["error"] == 0 &&
-            $_FILES["foto"]["size"] > 0
-        ) {
-            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
-            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
-                $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
-                move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
-                $foto = 'public/' . $nombre . ".jpg";
-            } else {
-                return "Sólo puedes publicar imágenes png, jpg o jpeg";
-            }
-        }
-
-        $query = "INSERT INTO usuarios (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad, imagen_url)
-          VALUES ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$foto')";
 
         $fecha_registro= $this->obtenerFechaRegistro();
 
