@@ -50,9 +50,7 @@ class PartidaController
         $respuesta=$_POST['respuesta'];
         $id_pregunta=$_SESSION['id_pregunta'];
 
-        //en un mundo feliz model-> obtener rta (idpregunta)
-
-        if($respuesta==1){
+        if($this->model->validarRespuesta($respuesta,$id_pregunta)){
             echo "sos crakc";
         }else{
             echo "no sos crack";
