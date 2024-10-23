@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     imagen_url VARCHAR(255),                       -- URL de la imagen de perfil
     fecha_registro VARCHAR(255),                   -- Fecha de registro, posible refactorización a DATE
     estado ENUM('activo', 'inactivo', 'bloqueado') DEFAULT 'inactivo', -- Estado de la cuenta
-    rol ENUM('administrador', 'editor', 'jugador') NOT NULL, -- Rol del usuario
+    rol ENUM('administrador', 'editor', 'jugador') DEFAULT 'jugador', -- Rol del usuario
     nivel ENUM('facil', 'normal', 'dificil') DEFAULT 'normal', -- Nivel del usuario
     cantidad_respuestas_correctas INT DEFAULT 0,   -- Cantidad de respuestas correctas
     cantidad_preguntas_respondidas INT DEFAULT 0,   -- Cantidad de preguntas respondidas
