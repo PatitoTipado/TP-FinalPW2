@@ -6,6 +6,7 @@ include_once("helper/MustachePresenter.php");
 include_once ("helper/FileEmailSender.php");
 
 include_once("model/UserModel.php");
+include_once ("model/PartidaModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
@@ -44,7 +45,7 @@ class Configuration
 
     public function getPartidaController()
     {
-        return new PartidaController($this->getPresenter(), $this->getUserModel());
+        return new PartidaController($this->getPresenter(), $this->getPartidaModel());
     }
 
     public function getRankingController()
@@ -59,6 +60,11 @@ class Configuration
     public function getUserModel()
     {
         return new UserModel($this->getDatabase(),$this->getFileEmailSender());
+    }
+
+    public function getPartidaModel()
+    {
+        return new PartidaModel($this->getDatabase());
     }
 
     //HELPER

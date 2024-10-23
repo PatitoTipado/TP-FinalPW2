@@ -16,6 +16,48 @@ class PartidaController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $this->presenter->show('partida', ['user' => $_SESSION['user']]);
+        $this->presenter->show('partida', $_SESSION);
     }
+
+    public function jugarNuevaPartida()
+    {
+
+        $id_jugador= $_SESSION['id_usuario'];
+
+        $_SESSION['id_partida_actual']= $this->model->iniciarNuevaPartida($id_jugador);
+
+        if($_SESSION['id_partida_actual']==false) {
+            $_SESSION['error_partida']="error al crear una partida";
+            header("location: /home");
+            exit();
+        }
+
+        $id_partida = $_SESSION['id_partida_actual'];
+
+        $data = $this->model->obtenerDataPartida($id_partida);
+
+        $_SESSION['id_pregunta'] = $data['id_pregunta'];
+        $_SESSION['pregunta'] = $data['pregunta'];
+        $_SESSION['opciones'] = $data['opciones'];
+
+        header("location: /partida/show");
+        exit();
+    }
+
+    public function validarRespuesta()
+    {
+
+        $respuesta=$_POST['respuesta'];
+        $id_pregunta=$_SESSION['id_pregunta'];
+
+        //en un mundo feliz model-> obtener rta (idpregunta)
+
+        if($respuesta==1){
+            echo "sos crakc";
+        }else{
+            echo "no sos crack";
+        }
+
+    }
+
 }
