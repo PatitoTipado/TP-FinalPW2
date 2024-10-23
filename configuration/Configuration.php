@@ -12,6 +12,7 @@ include_once("controller/HomeController.php");
 include_once("controller/RegistroController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
+include_once ("controller/RankingController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -44,6 +45,13 @@ class Configuration
     public function getPartidaController()
     {
         return new PartidaController($this->getPresenter(), $this->getUserModel());
+    }
+
+    public function getRankingController()
+    {
+        //por ahora le paso el user model, dps no se quien sera  el encargado de obtener el mayor puntaje
+        //aunque podemo hacer trampa y dejarselo a usuario ajsjajj
+        return new RankingController($this->getPresenter(), $this->getUserModel());
     }
 
     //MODELOS
