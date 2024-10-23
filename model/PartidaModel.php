@@ -18,17 +18,19 @@ class PartidaModel
             $sql = "INSERT INTO partidas(usuario_id,fecha_de_partida,nivel,estado) 
             VALUES ('$id_jugador','$fecha','$nivel','en curso')";
             if ($this->database->execute($sql)) {
+
                 return $this->obtenerElIdDePartida($id_jugador, $fecha);
             }
         }
+
         return false;
     }
 
     public function obtenerDataPartida($id_partida)
     {
-        $pregunta= $this->obtenerPreguntaDePartida($id_partida);
+        $pregunta= $this->obtenerPreguntaDePartidaNoRespondida($id_partida);
 
-        //esto lo utilize para testear siempre devolvera la primera de la lista el obtener
+        //esto lo utilize para testear podriamos encapsular esto en un metodo y devolver error como valor
         if(!$pregunta){
             $data['id_pregunta']=0;
             $data['pregunta']=1;
@@ -57,7 +59,7 @@ class PartidaModel
         return $data;
     }
 
-    public function validarRespuesta($respuesta,$id_pregunta)
+    public function validarRespuesta($respuesta,$id_pregunta,$id_jugador,$id_partida)
     {
 
         $opciones= $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
@@ -69,10 +71,33 @@ class PartidaModel
 
         if($respuesta==$opciones['opcion_correcta']){
             //le damos punbtos
+            //podriamos ver de como resolver el tiempo
+
+            $insert = "INSERT INTO pregunta_partida 
+            (respuesta_usuario, pregunta_id, usuario_id, partida_id, respondio_correctamente)
+            VALUES ('$respuesta', $id_pregunta, $id_jugador, $id_partida, 'bien')";
+
+            $this->database->execute($insert);
+
+            $update = "UPDATE partidas SET puntaje_total = puntaje_total + 1
+            WHERE id = $id_partida";
+
+            $this->database->execute($update);
+
             return true;
         }
 
         return false;
+    }
+
+    public function isPartidaValida($id_partida,$id_jugador)
+    {
+        //validamos que exista la partida y sea del jugador
+
+        return true;
+
+        //validamos que no perdio
+
     }
 
     private function obtenerOpcionesPorIdDePregunta($id_pregunta){
@@ -143,23 +168,23 @@ class PartidaModel
         return $row['id'];
     }
 
-    private function obtenerPreguntaDePartida($id_partida)
+    private function obtenerPreguntaDePartidaNoRespondida($id_partida)
     {
         //valido que siga existiendo la partida por si mequiere romper el sistema en otra pestaña borrando la partida
-        //ademas deberia validar que este en curso
         if(!$this->obtenerPartida($id_partida)){
 
             return false;
         }
 
-//        $nivel_del_jugador=$this->obtenerNivelJugadorDesdePartida($id_partida);
-//
-//        if(!$nivel_del_jugador){
-//
-//            return false;
-//        }
+        $nivel_del_jugador=$this->obtenerNivelJugadorDesdePartida($id_partida);
 
-        return $this->obtenerPreguntaNoRespondida("");
+        if(!$nivel_del_jugador){
+
+            return false;
+        }
+
+        //le paso por el nivel que contenga el jugador
+        return $this->obtenerPreguntaNoRespondida($nivel_del_jugador,$id_partida);
     }
 
     private function obtenerNivelJugadorDesdePartida($id_partida) {
@@ -177,7 +202,7 @@ class PartidaModel
 
         $jugador = $this->obtenerJugador($id_usuario);
 
-        if($jugador->num_rows ==0){
+        if(!$jugador){
             return false;
         }
 
@@ -185,9 +210,9 @@ class PartidaModel
     }
 
 
-    private function obtenerPreguntaNoRespondida($nivel) {
-        // Consulta SQL
-        $sql = "SELECT * FROM preguntas WHERE id NOT IN (SELECT pregunta_id FROM pregunta_partida) LIMIT 1";
+    private function obtenerPreguntaNoRespondida($nivel,$id_partida) {
+        // validar que sea de la partida y de acuerdo al nivel del usuario
+        $sql = "SELECT * FROM preguntas WHERE nivel='$nivel' AND id NOT IN (SELECT pregunta_id FROM pregunta_partida WHERE partida_id= '$id_partida') LIMIT 1";
 
         // Ejecutar la consulta
         $result = $this->database ->execute($sql);
@@ -206,7 +231,7 @@ class PartidaModel
     private function obtenerPartida($id_partida)
     {
 
-        $sql = "SELECT * FROM partidas WHERE id = '$id_partida'";
+        $sql = "SELECT * FROM partidas WHERE id = '$id_partida' AND estado='en curso'";
         $result = $this->database->execute($sql);
 
         if ($result->num_rows == 0) {
