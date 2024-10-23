@@ -103,9 +103,17 @@ class UserModel
             $usuario = $result->fetch_assoc();
 
             $_SESSION["user"] = $usuario["nombre_de_usuario"];
+            $_SESSION["email"] = $usuario["email"];
+            $_SESSION['foto'] = $usuario['imagen_url'];
+            $_SESSION['pais'] = $usuario['pais'];
+            $_SESSION['ciudad'] = $usuario['ciudad'];
+            $_SESSION['nombre'] = $usuario['nombre'];
+            $_SESSION['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+
             //supongo que para las consultas lo usaremos mas adelante
             $_SESSION['id_usuario'] = $usuario['id'];
             $_SESSION['rol'] = $usuario['rol'];
+           
 
             return true;
         } else {

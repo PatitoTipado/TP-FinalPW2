@@ -16,6 +16,6 @@ class PerfilController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $this->presenter->show('perfil', ['user' => $_SESSION['user']]);
+        $this->presenter->show('perfil', ['user' => $_SESSION['user'], 'foto' => $_SESSION['foto'], 'email' => $_SESSION['email'], 'pais' => $_SESSION['pais'], 'ciudad' => $_SESSION['ciudad'], 'nombre' => $_SESSION['nombre'], 'sexo' => $_SESSION['sexo']]);
     }
 }
