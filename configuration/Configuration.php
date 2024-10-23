@@ -11,6 +11,7 @@ include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
 include_once("controller/RegistroController.php");
 include_once("controller/PerfilController.php");
+include_once("controller/PartidaController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -38,6 +39,11 @@ class Configuration
     public function getPerfilController()
     {
         return new PerfilController($this->getPresenter(), $this->getUserModel());
+    }
+
+    public function getPartidaController()
+    {
+        return new PartidaController($this->getPresenter(), $this->getUserModel());
     }
 
     //MODELOS

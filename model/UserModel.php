@@ -5,16 +5,16 @@ class UserModel
     private $database;
     private $emailSender;
 
-    public function __construct($database,$emailSender)
+    public function __construct($database, $emailSender)
     {
-        $this->emailSender=$emailSender;
+        $this->emailSender = $emailSender;
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena,$repetir_contrasena, $sexo, $pais, $ciudad, $foto)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
     {
-        if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
-        ($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)) {
+        if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
+        ) {
             $_SESSION['error_registro'] = "ningun parametro puede estar vacio o las contraseñas no ser iguales.";
             return false;
         }
@@ -29,14 +29,14 @@ class UserModel
             return false;
         }
 
-        if($this->validarQueSoloTengaCaracteres($nombre)){
+        if ($this->validarQueSoloTengaCaracteres($nombre)) {
             $_SESSION['error_registro'] = "el nombre debe tener solo letras y sin espacios.";
             return false;
         }
 
         $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
 
-        if($this->esUnaImagenValida()){ //cambiar al controller
+        if ($this->esUnaImagenValida()) { //cambiar al controller
             $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
             move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
             $foto = 'public/' . $nombre_de_usuario . ".jpg";
@@ -45,9 +45,9 @@ class UserModel
             return false;
         }
 
-        $fecha_registro= $this->obtenerFechaRegistro();
+        $fecha_registro = $this->obtenerFechaRegistro();
 
-        $hash= $this->obtenerHash();
+        $hash = $this->obtenerHash();
 
         $sql = "INSERT INTO usuarios 
         (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url,hash) 
@@ -55,7 +55,7 @@ class UserModel
         ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto','$hash')";
 
         if ($this->database->execute($sql)) {
-            $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'" );
+            $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
             return true;
         } else {
             $_SESSION['error_registro'] = "ocurrio un error en la base de datos.";
@@ -65,11 +65,11 @@ class UserModel
 
     public function validarHash($hash)
     {
-        $sql= "SELECT * FROM usuarios WHERE hash = '$hash'";
+        $sql = "SELECT * FROM usuarios WHERE hash = '$hash'";
         $result = $this->database->execute($sql);
 
-        if($result->num_rows==0){
-            $_SESSION["error_hash"]="codigo hash incorrecto";
+        if ($result->num_rows == 0) {
+            $_SESSION["error_hash"] = "codigo hash incorrecto";
             return false;
         }
 
@@ -79,14 +79,13 @@ class UserModel
 
             $idUsuario = $usuario['id'];
             $updateQuery = "UPDATE usuarios SET estado = 'activo' WHERE id = $idUsuario";
-            $success= $this->database->execute($updateQuery);
+            $success = $this->database->execute($updateQuery);
             if ($success) {
-                $_SESSION['validacion_exitosa']="la validacion fue exitosa";
+                $_SESSION['validacion_exitosa'] = "la validacion fue exitosa";
                 return true;
             } else {
                 return false;
             }
-
         } else {
             $_SESSION['error_hash'] = "El usuario ya está activo.";
             return false;
@@ -120,27 +119,30 @@ class UserModel
         }
     }
 
-    private function validarCamposQueNoEstenVaciosYTengaLaMismaContraseña
-    ($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$repetir_contrasena,$sexo,$pais,$ciudad)
+    private function validarCamposQueNoEstenVaciosYTengaLaMismaContraseña($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
     {
-        if(empty(trim($nombre_de_usuario)) || empty(trim($nombre)) || empty(trim($anio_de_nacimiento)) ||
+        if (
+            empty(trim($nombre_de_usuario)) || empty(trim($nombre)) || empty(trim($anio_de_nacimiento)) ||
             empty(trim($email)) || empty(trim($contrasena)) || empty(trim($repetir_contrasena)) ||
-            empty(trim($sexo)) || empty(trim($pais)) || empty(trim($ciudad)) || !(strcmp($contrasena,$repetir_contrasena)==0)){
+            empty(trim($sexo)) || empty(trim($pais)) || empty(trim($ciudad)) || !(strcmp($contrasena, $repetir_contrasena) == 0)
+        ) {
             return true;
         }
         return false;
     }
 
-    private function validarNombreUsuario($nombre_de_usuario){
+    private function validarNombreUsuario($nombre_de_usuario)
+    {
         $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$nombre_de_usuario'";
         $result = $this->database->execute($sql);
 
         return $result->num_rows == 1;
     }
 
-    private function validarContrasena($contrasena){
+    private function validarContrasena($contrasena)
+    {
 
-        return strlen($contrasena)<=8;
+        return strlen($contrasena) <= 8;
     }
 
     private function validarQueSoloTengaCaracteres($nombre)
@@ -150,19 +152,18 @@ class UserModel
 
     private function obtenerHash()
     {
-        $flag=false;
+        $flag = false;
 
-        while(!$flag){
+        while (!$flag) {
 
-            $hash= rand(1,1000);
+            $hash = rand(1, 1000);
 
-            $sql= "SELECT * FROM usuarios WHERE hash='$hash'";
+            $sql = "SELECT * FROM usuarios WHERE hash='$hash'";
             $result = $this->database->execute($sql);
 
-            if($result->num_rows==0){
-                $flag=true;
+            if ($result->num_rows == 0) {
+                $flag = true;
             }
-
         }
 
         return $hash;
@@ -178,14 +179,16 @@ class UserModel
 
     private function esUnaImagenValida()
     {
-        if(isset($_FILES["foto"]) &&
+        if (
+            isset($_FILES["foto"]) &&
             $_FILES["foto"]["error"] == 0 &&
-            $_FILES["foto"]["size"] > 0) {
+            $_FILES["foto"]["size"] > 0
+        ) {
             $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
             if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
                 return true;
             }
-        }else{
+        } else {
             return false;
         }
     }
