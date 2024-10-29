@@ -16,7 +16,6 @@ class PartidaModel
 
         $data = [];
         if ($result->num_rows == 0) {
-            //TODO:usar el true y false
             $data['result']=false;
             return $data;
         }
@@ -76,6 +75,10 @@ class PartidaModel
 
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
+        if(!$opciones){
+            die();//aca no deberia de pasar nunca
+        }
+
         $data['id_pregunta']=$pregunta['id'];
         $data['pregunta']=$pregunta['pregunta'];
         $data['opciones']=[
@@ -92,8 +95,12 @@ class PartidaModel
         return $data;
     }
 
-    public function validarRespuesta($respuesta,$id_pregunta,$id_jugador,$id_partida)
+    public function validarRespuesta($respuesta, $id_pregunta, $id_jugador, $id_partida)
     {
+
+        //validar que el id de pregunta y partida no haya sido contestada antes osino darla por perdida
+
+        //$isValida= $this->validarQueLaPreguntaNoSeHayRespondidoAntesEnUnCortoPeriodoDeTiempo($id_pregunta,$id_partida);
 
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
@@ -112,15 +119,11 @@ class PartidaModel
 
         $this->database->execute($update);
 
-        $tiempo= $this->calcularTiempoValido($id_partida, $id_pregunta);
+        $tiempo = $this->calcularTiempoValido($id_partida, $id_pregunta);
 
         if ($respuesta == $opciones['opcion_correcta'] && $tiempo) {
 
-            $insert = "INSERT INTO pregunta_partida 
-            (respuesta_usuario, pregunta_id, usuario_id, partida_id, respondio_correctamente)
-            VALUES ('$respuesta', $id_pregunta, $id_jugador, $id_partida, 'bien')";
-
-            $this->database->execute($insert);
+            $this->insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta, 'bien');
 
             $update = "UPDATE preguntas SET cantidad_veces_respondidas = cantidad_veces_respondidas + 1
             WHERE id = '$id_pregunta'";
@@ -143,33 +146,23 @@ class PartidaModel
 
             $this->actualizarDificultadUsuario($id_jugador);
 
-            $this->actualizarDificultadPartida($id_partida);
-
             return true;
         }
         //revisamos si tiene la cantidad de veces necesarias para evaluar su dificultad y actualizar su estado
         //revisar el nivel del jugador
 
         $this->actualizarDificultadUsuario($id_jugador);
-        $this->actualizarDificultadPartida($id_partida);
+        $this->actualizarNivelPartida($id_partida, $id_jugador);
 
         //añadimos que finalizo la partida a partidas
 
-        $update = "UPDATE partidas SET estado = 'finalizada'
-            WHERE id = '$id_partida'";
+        $this->cambiarEstadoDePartidaAFinalizada($id_partida);
 
-        $this->database->execute($update);
-
-        $fecha_actual= $this->obtenerFechaActual();
-
-        $update = "UPDATE partidas SET fecha_de_finalizacion = '$fecha_actual'
-            WHERE id = '$id_partida'";
-
-        $this->database->execute($update);
+        $this->actualizarFechaDeFinalizacionDePartida($id_partida);
 
         //validamos que no sea el puntaje mas alto del jugador y si lo es se lo asiganmos
 
-        $this->actualizarPuntajeMasAltoDelJugado($id_jugador,$id_partida);
+        $this->actualizarPuntajeMasAltoDelJugado($id_jugador, $id_partida);
 
         return false;
     }
@@ -187,6 +180,7 @@ class PartidaModel
         if($partida['estado']!='en curso'){
             return false;
         }
+
 
         return true;
     }
@@ -280,7 +274,14 @@ class PartidaModel
             return false;
         }
 
-        return $this->obtenerPreguntaNoRespondida($nivel_del_jugador,$id_partida);
+        $pregunta = $this->verificarSiTeniaPreguntaEnCursoSinRespuestaDelUsuario($id_partida);
+
+        if($pregunta){
+
+            return $this->obtenerPreguntaSegunSuId($pregunta['pregunta_id']);
+        }
+
+        return $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel_del_jugador,$id_partida);
     }
 
     private function obtenerNivelJugadorDesdePartida($id_partida) {
@@ -306,12 +307,14 @@ class PartidaModel
     }
 
 
-    private function obtenerPreguntaNoRespondida($nivel,$id_partida) {
+    private function obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel, $id_partida) {
+
         $sql = "SELECT * FROM preguntas 
-         WHERE nivel='$nivel' AND estado='aprobada' 
-           AND id NOT IN 
-               (SELECT pregunta_id FROM pregunta_partida WHERE partida_id= '$id_partida') 
-               LIMIT 1";
+            WHERE nivel = '$nivel' AND estado = 'aprobada' 
+              AND id NOT IN 
+                  (SELECT pregunta_id FROM pregunta_partida WHERE partida_id = '$id_partida') 
+            ORDER BY RAND() 
+            LIMIT 1";
 
         $result = $this->database ->execute($sql);
 
@@ -352,7 +355,7 @@ class PartidaModel
 
     private function obtenerPreguntaDePartidaAlAzarConCiertoNivel($nivel)
     {
-        $sql = "SELECT * FROM preguntas WHERE nivel='$nivel' AND estado='aprobada' LIMIT 1";
+        $sql = "SELECT * FROM preguntas WHERE nivel='$nivel' AND estado='aprobada' ORDER BY RAND() LIMIT 1 ";
 
         $result = $this->database->execute($sql);
 
@@ -393,20 +396,18 @@ class PartidaModel
         $this->database->execute($update);
     }
 
-    private function actualizarDificultadPartida($id_partida)
+    private function actualizarNivelPartida($id_partida,$id_jugador)
     {
+        $nivel= $this->obtenerNivelJugador($id_jugador);
 
-        $partida = $this->obtenerPartida($id_partida);
-
-        if (!$partida) {
+        if (!$nivel) {
             return;
         }
 
-        //TODO LA OBTIENE DE USUARIO A EL NIVEL DE PREGUNTAS, preguntar SI ESTA MAL
-        //simplemente obtenemos la cantidad de preguntas de la
-        //partida con su id y contamos uales fueron bien y cuales fueron mal
-        //revisar si tocamos llamamos la pregunta segun dificultad usuario o dificultad partida
+        $sql="UPDATE partidas SET nivel = '$nivel'
+            WHERE id = '$id_partida' ";
 
+        $this->database->execute($sql);
     }
 
     private function actualizarPuntajeMasAltoDelJugado($id_jugador,$id_partida)
@@ -474,6 +475,69 @@ class PartidaModel
         ('$id_pregunta', '$id_partida','$fecha_actual')";
 
         $this->database->execute($sql);
+    }
+
+    private function verificarSiTeniaPreguntaEnCursoSinRespuestaDelUsuario($id_partida)
+    {
+        $sql = "SELECT * FROM pregunta_partida 
+            WHERE partida_id = '$id_partida' AND respuesta_usuario IS NULL
+            LIMIT 1";
+
+        $result = $this->database->execute($sql);
+
+        if ($result->num_rows == 0) {
+            return false;
+        }
+
+        return $result->fetch_assoc();
+    }
+
+    private function obtenerPreguntaSegunSuId($pregunta_id)
+    {
+
+        $sql = "SELECT * FROM preguntas WHERE id='$pregunta_id' AND estado='aprobada' ";
+
+        $result = $this->database->execute($sql);
+
+        if ($result->num_rows > 0) {
+
+            return $result->fetch_assoc();
+        }
+
+        return false;
+    }
+
+    public function insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta,$respondioCorrectamente)
+    {
+        $update = "UPDATE pregunta_partida 
+           SET respuesta_usuario = '$respuesta', 
+               usuario_id = '$id_jugador', 
+               respondio_correctamente = '$respondioCorrectamente' 
+           WHERE partida_id = '$id_partida' AND pregunta_id = '$id_pregunta'";
+
+        !$result= $this->database->execute($update);
+
+        if(!$result){
+            die(); //para testear luego borrate esta linea
+        }
+    }
+
+    public function cambiarEstadoDePartidaAFinalizada($id_partida)
+    {
+        $update = "UPDATE partidas SET estado = 'finalizada'
+            WHERE id = '$id_partida'";
+
+        $this->database->execute($update);
+    }
+
+    public function actualizarFechaDeFinalizacionDePartida($id_partida)
+    {
+        $fecha_actual = $this->obtenerFechaActual();
+
+        $update = "UPDATE partidas SET fecha_de_finalizacion = '$fecha_actual'
+            WHERE id = '$id_partida'";
+
+        $this->database->execute($update);
     }
 
 

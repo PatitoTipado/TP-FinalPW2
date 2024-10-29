@@ -25,6 +25,7 @@ class HomeController
 
         $this->presenter->show('home', $dataCompleto);
         unset($_SESSION["error_partida"]);
+        unset($_SESSION['not_found']);
         unset($data['partidas']);
 
     }
@@ -33,7 +34,13 @@ class HomeController
     {
         $id_usuario=$_SESSION['id_usuario'];
 
-        return $this->partidaModel->obtenerPartidas($id_usuario);
+        $data= $this->partidaModel->obtenerPartidas($id_usuario);
+
+        if(!$data['result']){
+            $_SESSION['not_found']= "no se encontraron partidas pasadas";
+        }
+
+        return $data;
     }
 
 }
