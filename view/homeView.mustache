@@ -4,53 +4,50 @@
     </div>
     <div class="main-content">
         <h2>Lobby</h2>
-        <p>Bienvenido, {{ user }}</p>
+        <p>Bienvenido, {{user}}</p>
         <div class="btn-group">
-            <a href="../partida/jugarNuevaPartida" >jugar</a>
-            <a href="../ranking" >Ver ranking</a>
-            <a href="../perfil" >Visitar mi perfil</a>
+            <a href="../partida/jugarNuevaPartida">nueva partida</a>
+            <a href="../ranking">Ver ranking</a>
+            <a href="../perfil">Visitar mi perfil</a>
         </div>
+
+        <!-- Error de partida -->
+        {{#error_partida}}
+            <div class="alert alert-danger" role="alert">
+                {{error_partida}}
+            </div>
+        {{/error_partida}}
+        {{#opciones}}
+
         <div class="table-responsive">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Puntaje total</th>
-                        <th>Cantidad de respuestas</th>
-                        <th>Estado</th>
-                        <th>Continuar</th>
-                    </tr>
+                <tr>
+                    <th>id de partida</th>
+                    <th>Fecha</th>
+                    <th>Puntaje total</th>
+                    <th>Cantidad de respuestas</th>
+                    <th>Estado</th>
+                    <th>Continuar</th>
+                </tr>
                 </thead>
                 <tbody>
+
                     <tr>
-                        <td>Fecha</td>
-                        <td>Puntaje total</td>
-                        <td>Cantidad de respuestas</td>
-                        <td>Estado</td>
-                        <td><button class="btn">Continuar</button></td>
+                        <td>{{id_partida}}</td>
+                        <td>{{fecha}}</td>
+                        <td>{{puntaje}}</td>
+                        <td>{{cantidad_respuestas}}</td>
+                        <td>{{estado}}</td>
+                        <td>
+                            <a href="/partida/reanudar?id_partida={{id_partida}}" class="btn"> Continuar </a>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Fecha</td>
-                        <td>Puntaje total</td>
-                        <td>Cantidad de respuestas</td>
-                        <td>Estado</td>
-                        <td><button class="btn">Continuar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Fecha</td>
-                        <td>Puntaje total</td>
-                        <td>Cantidad de respuestas</td>
-                        <td>Estado</td>
-                        <td><button class="btn">Continuar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Fecha</td>
-                        <td>Puntaje total</td>
-                        <td>Cantidad de respuestas</td>
-                        <td>Estado</td>
-                        <td><button class="btn">Continuar</button></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
+
+        {{/opciones}}
+
     </div>

@@ -17,7 +17,7 @@ class LoginController
             exit();
         }
         $this->presenter->show('login',$_SESSION);
-        //cada vez que cargo la pagina me saca el error feo
+        //cada vez que cargo la pagina me saca el error
         unset($_SESSION["error_login"]);
     }
 
