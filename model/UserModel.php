@@ -50,9 +50,9 @@ class UserModel
         $hash = $this->obtenerHash();
 
         $sql = "INSERT INTO usuarios 
-        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url,hash) 
+        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url,hash,rol) 
         VALUES 
-        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto','$hash')";
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto','$hash','jugador')";
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");

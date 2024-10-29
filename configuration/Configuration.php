@@ -35,7 +35,7 @@ class Configuration
 
     public function getHomeController()
     {
-        return new HomeController($this->getPresenter(), $this->getUserModel());
+        return new HomeController($this->getPresenter(), $this->getUserModel(),$this->getPartidaModel());
     }
 
     public function getPerfilController()
