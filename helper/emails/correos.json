@@ -34,5 +34,11 @@
         "subject": "validacion correo",
         "message": "tu codigo hash es '326'",
         "timestamp": "2024-10-28 20:53:25"
+    },
+    {
+        "to": "Mauri",
+        "subject": "validacion correo",
+        "message": "tu codigo hash es '264'",
+        "timestamp": "2024-11-04 12:49:59"
     }
 ]

@@ -5,6 +5,7 @@ CREATE DATABASE IF NOT EXISTS preguntados;
 USE preguntados;
 
 -- Crear la tabla usuarios si no existe
+-- REVISAR ATRIBUTOS UNICOS
 CREATE TABLE IF NOT EXISTS usuarios (
                                         id INT AUTO_INCREMENT PRIMARY KEY,
                                         nombre_de_usuario VARCHAR(50) NOT NULL UNIQUE, -- Nombre de usuario único
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS preguntas (
                                          id INT AUTO_INCREMENT PRIMARY KEY,
                                          categoria_id INT NOT NULL,                     -- Relación con la tabla categorías
                                          pregunta VARCHAR(255) NOT NULL,                -- Texto de la pregunta
-                                         nivel ENUM('facil', 'normal', 'dificil') NOT NULL,  -- Nivel de dificultad de la pregunta
+                                         nivel ENUM('facil', 'normal', 'dificil') DEFAULT 'normal',  -- Nivel de dificultad de la pregunta
                                          tipo_pregunta ENUM('creada', 'sugerida') NOT NULL,  -- Diferencia entre creada o sugerida
                                          cantidad_apariciones INT DEFAULT 0,            -- Cantidad de veces que la pregunta aparece en una partida
                                          cantidad_veces_respondidas INT DEFAULT 0,      -- Cantidad de veces que se ha respondido la pregunta
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS reportes (
                                         fecha_reporte DATETIME NOT NULL,               -- Fecha del reporte
                                         fecha_atencion DATETIME,                       -- Fecha de atención del reporte
                                         descripcion TEXT,                              -- Descripción del motivo del reporte
-                                        estado ENUM('pendiente', 'aprobado', 'rechazado') NOT NULL,  -- Estado del reporte
+                                        estado ENUM('pendiente', 'aprobado', 'rechazado') DEFAULT 'pendiente',  -- Estado del reporte
                                         FOREIGN KEY (pregunta_id) REFERENCES preguntas(id),  -- FK con preguntas
                                         FOREIGN KEY (usuario_realiza_id) REFERENCES usuarios(id),  -- FK con usuarios (quien realiza)
                                         FOREIGN KEY (usuario_atiende_id) REFERENCES usuarios(id)   -- FK con usuarios (quien atiende)
@@ -90,9 +91,12 @@ CREATE TABLE IF NOT EXISTS reportes (
 CREATE TABLE IF NOT EXISTS pregunta_partida (
                                                 pregunta_id INT NOT NULL,                      -- Relación con preguntas
                                                 partida_id INT NOT NULL,                       -- Relación con partidas
-                                                respuesta_correcta BOOLEAN NOT NULL,           -- Si la respuesta del usuario fue correcta
+                                                respuesta_usuario VARCHAR(255),-- Si la respuesta del usuario fue correcta
+                                                respondio_correctamente ENUM('bien','mal'), -- en un futuro podriamos cambiar a esto a que jugador respondio bien
+                                                usuario_id INT ,
                                                 fecha_inicio DATETIME NOT NULL,                -- Fecha en que se presentó la pregunta en la partida
                                                 PRIMARY KEY (pregunta_id, partida_id),         -- Clave primaria compuesta
                                                 FOREIGN KEY (pregunta_id) REFERENCES preguntas(id),  -- FK con preguntas
-                                                FOREIGN KEY (partida_id) REFERENCES partidas(id)     -- FK con partidas
+                                                FOREIGN KEY (partida_id) REFERENCES partidas(id),    -- FK con partidas
+                                                FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
