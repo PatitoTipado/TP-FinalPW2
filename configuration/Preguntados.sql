@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS reportes (
 CREATE TABLE IF NOT EXISTS pregunta_partida (
                                                 pregunta_id INT NOT NULL,                      -- Relación con preguntas
                                                 partida_id INT NOT NULL,                       -- Relación con partidas
-                                                respuesta_usuario VARCHAR,-- Si la respuesta del usuario fue correcta
+                                                respuesta_usuario VARCHAR(255),-- Si la respuesta del usuario fue correcta
                                                 respondio_correctamente ENUM('bien','mal'), -- en un futuro podriamos cambiar a esto a que jugador respondio bien
                                                 usuario_id INT ,
                                                 fecha_inicio DATETIME NOT NULL,                -- Fecha en que se presentó la pregunta en la partida
