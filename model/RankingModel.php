@@ -27,6 +27,7 @@ class RankingModel
         $numero = 1;
         while ($row = $result->fetch_assoc()) {
             $data['opciones'][] = [
+		'id_usuario' => $row['id'],
                 'numero' => $numero,
                 'usuario' => $row['nombre_de_usuario'],
                 'puntajeTotal' => $this->obtenerPuntajePorUsuario($row['id']),

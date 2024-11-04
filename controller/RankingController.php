@@ -39,4 +39,10 @@ class RankingController
 
         return $data;
     }
+
+  private function verUsuario()
+    {
+        $id_usuario = $_GET['id'];
+       
+    }
 }

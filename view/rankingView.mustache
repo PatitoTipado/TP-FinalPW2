@@ -8,13 +8,15 @@
                 </tr>
                 </thead>
                 <tbody>
-
+ {{#opciones}}
                     <tr>
-                        <td>{{numero}}</td>
-                        <td>{{usuario}}</td>
-                        <td>{{puntajeTotal}}</td>             
-                    </tr>
 
+                        <td><a href="/ranking/verUsuario=id={{id_usuario}}">{{numero}}</a></td>
+                        <td><a href="/ranking/verUsuario=id={{id_usuario}}">{{usuario}}</a></td>
+                        <td><a href="/ranking/verUsuario=id={{id_usuario}}">{{puntajeTotal}}</a></td>        
+   
+                    </tr>
+{{/opciones}}
                 </tbody>
             </table>
         </div>
