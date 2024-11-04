@@ -7,6 +7,7 @@ include_once ("helper/FileEmailSender.php");
 
 include_once("model/UserModel.php");
 include_once ("model/PartidaModel.php");
+include_once ("model/RankingModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
@@ -52,10 +53,14 @@ class Configuration
     {
         //por ahora le paso el user model, dps no se quien sera  el encargado de obtener el mayor puntaje
         //aunque podemo hacer trampa y dejarselo a usuario ajsjajj
-        return new RankingController($this->getPresenter(), $this->getUserModel());
+        return new RankingController($this->getPresenter(), $this->getUserModel(), $this->getRankingModel());
     }
 
     //MODELOS
+
+    public function getRankingModel() {
+        return new RankingModel($this->getDatabase());
+    }
 
     public function getUserModel()
     {

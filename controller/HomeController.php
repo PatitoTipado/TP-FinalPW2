@@ -7,11 +7,11 @@ class HomeController
     private $model;
     private $partidaModel;
 
-    public function __construct($presenter, $model,$modelPartida)
+    public function __construct($presenter, $model, $modelPartida)
     {
         $this->model = $model;
         $this->presenter = $presenter;
-        $this->partidaModel=$modelPartida;
+        $this->partidaModel = $modelPartida;
     }
 
     public function show()
@@ -19,7 +19,7 @@ class HomeController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $data= $this->obtenerPartidas();
+        $data = $this->obtenerPartidas();
 
         $dataCompleto = array_merge($data, $_SESSION);
 
@@ -27,20 +27,18 @@ class HomeController
         unset($_SESSION["error_partida"]);
         unset($_SESSION['not_found']);
         unset($data['partidas']);
-
     }
 
     private function obtenerPartidas()
     {
-        $id_usuario=$_SESSION['id_usuario'];
+        $id_usuario = $_SESSION['id_usuario'];
 
-        $data= $this->partidaModel->obtenerPartidas($id_usuario);
+        $data = $this->partidaModel->obtenerPartidas($id_usuario);
 
-        if(!$data['result']){
-            $_SESSION['not_found']= "no se encontraron partidas pasadas";
+        if (!$data['result']) {
+            $_SESSION['not_found'] = "no se encontraron partidas pasadas";
         }
 
         return $data;
     }
-
 }
