@@ -40,9 +40,30 @@ class RankingController
         return $data;
     }
 
-  private function verUsuario()
+    private function obtenerUsuario($id)
     {
-        $id_usuario = $_GET['id'];
-       
+
+        $data = $this->rankingModel->obtenerUsuario($id);
+
+        if (!$data['result']) {
+            $_SESSION['not_found'] = "no se encontraron usuarios";
+        }
+
+        return $data;
+    }
+
+  public function verUsuario()
+    {
+        $id = $_GET['id'];
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+        }
+        $data = $this->obtenerUsuario($id);
+
+        $dataCompleto = array_merge($data, $_SESSION);
+
+        $this->presenter->show('usuario', $dataCompleto);
+        unset($_SESSION['not_found']);
+        unset($data['usuario']);
     }
 }
