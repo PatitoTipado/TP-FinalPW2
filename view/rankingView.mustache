@@ -1,22 +1,30 @@
-<div class="table-responsive">
-            <table class="table">
+<main class="py-5">
+    <div class="content container px-lg-5 p-4 bg-light rounded-3 ">
+        <h1 class="text-center text-primary display-2 fw-bold">Ranking</h1>
+        <br>
+        <div>
+            <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Número</th>
-                    <th>Usuario</th>
-                    <th>Puntaje total</th> 
+                    <th>Jugador</th>
+                    <th>Puntaje</th>
+                    <th>Posicion</th>
                 </tr>
                 </thead>
                 <tbody>
- {{#opciones}}
+                {{#users}}
                     <tr>
-
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{numero}}</a></td>
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{usuario}}</a></td>
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{puntajeTotal}}</a></td>        
-   
+                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{nombre_de_usuario}}</a></td>
+                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{mejor_puntaje}}</a></td>
+                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">#{{posicion}}</a></td>        
                     </tr>
-{{/opciones}}
+                {{/users}}
                 </tbody>
             </table>
         </div>
+        <div class="d-flex justify-content-center">
+            <br>
+            <a href="/lobby" class="btn btn-lg btn-primary m-3">Volver al lobby</a>
+        </div>
+    </div>
+</main>
