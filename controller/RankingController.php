@@ -21,26 +21,7 @@ class RankingController
         }
         $data['users'] = $this->rankingModel->getNameAndScoreByPositionOfUsers();
         $this->presenter->show('ranking', $data);
-        // $data['users']  = $this->obtenerUsuarios();
-
-        // $dataCompleto = array_merge($data, $_SESSION);
-
-        // $this->presenter->show('ranking', $dataCompleto);
-        // unset($_SESSION['not_found']);
-        // unset($data['usuarios']);
     }
-
-    // private function obtenerUsuarios()
-    // {
-
-    //     $data= $this->rankingModel->obtenerUsuarios();
-
-    //     if (!$data['result']) {
-    //         $_SESSION['not_found'] = "no se encontraron usuarios";
-    //     }
-
-    //     return $data;
-    // }
 
     private function obtenerUsuario($id)
     {
@@ -54,18 +35,14 @@ class RankingController
         return $data;
     }
 
-  public function verUsuario()
+    public function verUsuario()
     {
         $id = $_GET['id'];
+
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $data = $this->obtenerUsuario($id);
-
-        $dataCompleto = array_merge($data, $_SESSION);
-
-        $this->presenter->show('usuario', $dataCompleto);
-        unset($_SESSION['not_found']);
-        unset($data['usuario']);
+        $data['user'] = $this->rankingModel->obtenerUsuario($id);
+        $this->presenter->show('usuario', $data);
     }
 }
