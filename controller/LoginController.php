@@ -33,6 +33,7 @@ class LoginController
                 $_SESSION['id_usuario'] = $data['id_usuario'];
                 $_SESSION['rol'] =$data['rol'];
                 $_SESSION['user']=$data['user'];
+                $_SESSION['puntaje_maximo']=$data['puntaje_maximo'];
                 unset($_SESSION["error_login"]);
                 exit();
             }else{

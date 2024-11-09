@@ -77,18 +77,11 @@ class UserModel
 
             $usuario = $result->fetch_assoc();
 
-//            $_SESSION["user"] = $usuario["nombre_de_usuario"];
-//            $_SESSION["email"] = $usuario["email"];
-//            $_SESSION['foto'] = $usuario['imagen_url'];
-//            $_SESSION['pais'] = $usuario['pais'];
-//            $_SESSION['ciudad'] = $usuario['ciudad'];
-//            $_SESSION['nombre'] = $usuario['nombre'];
-//            $_SESSION['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
-
             $data['result'] = true;
             $data['id_usuario']=$usuario['id'];
             $data['rol']=$usuario['rol'];
             $data['user']=$usuario['nombre_de_usuario'];
+            $data['puntaje_maximo']=$usuario['puntaje_maximo'];
 
             return $data;
         } else {
@@ -97,6 +90,7 @@ class UserModel
             $result = $this->database->execute($sql);
             $data['result']=false;
             $data['error']=($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
+
             return $data;
         }
     }
