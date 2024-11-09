@@ -57,8 +57,7 @@ class PartidaModel
     {
         $pregunta= $this->obtenerPreguntaDePartidaNoRespondida($id_partida);
 
-        //esto lo utilize para testear podriamos encapsular esto en un metodo y devolver error como valor
-        //TODO: AL FINALIZAR BORRAR
+        //esto lo utilize para testear cuando no encuentre la pregunta se vera esto
         if(!$pregunta){
             $data['id_pregunta']=0;
             $data['pregunta']=1;
@@ -66,7 +65,7 @@ class PartidaModel
                 ['opcion' => 0],
                 ['opcion' => 1],
                 ['opcion' => 2],
-                ['opcion' => 3]
+                ['opcion_correcta' => 3]
             ];
             return $data;
         }
@@ -74,10 +73,6 @@ class PartidaModel
         $id_pregunta= $pregunta['id'];
 
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
-
-        if(!$opciones){
-            die();//aca no deberia de pasar nunca
-        }
 
         $data['id_pregunta']=$pregunta['id'];
         $data['pregunta']=$pregunta['pregunta'];
@@ -98,26 +93,16 @@ class PartidaModel
     public function validarRespuesta($respuesta, $id_pregunta, $id_jugador, $id_partida)
     {
 
-        //validar que el id de pregunta y partida no haya sido contestada antes osino darla por perdida
-
-        //$isValida= $this->validarQueLaPreguntaNoSeHayRespondidoAntesEnUnCortoPeriodoDeTiempo($id_pregunta,$id_partida);
-
+        $isValida= $this->validarQueLaPreguntaNoSeRespondioTodaviaEnLaPartidaActual($id_pregunta,$id_partida);
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
-        if (!$opciones) {
-            //TODO: Le damos por perdida la partida al usuario
-            return false;
+        if(!$isValida || !$opciones){
+            return "error";
         }
 
-        $update = "UPDATE preguntas SET cantidad_apariciones = cantidad_apariciones + 1
-            WHERE id = '$id_pregunta'";
+        $this->actualizarLaCantidadDeAparicionesDeUnaPreguntaEnUno($id_pregunta);
 
-        $this->database->execute($update);
-
-        $update = "UPDATE usuarios SET cantidad_preguntas_respondidas = cantidad_preguntas_respondidas + 1
-            WHERE id = '$id_jugador'";
-
-        $this->database->execute($update);
+        $this->actualizarLaCantidadDeVecesQueRespondioUnaPreguntaUnUsuarioEnUno($id_jugador);
 
         $tiempo = $this->calcularTiempoValido($id_partida, $id_pregunta);
 
@@ -125,46 +110,30 @@ class PartidaModel
 
             $this->insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta, 'bien');
 
-            $update = "UPDATE preguntas SET cantidad_veces_respondidas = cantidad_veces_respondidas + 1
-            WHERE id = '$id_pregunta'";
+            $this->actualizarLaCantidadDeVecesRespondidasCorrectamenteDeUnaPregunta($id_pregunta);
 
-            $this->database->execute($update);
+            $this->actualizarElPuntajeTotalDeLaPartidaEnUno($id_partida);
 
-            $update = "UPDATE partidas SET puntaje_total = puntaje_total + 1
-            WHERE id = '$id_partida'";
-
-            $this->database->execute($update);
-
-            //si respondemos bien actualizar la cantidad de veces respondidas bien en usuario y preguntas
-
-            $update = "UPDATE usuarios SET cantidad_respuestas_correctas = cantidad_respuestas_correctas + 1
-            WHERE id = '$id_jugador'";
-
-            $this->database->execute($update);
-
-            //revisamos si tiene la cantidad de veces necesarias para evaluar su dificultad y actualizar su estado
+            $this->actualizarLaCantidadDeVecesRespondidasBienEnUnUsuario($id_jugador);
 
             $this->actualizarDificultadUsuario($id_jugador);
 
-            return true;
+            return "ganador";
         }
-        //revisamos si tiene la cantidad de veces necesarias para evaluar su dificultad y actualizar su estado
-        //revisar el nivel del jugador
+
+        $this->insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta, 'mal');
 
         $this->actualizarDificultadUsuario($id_jugador);
-        $this->actualizarNivelPartida($id_partida, $id_jugador);
 
-        //añadimos que finalizo la partida a partidas
+        $this->actualizarNivelPartida($id_partida, $id_jugador);
 
         $this->cambiarEstadoDePartidaAFinalizada($id_partida);
 
         $this->actualizarFechaDeFinalizacionDePartida($id_partida);
 
-        //validamos que no sea el puntaje mas alto del jugador y si lo es se lo asiganmos
-
         $this->actualizarPuntajeMasAltoDelJugado($id_jugador, $id_partida);
 
-        return false;
+        return "perdedor";
     }
 
     public function isPartidaValida($id_partida,$id_jugador)
@@ -536,6 +505,59 @@ class PartidaModel
 
         $update = "UPDATE partidas SET fecha_de_finalizacion = '$fecha_actual'
             WHERE id = '$id_partida'";
+
+        $this->database->execute($update);
+    }
+
+    private function validarQueLaPreguntaNoSeRespondioTodaviaEnLaPartidaActual($id_pregunta, $id_partida)
+    {
+        $sql = "SELECT * FROM pregunta_partida 
+            WHERE partida_id = '$id_partida' 
+            AND pregunta_id = '$id_pregunta' 
+            AND respuesta_usuario IS NOT NULL 
+            AND respuesta_usuario != ''";
+
+        $result = $this->database->execute($sql);
+
+        return $result->num_rows == 0;
+    }
+
+    public function actualizarLaCantidadDeVecesRespondidasBienEnUnUsuario($id_jugador)
+    {
+        $update = "UPDATE usuarios SET cantidad_respuestas_correctas = cantidad_respuestas_correctas + 1
+            WHERE id = '$id_jugador'";
+
+        $this->database->execute($update);
+    }
+
+    public function actualizarElPuntajeTotalDeLaPartidaEnUno($id_partida)
+    {
+        $update = "UPDATE partidas SET puntaje_total = puntaje_total + 1
+            WHERE id = '$id_partida'";
+
+        $this->database->execute($update);
+    }
+
+    public function actualizarLaCantidadDeVecesRespondidasCorrectamenteDeUnaPregunta($id_pregunta)
+    {
+        $update = "UPDATE preguntas SET cantidad_veces_respondidas = cantidad_veces_respondidas + 1
+            WHERE id = '$id_pregunta'";
+
+        $this->database->execute($update);
+    }
+
+    public function actualizarLaCantidadDeVecesQueRespondioUnaPreguntaUnUsuarioEnUno($id_jugador)
+    {
+        $update = "UPDATE usuarios SET cantidad_preguntas_respondidas = cantidad_preguntas_respondidas + 1
+            WHERE id = '$id_jugador'";
+
+        $this->database->execute($update);
+    }
+
+    public function actualizarLaCantidadDeAparicionesDeUnaPreguntaEnUno($id_pregunta)
+    {
+        $update = "UPDATE preguntas SET cantidad_apariciones = cantidad_apariciones + 1
+            WHERE id = '$id_pregunta'";
 
         $this->database->execute($update);
     }

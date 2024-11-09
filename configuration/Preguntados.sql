@@ -100,3 +100,6 @@ CREATE TABLE IF NOT EXISTS pregunta_partida (
                                                 FOREIGN KEY (partida_id) REFERENCES partidas(id),    -- FK con partidas
                                                 FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+ALTER TABLE usuarios
+    ADD COLUMN puntaje_maximo INT DEFAULT 0;
