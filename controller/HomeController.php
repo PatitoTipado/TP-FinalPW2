@@ -27,12 +27,6 @@ class HomeController
         unset($_SESSION["error_partida"]);
         unset($_SESSION['not_found']);
         unset($data['partidas']);
-        unset($_SESSION['id_pregunta']);
-        unset($_SESSION['pregunta']);
-        unset($_SESSION['opciones']);
-        unset($_SESSION["id_partida_actual"]);
-        unset($_SESSION['respuesta']);
-
     }
 
     private function obtenerPartidas()

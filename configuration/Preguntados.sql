@@ -103,3 +103,5 @@ CREATE TABLE IF NOT EXISTS pregunta_partida (
 
 ALTER TABLE usuarios
     ADD COLUMN puntaje_maximo INT DEFAULT 0;
+ALTER TABLE usuarios
+    ADD COLUMN partida_actual INT DEFAULT 0;

@@ -11,38 +11,19 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $foto, $sexo, $pais, $ciudad)
     {
-        if ($this->validarCamposQueNoEstenVaciosYTengaLaMismaContraseña($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
-        ) {
-            $_SESSION['error_registro'] = "ningun parametro puede estar vacio o las contraseñas no ser iguales.";
-            return false;
-        }
 
         if ($this->validarNombreUsuario($nombre_de_usuario)) {
-            $_SESSION['error_registro'] = "el nombre de usuario elegido ya esta registrado.";
-            return false;
+            return"el nombre de usuario elegido ya esta registrado.";
         }
 
         if ($this->validarContrasena($contrasena)) {
-            $_SESSION['error_registro'] = "la contraseña no cumple con la longuitud requerida.";
-            return false;
+            return "la contraseña no cumple con la longuitud requerida.";
         }
 
         if ($this->validarQueSoloTengaCaracteres($nombre)) {
-            $_SESSION['error_registro'] = "el nombre debe tener solo letras y sin espacios.";
-            return false;
-        }
-
-        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
-
-        if ($this->esUnaImagenValida()) { //cambiar al controller
-            $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
-            move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
-            $foto = 'public/' . $nombre_de_usuario . ".jpg";
-        } else {
-            $_SESSION['error_registro'] = "la imagen no se subio correctamente.";
-            return false;
+            return "el nombre debe tener solo letras y sin espacios.";
         }
 
         $fecha_registro = $this->obtenerFechaRegistro();
@@ -56,10 +37,9 @@ class UserModel
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
-            return true;
+            return "exitoso";
         } else {
-            $_SESSION['error_registro'] = "ocurrio un error en la base de datos.";
-            return false;
+            return "ocurrio un error en la base de datos.";
         }
     }
 
@@ -69,8 +49,7 @@ class UserModel
         $result = $this->database->execute($sql);
 
         if ($result->num_rows == 0) {
-            $_SESSION["error_hash"] = "codigo hash incorrecto";
-            return false;
+            return "codigo hash incorrecto";
         }
 
         $usuario = $result->fetch_assoc();
@@ -79,16 +58,12 @@ class UserModel
 
             $idUsuario = $usuario['id'];
             $updateQuery = "UPDATE usuarios SET estado = 'activo' WHERE id = $idUsuario";
-            $success = $this->database->execute($updateQuery);
-            if ($success) {
-                $_SESSION['validacion_exitosa'] = "la validacion fue exitosa";
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            $_SESSION['error_hash'] = "El usuario ya está activo.";
+            $this->database->execute($updateQuery);
+
             return false;
+        } else {
+
+            return "El usuario ya está activo.";
         }
     }
 
@@ -102,41 +77,56 @@ class UserModel
 
             $usuario = $result->fetch_assoc();
 
-            $_SESSION["user"] = $usuario["nombre_de_usuario"];
-            $_SESSION["email"] = $usuario["email"];
-            $_SESSION['foto'] = $usuario['imagen_url'];
-            $_SESSION['pais'] = $usuario['pais'];
-            $_SESSION['ciudad'] = $usuario['ciudad'];
-            $_SESSION['nombre'] = $usuario['nombre'];
-            $_SESSION['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+//            $_SESSION["user"] = $usuario["nombre_de_usuario"];
+//            $_SESSION["email"] = $usuario["email"];
+//            $_SESSION['foto'] = $usuario['imagen_url'];
+//            $_SESSION['pais'] = $usuario['pais'];
+//            $_SESSION['ciudad'] = $usuario['ciudad'];
+//            $_SESSION['nombre'] = $usuario['nombre'];
+//            $_SESSION['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
 
-            //supongo que para las consultas lo usaremos mas adelante
-            $_SESSION['id_usuario'] = $usuario['id'];
-            $_SESSION['rol'] = $usuario['rol'];
-           
+            $data['result'] = true;
+            $data['id_usuario']=$usuario['id'];
+            $data['rol']=$usuario['rol'];
+            $data['user']=$usuario['nombre_de_usuario'];
 
-            return true;
+            return $data;
         } else {
             $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND estado LIKE'activo'";
 
             $result = $this->database->execute($sql);
-
-            $_SESSION['error_login'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
-
-            return false;
+            $data['result']=false;
+            $data['error']=($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
+            return $data;
         }
     }
 
-    private function validarCamposQueNoEstenVaciosYTengaLaMismaContraseña($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $repetir_contrasena, $sexo, $pais, $ciudad)
+    public function obtenerDatosDePerfil($id)
     {
-        if (
-            empty(trim($nombre_de_usuario)) || empty(trim($nombre)) || empty(trim($anio_de_nacimiento)) ||
-            empty(trim($email)) || empty(trim($contrasena)) || empty(trim($repetir_contrasena)) ||
-            empty(trim($sexo)) || empty(trim($pais)) || empty(trim($ciudad)) || !(strcmp($contrasena, $repetir_contrasena) == 0)
-        ) {
-            return true;
+        $sql = "SELECT * FROM usuarios WHERE id='$id'";
+
+        $result = $this->database->execute($sql);
+
+        if ($result->num_rows == 1) {
+
+            $usuario = $result->fetch_assoc();
+
+            $data['result'] = true;
+            $data['foto']=$usuario['imagen_url'];
+            $data['email']=$usuario['email'];
+            $data['pais']=$usuario['pais'];
+            $data['ciudad']= $usuario['ciudad'];
+            $data['nombre']= $usuario['nombre'];
+            $data['sexo']= ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+
+            return $data;
+        } else {
+
+            $data['result']=false;
+            $data['not_found']="no se encontro al usuario";
+            return $data;
         }
-        return false;
+
     }
 
     private function validarNombreUsuario($nombre_de_usuario)
@@ -185,19 +175,4 @@ class UserModel
         return $fecha_actual->format('Y-m-d H:i:s');
     }
 
-    private function esUnaImagenValida()
-    {
-        if (
-            isset($_FILES["foto"]) &&
-            $_FILES["foto"]["error"] == 0 &&
-            $_FILES["foto"]["size"] > 0
-        ) {
-            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
-            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
 }

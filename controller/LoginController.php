@@ -17,7 +17,6 @@ class LoginController
             exit();
         }
         $this->presenter->show('login',$_SESSION);
-        //cada vez que cargo la pagina me saca el error
         unset($_SESSION["error_login"]);
     }
 
@@ -27,11 +26,17 @@ class LoginController
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            if($this->model->validarLogin($username,$password)){
+            $data=$this->model->validarLogin($username,$password);
+            
+            if($data['result']){
                 header("location:/home");
+                $_SESSION['id_usuario'] = $data['id_usuario'];
+                $_SESSION['rol'] =$data['rol'];
+                $_SESSION['user']=$data['user'];
                 unset($_SESSION["error_login"]);
                 exit();
             }else{
+                $_SESSION['error_login']=$data['error'];
                 header("location:/login");
                 exit();
             }

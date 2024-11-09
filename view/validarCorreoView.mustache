@@ -9,11 +9,11 @@
                     <p class="card-text">Revisa tu correo electrónico para completar la verificación.</p>
 
                     <!-- Mostrar mensaje de error si existe -->
-                    {{#error_hash}}
+                    {{#result_hash}}
                         <div class="alert alert-danger" role="alert">
-                            {{error_hash}}
+                            {{result_hash}}
                         </div>
-                    {{/error_hash}}
+                    {{/result_hash}}
 
                     <!-- Formulario de verificación -->
                     <form action="http://localhost/registro/validarHash" method="POST" class="mt-4">

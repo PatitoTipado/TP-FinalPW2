@@ -29,7 +29,7 @@ class PartidaModel
                 'puntaje' => $row['puntaje_total'],
                 'nivel' => $row['nivel'],
                 'estado' => $row['estado'],
-                'fecha' => $row['fecha_de_partida']
+                'fecha' => $row['fecha_de_partida'],
             ];
         }
 
@@ -76,6 +76,7 @@ class PartidaModel
 
         $data['id_pregunta']=$pregunta['id'];
         $data['pregunta']=$pregunta['pregunta'];
+        $data['id_partida']=$id_partida;
         $data['opciones']=[
             ['opcion' => $opciones['opcion1']],
             ['opcion' => $opciones['opcion2']],
@@ -96,7 +97,7 @@ class PartidaModel
         $isValida= $this->validarQueLaPreguntaNoSeRespondioTodaviaEnLaPartidaActual($id_pregunta,$id_partida);
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
-        if(!$isValida || !$opciones){
+        if($isValida || !$opciones){
             return "error";
         }
 

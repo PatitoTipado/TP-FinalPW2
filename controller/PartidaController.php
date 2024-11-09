@@ -33,22 +33,20 @@ class PartidaController
 
         $id_jugador= $_SESSION['id_usuario'];
 
-        $_SESSION['id_partida_actual']= $this->model->iniciarNuevaPartida($id_jugador);
+        $id_partida =$this->model->iniciarNuevaPartida($id_jugador);
 
-        if(!$_SESSION['id_partida_actual']) {
-
+        if(!$id_partida) {
             $_SESSION['error_partida']="error al crear una partida";
             header("location: /home");
             exit();
         }
-
-        $id_partida = $_SESSION['id_partida_actual'];
 
         $data = $this->model->obtenerDataPartida($id_partida);
 
         $_SESSION['id_pregunta'] = $data['id_pregunta'];
         $_SESSION['pregunta'] = $data['pregunta'];
         $_SESSION['opciones'] = $data['opciones'];
+        $_SESSION['id_partida_actual']=$data['id_partida'];
 
         header("location: /partida/show");
         exit();
@@ -151,6 +149,7 @@ class PartidaController
 
     public function vistaError()
     {
+
         $this->presenter->show('error', $_SESSION);
         unset($_SESSION['id_pregunta']);
         unset($_SESSION['pregunta']);
