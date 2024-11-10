@@ -16,6 +16,28 @@ class PerfilController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $this->presenter->show('perfil', ['user' => $_SESSION['user'], 'foto' => $_SESSION['foto'], 'email' => $_SESSION['email'], 'pais' => $_SESSION['pais'], 'ciudad' => $_SESSION['ciudad'], 'nombre' => $_SESSION['nombre'], 'sexo' => $_SESSION['sexo']]);
+
+        $data= $this->obtenerDatosPerfil();
+
+        $dataCompleto = array_merge($data, $_SESSION);
+
+        $this->presenter->show('perfil', $dataCompleto);
+        unset($_SESSION['not_found']);
+
+    }
+
+    private function obtenerDatosPerfil()
+    {
+
+        $id= $_SESSION['id_usuario'];
+
+        $data=$this->model->obtenerDatosDePerfil($id);
+
+        if (!$data['result']) {
+            $_SESSION['not_found'] = "no se encontro el usuario";
+            return $data;
+        }
+        return $data;
+
     }
 }

@@ -1,4 +1,20 @@
 <style>
+    .contador {
+        padding: 20px;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 2em;
+        color: #007bff;
+        width: 150px;
+        margin: 20px auto;
+        transition: background-color 0.3s;
+    }
+    .contador-finalizado {
+        background-color: #007bff;
+        color: white;
+    }
+
     .opcion {
         padding: 20px;
         border: 2px solid #007bff;
@@ -20,6 +36,13 @@
     }
 </style>
 
+<div class="container mt-5 py-5 ">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="contador" id="timer">28</div>
+        </div>
+    </div>
+</div>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -52,6 +75,19 @@
 
 
 <script>
+    let timeLeft = 28;
+    const countdown = setInterval(() => {
+        const timerElement = document.getElementById("timer");
+        timerElement.textContent = timeLeft;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            timerElement.textContent = "¡Tiempo agotado!";
+            timerElement.classList.add("contador-finalizado");
+        }
+    }, 1000);
+
     // Selección de opciones con divs clickeables
     document.querySelectorAll('.opcion').forEach(opcion => {
         opcion.addEventListener('click', function() {

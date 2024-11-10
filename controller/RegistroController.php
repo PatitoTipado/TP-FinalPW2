@@ -33,19 +33,32 @@ class RegistroController
         $repetir_contrasena = $_POST['repetir-contrasena'] ?? '';
         $nombre_de_usuario = $_POST['usuario'] ?? '';
 
-        //opcion con bool
+        if(!($repetir_contrasena===$contrasena)){
+            $_SESSION['error_registro']="las contraseñas no coinciden o estan vacias";
+            header("location: /registro");
+            exit();
+        }
 
-        //opcion devolviendo un string $var= $this->model->registrarUsuario(); == nombre de usuario existe
+        $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
 
-        //if ($var==ta bien)
+        if ($this->esUnaImagenValida()) {
+            $rutaImagen = $carpetaImagenes . $nombre_de_usuario . '.jpg';
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaImagen);
+            $foto = 'public/' . $nombre_de_usuario . ".jpg";
+        } else {
+            $_SESSION['error_registro'] = "la imagen no se subio correctamente o el formato no es el correcto (png-jpg-jpeg).";
+            header("location: /registro");
+            exit();
+        }
 
-        //else{$_SESION['ERROR_REGISTRO']=$var}
+        $registro=$this->model->registrarUsuario($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$foto,$sexo,$pais,$ciudad);
 
-        if($this->model->registrarUsuario($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$repetir_contrasena,$sexo,$pais,$ciudad)){
+        if($registro=="exitoso"){
             header("location:/registro/validarCorreo");
             unset($_SESSION["error_registro"]);
             exit();
         }else{
+            $_SESSION['error_registro']=$registro;
             header("location: /registro");
             exit();
         }
@@ -59,16 +72,20 @@ class RegistroController
             exit();
         }
         $this->presenter->show('validarCorreo' , $_SESSION);
-        unset($_SESSION["error_hash"]);
+        unset($_SESSION["result_hash"]);
     }
 
     public function validarHash()
     {
         $hash= $_POST['codigo'];
-        if($this->model->validarHash($hash)){
+
+        $validarHash=$this->model->validarHash($hash);
+
+        if(!$validarHash){
             header("location: /registro/validacionExitosa");
             exit();
         }else{
+            $_SESSION['result_hash']=$validarHash;
             header("location: /registro/validarCorreo");
             exit();
         }
@@ -76,13 +93,30 @@ class RegistroController
 
     public function validacionExitosa()
     {
-        if($_SESSION['validacion_exitosa']){
+        if(!$_SESSION['result_hash']){
             $this->presenter->show('validacionExitosa' , $_SESSION);
-            unset($_SESSION["validacion_exitosa"]);
+            unset($_SESSION["result_hash"]);
         }else{
             header("location: /validacionCorreo");
             exit();
         }
     }
+
+    private function esUnaImagenValida()
+    {
+        if (
+            isset($_FILES["foto"]) &&
+            $_FILES["foto"]["error"] == 0 &&
+            $_FILES["foto"]["size"] > 0
+        ) {
+            $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
 
 }

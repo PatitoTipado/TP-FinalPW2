@@ -24,11 +24,6 @@ class PartidaController
 
         }
 
-        //deberiamos tener el timeut aca de que inicio que aparecio esta pregunta ? lol
-
-        //si tiene seteado algo en id_pregunta y opciones tengo que revisar si salio de la partida
-        //como tal avisarle que por salirse en medio de la una partida que perdera por tiempo volver
-        //y luego validar en la partida que perdio por tiepo si lo hizo o mostrar la preguna
         $this->presenter->show('partida', $_SESSION);
 
     }
@@ -38,22 +33,20 @@ class PartidaController
 
         $id_jugador= $_SESSION['id_usuario'];
 
-        $_SESSION['id_partida_actual']= $this->model->iniciarNuevaPartida($id_jugador);
+        $id_partida =$this->model->iniciarNuevaPartida($id_jugador);
 
-        if(!$_SESSION['id_partida_actual']) {
-
+        if(!$id_partida) {
             $_SESSION['error_partida']="error al crear una partida";
             header("location: /home");
             exit();
         }
-
-        $id_partida = $_SESSION['id_partida_actual'];
 
         $data = $this->model->obtenerDataPartida($id_partida);
 
         $_SESSION['id_pregunta'] = $data['id_pregunta'];
         $_SESSION['pregunta'] = $data['pregunta'];
         $_SESSION['opciones'] = $data['opciones'];
+        $_SESSION['id_partida_actual']=$data['id_partida'];
 
         header("location: /partida/show");
         exit();
@@ -63,23 +56,36 @@ class PartidaController
     {
 
         $respuesta=$_POST['respuesta'];
-        $id_pregunta=$_SESSION['id_pregunta'];
         $id_jugador=$_SESSION['id_usuario'];
-        $id_partida=$_SESSION['id_partida_actual'];
         $_SESSION['respuesta_usuario']=$respuesta;
 
-        if($this->model->validarRespuesta($respuesta,$id_pregunta,$id_jugador,$id_partida)){
-            $this->vistaGanador();
-        }else{
-            $this->vistaPerdedor();
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($id_jugador);
+        $id_partida=$this->model->obtenerUltimaPartidaDelUsuario($id_jugador);
+
+        $result= $this->model->validarRespuesta($respuesta,$id_pregunta,$id_jugador,$id_partida);
+
+        switch ($result) {
+            case "ganador":
+                $this->vistaGanador();
+            break;
+            case "perdedor":
+                $this->vistaPerdedor();
+                break;
+            case "error":
+                $this->vistaError();
+                break;
         }
 
     }
 
     public function reanudar()
     {
-        $id_partida = $_GET['id_partida'];
+        $id_partida = $_GET['id_partida']?? '';
         $id_jugador = $_SESSION['id_usuario'];
+
+        if($id_partida==''){
+            $id_partida=$this->model->obtenerUltimaPartidaDelUsuario($id_jugador);
+        }
 
         if ($this->model->isPartidaValida($id_partida, $id_jugador)) {
 
@@ -103,7 +109,14 @@ class PartidaController
 
     public function vistaPerdedor()
     {
-        $_SESSION['respuesta']=$this->model->obtenerRespuestaCorrecta($_SESSION['id_pregunta']);
+        if (!isset($_SESSION['user']) ){
+            header("location:/");
+            exit();
+        }
+
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
+
+        $_SESSION['respuesta']=$this->model->obtenerRespuestaCorrecta($id_pregunta);
         $this->presenter->show('perdedor', $_SESSION);
 
         unset($_SESSION['id_pregunta']);
@@ -116,12 +129,30 @@ class PartidaController
 
     public function vistaGanador()
     {
+        if (!isset($_SESSION['user']) ){
+            header("location:/");
+            exit();
+        }
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
+
         if(isset($_SESSION['respuesta_usuario']) &&
-            $_SESSION['respuesta_usuario']!=$this->model->obtenerRespuestaCorrecta($_SESSION['id_pregunta'])){
+            $_SESSION['respuesta_usuario']!=$this->model->obtenerRespuestaCorrecta($id_pregunta)){
             header("location:/partida/vistaPerdedor");
             exit();
         }
         $this->presenter->show('ganador', $_SESSION);
+    }
+
+    public function vistaError()
+    {
+
+        $this->presenter->show('error', $_SESSION);
+        unset($_SESSION['id_pregunta']);
+        unset($_SESSION['pregunta']);
+        unset($_SESSION['opciones']);
+        unset($_SESSION["id_partida_actual"]);
+        unset($_SESSION['respuesta']);
+
     }
 
 }

@@ -4,7 +4,7 @@
     </div>
     <div class="main-content">
         <h2>Lobby</h2>
-        <p>Bienvenido, {{user}}</p>
+        <p>Bienvenido, {{user}} tu maximo puntaje fue: {{puntaje_maximo}}</p>
         <div class="btn-group">
             <a href="../partida/jugarNuevaPartida">nueva partida</a>
             <a href="../ranking">Ver ranking</a>
@@ -26,7 +26,7 @@
                     <th>id de partida</th>
                     <th>Fecha</th>
                     <th>Puntaje total</th>
-                    <th>Cantidad de respuestas</th>
+                    <th>nivel</th>
                     <th>Estado</th>
                     <th>Continuar</th>
                 </tr>
@@ -37,7 +37,7 @@
                         <td>{{id_partida}}</td>
                         <td>{{fecha}}</td>
                         <td>{{puntaje}}</td>
-                        <td>{{cantidad_respuestas}}</td>
+                        <td>{{nivel}}</td>
                         <td>{{estado}}</td>
                         <td>
                             <a href="/partida/reanudar?id_partida={{id_partida}}" class="btn"> Continuar </a>
