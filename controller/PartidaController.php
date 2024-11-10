@@ -56,10 +56,11 @@ class PartidaController
     {
 
         $respuesta=$_POST['respuesta'];
-        $id_pregunta=$_SESSION['id_pregunta'];
         $id_jugador=$_SESSION['id_usuario'];
-        $id_partida=$_SESSION['id_partida_actual'];
         $_SESSION['respuesta_usuario']=$respuesta;
+
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($id_jugador);
+        $id_partida=$this->model->obtenerUltimaPartidaDelUsuario($id_jugador);
 
         $result= $this->model->validarRespuesta($respuesta,$id_pregunta,$id_jugador,$id_partida);
 
@@ -79,8 +80,12 @@ class PartidaController
 
     public function reanudar()
     {
-        $id_partida = $_GET['id_partida'];
+        $id_partida = $_GET['id_partida']?? '';
         $id_jugador = $_SESSION['id_usuario'];
+
+        if($id_partida==''){
+            $id_partida=$this->model->obtenerUltimaPartidaDelUsuario($id_jugador);
+        }
 
         if ($this->model->isPartidaValida($id_partida, $id_jugador)) {
 
@@ -109,13 +114,9 @@ class PartidaController
             exit();
         }
 
-        if(!isset($_SESSION['id_partida_actual'])){
-            header("location:/home");
-            exit();
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
 
-        }
-
-        $_SESSION['respuesta']=$this->model->obtenerRespuestaCorrecta($_SESSION['id_pregunta']);
+        $_SESSION['respuesta']=$this->model->obtenerRespuestaCorrecta($id_pregunta);
         $this->presenter->show('perdedor', $_SESSION);
 
         unset($_SESSION['id_pregunta']);
@@ -132,15 +133,10 @@ class PartidaController
             header("location:/");
             exit();
         }
-
-        if(!isset($_SESSION['id_partida_actual'])){
-            header("location:/home");
-            exit();
-
-        }
+        $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
 
         if(isset($_SESSION['respuesta_usuario']) &&
-            $_SESSION['respuesta_usuario']!=$this->model->obtenerRespuestaCorrecta($_SESSION['id_pregunta'])){
+            $_SESSION['respuesta_usuario']!=$this->model->obtenerRespuestaCorrecta($id_pregunta)){
             header("location:/partida/vistaPerdedor");
             exit();
         }

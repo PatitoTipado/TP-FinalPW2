@@ -88,6 +88,8 @@ class PartidaModel
 
         $this->crearPreguntaPartida($id_partida,$id_pregunta);
 
+        $this->insertarPartidaActualAlUsuarioConIdDePartida($id_partida,$id_pregunta);
+
         return $data;
     }
 
@@ -122,6 +124,8 @@ class PartidaModel
             return "ganador";
         }
 
+        $this->actualizarPuntajeMasAltoDelJugado($id_jugador, $id_partida);
+
         $this->insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta, 'mal');
 
         $this->actualizarDificultadUsuario($id_jugador);
@@ -131,8 +135,6 @@ class PartidaModel
         $this->cambiarEstadoDePartidaAFinalizada($id_partida);
 
         $this->actualizarFechaDeFinalizacionDePartida($id_partida);
-
-        $this->actualizarPuntajeMasAltoDelJugado($id_jugador, $id_partida);
 
         return "perdedor";
     }
@@ -174,6 +176,23 @@ class PartidaModel
         }
 
         return $result->fetch_assoc();
+    }
+
+    public function obtenerUltimaPreguntaDelUsuario($id_usuario)
+    {
+
+        $usuario= $this->obtenerJugador($id_usuario);
+
+        return $usuario['pregunta_actual'];
+
+    }
+
+    public function obtenerUltimaPartidaDelUsuario($id_usuario)
+    {
+        $usuario= $this->obtenerJugador($id_usuario);
+
+        return $usuario['partida_actual'];
+
     }
 
     private function isJugadorValido($id_jugador)
@@ -290,9 +309,8 @@ class PartidaModel
 
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
-        } else {
-            return $this->obtenerPreguntaDePartidaAlAzarConCiertoNivel($nivel);
         }
+        $this->actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel,$id_partida);
     }
 
 
@@ -307,7 +325,7 @@ class PartidaModel
             return false;
         }
 
-        return true;
+        return $result->fetch_assoc();
     }
 
     private function obtenerNivelJugador($id_jugador)
@@ -323,16 +341,12 @@ class PartidaModel
 
     }
 
-    private function obtenerPreguntaDePartidaAlAzarConCiertoNivel($nivel)
+    private function actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel,$id_partida)
     {
-        $sql = "SELECT * FROM preguntas WHERE nivel='$nivel' AND estado='aprobada' ORDER BY RAND() LIMIT 1 ";
+        $sqlDelete = "DELETE FROM preguntas WHERE id_partida='$id_partida'";
+        $this->database->execute($sqlDelete);
 
-        $result = $this->database->execute($sql);
-
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        }
-        return false;
+        $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel,$id_partida);
     }
 
     private function actualizarDificultadUsuario($id_jugador)
@@ -390,9 +404,10 @@ class PartidaModel
             return;
         }
 
-        $puntaje_partida=$partida['puntaje_total'];
+        $puntaje_partida= (float)$partida['puntaje_total'];
+        $puntaje_jugador= (float)$jugador['puntaje_maximo'];
 
-        if($puntaje_partida>$jugador['puntaje_maximo']){
+        if($puntaje_partida > $puntaje_jugador){
             $sql="UPDATE usuarios SET puntaje_maximo = '$puntaje_partida'
             WHERE id = $id_jugador ";
             $this->database->execute($sql);
@@ -515,8 +530,7 @@ class PartidaModel
         $sql = "SELECT * FROM pregunta_partida 
             WHERE partida_id = '$id_partida' 
             AND pregunta_id = '$id_pregunta' 
-            AND respuesta_usuario IS NOT NULL 
-            AND respuesta_usuario != ''";
+            AND (respuesta_usuario IS NULL OR respuesta_usuario = '')";
 
         $result = $this->database->execute($sql);
 
@@ -561,6 +575,23 @@ class PartidaModel
             WHERE id = '$id_pregunta'";
 
         $this->database->execute($update);
+    }
+
+    private function insertarPartidaActualAlUsuarioConIdDePartida($id_partida,$id_pregunta)
+    {
+
+        $partida = $this->obtenerPartida($id_partida);
+
+        $id_usuario= $partida['usuario_id'];
+
+        $update = "UPDATE usuarios 
+               SET partida_actual = '$id_partida', 
+                   pregunta_actual = '$id_pregunta' 
+               WHERE id = '$id_usuario'";
+
+        $this->database->execute($update);
+
+
     }
 
 

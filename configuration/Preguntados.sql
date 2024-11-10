@@ -105,3 +105,5 @@ ALTER TABLE usuarios
     ADD COLUMN puntaje_maximo INT DEFAULT 0;
 ALTER TABLE usuarios
     ADD COLUMN partida_actual INT DEFAULT 0;
+ALTER TABLE usuarios
+    ADD COLUMN pregunta_actual INT DEFAULT 0;
