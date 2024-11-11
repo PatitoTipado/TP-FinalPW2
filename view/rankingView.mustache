@@ -14,9 +14,9 @@
                 <tbody>
                 {{#users}}
                     <tr>
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{nombre_de_usuario}}</a></td>
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">{{mejor_puntaje}}</a></td>
-                        <td><a href="/ranking/verUsuario?id={{id_usuario}}">#{{posicion}}</a></td>        
+                        <td><a class="ranking" href="/ranking/verUsuario?id={{id_usuario}}">{{nombre_de_usuario}}</a></td>
+                        <td><a class="ranking" href="/ranking/verUsuario?id={{id_usuario}}">{{mejor_puntaje}}</a></td>
+                        <td><a class="ranking" href="/ranking/verUsuario?id={{id_usuario}}">#{{posicion}}</a></td>        
                     </tr>
                 {{/users}}
                 </tbody>

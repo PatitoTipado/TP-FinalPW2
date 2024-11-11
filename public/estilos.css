@@ -39,6 +39,11 @@ body {
   margin: 0 10px;
 }
 
+.btn-home {
+  margin-left: 1rem;
+
+}
+
 .table {
   width: 100%;
   margin-top: 20px;
@@ -84,7 +89,7 @@ a:hover {
   margin: 1rem auto;
   padding: 1rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .perfil h3 {
@@ -94,4 +99,9 @@ a:hover {
 .perfil img {
   border-radius: 50%;
   height: 100px;
+}
+
+.ranking {
+  color: black !important;
+  background-color: transparent !important;
 }
