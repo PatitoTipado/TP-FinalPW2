@@ -15,7 +15,7 @@ class UserModel
     {
 
         if ($this->validarNombreUsuario($nombre_de_usuario)) {
-            return"el nombre de usuario elegido ya esta registrado.";
+            return "el nombre de usuario elegido ya esta registrado.";
         }
 
         if ($this->validarContrasena($contrasena)) {
@@ -78,18 +78,19 @@ class UserModel
             $usuario = $result->fetch_assoc();
 
             $data['result'] = true;
-            $data['id_usuario']=$usuario['id'];
-            $data['rol']=$usuario['rol'];
-            $data['user']=$usuario['nombre_de_usuario'];
-            $data['puntaje_maximo']=$usuario['puntaje_maximo'];
+            $data['id_usuario'] = $usuario['id'];
+            $data['rol'] = $usuario['rol'];
+            $data['user'] = $usuario['nombre_de_usuario'];
+            $data['puntaje_maximo'] = $usuario['puntaje_maximo'];
+            $data['rol_editor'] = ($usuario['rol'] == 'editor') ? true : false;
 
             return $data;
         } else {
             $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND estado LIKE'activo'";
 
             $result = $this->database->execute($sql);
-            $data['result']=false;
-            $data['error']=($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
+            $data['result'] = false;
+            $data['error'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
 
             return $data;
         }
@@ -106,21 +107,20 @@ class UserModel
             $usuario = $result->fetch_assoc();
 
             $data['result'] = true;
-            $data['foto']=$usuario['imagen_url'];
-            $data['email']=$usuario['email'];
-            $data['pais']=$usuario['pais'];
-            $data['ciudad']= $usuario['ciudad'];
-            $data['nombre']= $usuario['nombre'];
-            $data['sexo']= ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+            $data['foto'] = $usuario['imagen_url'];
+            $data['email'] = $usuario['email'];
+            $data['pais'] = $usuario['pais'];
+            $data['ciudad'] = $usuario['ciudad'];
+            $data['nombre'] = $usuario['nombre'];
+            $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
 
             return $data;
         } else {
 
-            $data['result']=false;
-            $data['not_found']="no se encontro al usuario";
+            $data['result'] = false;
+            $data['not_found'] = "no se encontro al usuario";
             return $data;
         }
-
     }
 
     private function validarNombreUsuario($nombre_de_usuario)
@@ -168,5 +168,4 @@ class UserModel
 
         return $fecha_actual->format('Y-m-d H:i:s');
     }
-
 }

@@ -8,6 +8,7 @@ include_once ("helper/FileEmailSender.php");
 include_once("model/UserModel.php");
 include_once ("model/PartidaModel.php");
 include_once ("model/RankingModel.php");
+include_once ("model/PreguntaModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
@@ -15,6 +16,7 @@ include_once("controller/RegistroController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
 include_once ("controller/RankingController.php");
+include_once ("controller/ModificarPreguntaController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -56,6 +58,11 @@ class Configuration
         return new RankingController($this->getPresenter(), $this->getUserModel(), $this->getRankingModel());
     }
 
+    public function getModificarPreguntaController()
+    {
+        return new ModificarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
     //MODELOS
 
     public function getRankingModel() {
@@ -70,6 +77,11 @@ class Configuration
     public function getPartidaModel()
     {
         return new PartidaModel($this->getDatabase());
+    }
+
+    public function getPreguntaModel()
+    {
+        return new PreguntaModel($this->getDatabase());
     }
 
     //HELPER
