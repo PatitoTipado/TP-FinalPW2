@@ -11,12 +11,12 @@ class PartidaModel
 
     public function obtenerPartidas($id_usuario)
     {
-        $sql="SELECT * FROM partidas WHERE usuario_id='$id_usuario'";
-        $result= $this->database->execute($sql);
+        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario'";
+        $result = $this->database->execute($sql);
 
         $data = [];
         if ($result->num_rows == 0) {
-            $data['result']=false;
+            $data['result'] = false;
             return $data;
         }
 
@@ -39,7 +39,7 @@ class PartidaModel
     public function iniciarNuevaPartida($id_jugador)
     {
 
-        if($this->isJugadorValido($id_jugador)) {
+        if ($this->isJugadorValido($id_jugador)) {
             $nivel = $this->obtenerNivelJugador($id_jugador);
             $fecha = $this->obtenerFechaActual();
             $sql = "INSERT INTO partidas(usuario_id,fecha_de_partida,nivel,estado) 
@@ -55,13 +55,13 @@ class PartidaModel
 
     public function obtenerDataPartida($id_partida)
     {
-        $pregunta= $this->obtenerPreguntaDePartidaNoRespondida($id_partida);
+        $pregunta = $this->obtenerPreguntaDePartidaNoRespondida($id_partida);
 
         //esto lo utilize para testear cuando no encuentre la pregunta se vera esto
-        if(!$pregunta){
-            $data['id_pregunta']=0;
-            $data['pregunta']=1;
-            $data['opciones']=[
+        if (!$pregunta) {
+            $data['id_pregunta'] = 0;
+            $data['pregunta'] = 1;
+            $data['opciones'] = [
                 ['opcion' => 0],
                 ['opcion' => 1],
                 ['opcion' => 2],
@@ -70,14 +70,14 @@ class PartidaModel
             return $data;
         }
 
-        $id_pregunta= $pregunta['id'];
+        $id_pregunta = $pregunta['id'];
 
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
-        $data['id_pregunta']=$pregunta['id'];
-        $data['pregunta']=$pregunta['pregunta'];
-        $data['id_partida']=$id_partida;
-        $data['opciones']=[
+        $data['id_pregunta'] = $pregunta['id'];
+        $data['pregunta'] = $pregunta['pregunta'];
+        $data['id_partida'] = $id_partida;
+        $data['opciones'] = [
             ['opcion' => $opciones['opcion1']],
             ['opcion' => $opciones['opcion2']],
             ['opcion' => $opciones['opcion_correcta']],
@@ -86,9 +86,9 @@ class PartidaModel
 
         shuffle($data['opciones']);
 
-        $this->crearPreguntaPartida($id_partida,$id_pregunta);
+        $this->crearPreguntaPartida($id_partida, $id_pregunta);
 
-        $this->insertarPartidaActualAlUsuarioConIdDePartida($id_partida,$id_pregunta);
+        $this->insertarPartidaActualAlUsuarioConIdDePartida($id_partida, $id_pregunta);
 
         return $data;
     }
@@ -96,10 +96,10 @@ class PartidaModel
     public function validarRespuesta($respuesta, $id_pregunta, $id_jugador, $id_partida)
     {
 
-        $isValida= $this->validarQueLaPreguntaNoSeRespondioTodaviaEnLaPartidaActual($id_pregunta,$id_partida);
+        $isValida = $this->validarQueLaPreguntaNoSeRespondioTodaviaEnLaPartidaActual($id_pregunta, $id_partida);
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
-        if($isValida || !$opciones){
+        if ($isValida || !$opciones) {
             return "error";
         }
 
@@ -139,17 +139,17 @@ class PartidaModel
         return "perdedor";
     }
 
-    public function isPartidaValida($id_partida,$id_jugador)
+    public function isPartidaValida($id_partida, $id_jugador)
     {
-        $sql="SELECT * FROM partidas WHERE id='$id_partida' AND usuario_id='$id_jugador'";
-        $result= $this->database->execute($sql);
+        $sql = "SELECT * FROM partidas WHERE id='$id_partida' AND usuario_id='$id_jugador'";
+        $result = $this->database->execute($sql);
 
-        if($result->num_rows==0){
+        if ($result->num_rows == 0) {
             return false;
         }
-        $partida=$result->fetch_assoc();
+        $partida = $result->fetch_assoc();
 
-        if($partida['estado']!='en curso'){
+        if ($partida['estado'] != 'en curso') {
             return false;
         }
 
@@ -157,21 +157,23 @@ class PartidaModel
         return true;
     }
 
-    public function obtenerRespuestaCorrecta($id_pregunta){
+    public function obtenerRespuestaCorrecta($id_pregunta)
+    {
 
-        $opciones=$this->obtenerOpcionesPorIdDePregunta($id_pregunta);
+        $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
         return $opciones['opcion_correcta'];
     }
 
-    private function obtenerOpcionesPorIdDePregunta($id_pregunta){
+    private function obtenerOpcionesPorIdDePregunta($id_pregunta)
+    {
 
         $sql = "SELECT * FROM opciones
         WHERE pregunta_id = '$id_pregunta'";
 
-        $result= $this->database->execute($sql);
+        $result = $this->database->execute($sql);
 
-        if($result->num_rows==0){
+        if ($result->num_rows == 0) {
             return false;
         }
 
@@ -181,18 +183,16 @@ class PartidaModel
     public function obtenerUltimaPreguntaDelUsuario($id_usuario)
     {
 
-        $usuario= $this->obtenerJugador($id_usuario);
+        $usuario = $this->obtenerJugador($id_usuario);
 
         return $usuario['pregunta_actual'];
-
     }
 
     public function obtenerUltimaPartidaDelUsuario($id_usuario)
     {
-        $usuario= $this->obtenerJugador($id_usuario);
+        $usuario = $this->obtenerJugador($id_usuario);
 
         return $usuario['partida_actual'];
-
     }
 
     private function isJugadorValido($id_jugador)
@@ -200,15 +200,15 @@ class PartidaModel
 
         $usuario = $this->obtenerJugador($id_jugador);
 
-        if(!$usuario){
+        if (!$usuario) {
             return false;
         }
 
-        if($usuario['estado']!='activo'){
+        if ($usuario['estado'] != 'activo') {
             return false;
         }
 
-        if($usuario['rol']!='jugador'){
+        if ($usuario['rol'] != 'jugador') {
             return false;
         }
 
@@ -244,51 +244,52 @@ class PartidaModel
         if ($result->num_rows == 0) {
             return false;
         }
-        $row=$result->fetch_assoc();
+        $row = $result->fetch_assoc();
 
         return $row['id'];
     }
 
     private function obtenerPreguntaDePartidaNoRespondida($id_partida)
     {
-        if(!$this->obtenerPartida($id_partida)){
+        if (!$this->obtenerPartida($id_partida)) {
 
             return false;
         }
 
-        $nivel_del_jugador=$this->obtenerNivelJugadorDesdePartida($id_partida);
+        $nivel_del_jugador = $this->obtenerNivelJugadorDesdePartida($id_partida);
 
-        if(!$nivel_del_jugador){
+        if (!$nivel_del_jugador) {
 
             return false;
         }
 
         $pregunta = $this->verificarSiTeniaPreguntaEnCursoSinRespuestaDelUsuario($id_partida);
 
-        if($pregunta){
+        if ($pregunta) {
 
             return $this->obtenerPreguntaSegunSuId($pregunta['pregunta_id']);
         }
 
-        return $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel_del_jugador,$id_partida);
+        return $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel_del_jugador, $id_partida);
     }
 
-    private function obtenerNivelJugadorDesdePartida($id_partida) {
+    private function obtenerNivelJugadorDesdePartida($id_partida)
+    {
 
-        $sql= "SELECT * FROM partidas where id= '$id_partida'";
-        $result= $this->database->execute($sql);
+        $sql = "SELECT * FROM partidas where id= '$id_partida'";
+        $result = $this->database->execute($sql);
 
-        if($result->num_rows ==0){
+        if ($result->num_rows == 0) {
             return false;
         }
 
-        $partida= $result->fetch_assoc();
+        $partida = $result->fetch_assoc();
 
-        $id_usuario=$partida['usuario_id'];
+        $id_usuario = $partida['usuario_id'];
 
         $jugador = $this->obtenerJugador($id_usuario);
 
-        if(!$jugador){
+        if (!$jugador) {
             return false;
         }
 
@@ -296,7 +297,8 @@ class PartidaModel
     }
 
 
-    private function obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel, $id_partida) {
+    private function obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel, $id_partida)
+    {
 
         $sql = "SELECT * FROM preguntas 
             WHERE nivel = '$nivel' AND estado = 'aprobada' 
@@ -305,12 +307,12 @@ class PartidaModel
             ORDER BY RAND() 
             LIMIT 1";
 
-        $result = $this->database ->execute($sql);
+        $result = $this->database->execute($sql);
 
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
         }
-        $this->actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel,$id_partida);
+        $this->actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel, $id_partida);
     }
 
 
@@ -331,30 +333,29 @@ class PartidaModel
     private function obtenerNivelJugador($id_jugador)
     {
 
-        $jugador=$this->obtenerJugador($id_jugador);
+        $jugador = $this->obtenerJugador($id_jugador);
 
-        if(!$jugador){
+        if (!$jugador) {
             return false;
         }
 
         return $jugador['nivel'];
-
     }
 
-    private function actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel,$id_partida)
+    private function actualizarPreguntaPartidaYVolverAObtenerPreguntas($nivel, $id_partida)
     {
         $sqlDelete = "DELETE FROM preguntas WHERE id_partida='$id_partida'";
         $this->database->execute($sqlDelete);
 
-        $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel,$id_partida);
+        $this->obtenerPreguntaNoRespondidaSegunNivelDeDificultad($nivel, $id_partida);
     }
 
     private function actualizarDificultadUsuario($id_jugador)
     {
 
-        $jugador= $this->obtenerJugador($id_jugador);
+        $jugador = $this->obtenerJugador($id_jugador);
 
-        if(!$jugador){
+        if (!$jugador) {
             return;
         }
 
@@ -364,7 +365,7 @@ class PartidaModel
 
         $cantidaRespondidas = $jugador['cantidad_preguntas_respondidas'];
         $cantidadCorrectas = $jugador['cantidad_respuestas_correctas'];
-        $ratioRespuestasCorrectas = $this->obtenerRatioRespuestasCorrectas($cantidadCorrectas,$cantidaRespondidas);
+        $ratioRespuestasCorrectas = $this->obtenerRatioRespuestasCorrectas($cantidadCorrectas, $cantidaRespondidas);
 
         if ($ratioRespuestasCorrectas > 0.7) {
             $nivelDificultad = 'dificil';
@@ -380,50 +381,49 @@ class PartidaModel
         $this->database->execute($update);
     }
 
-    private function actualizarNivelPartida($id_partida,$id_jugador)
+    private function actualizarNivelPartida($id_partida, $id_jugador)
     {
-        $nivel= $this->obtenerNivelJugador($id_jugador);
+        $nivel = $this->obtenerNivelJugador($id_jugador);
 
         if (!$nivel) {
             return;
         }
 
-        $sql="UPDATE partidas SET nivel = '$nivel'
+        $sql = "UPDATE partidas SET nivel = '$nivel'
             WHERE id = '$id_partida' ";
 
         $this->database->execute($sql);
     }
 
-    private function actualizarPuntajeMasAltoDelJugado($id_jugador,$id_partida)
+    private function actualizarPuntajeMasAltoDelJugado($id_jugador, $id_partida)
     {
 
-        $partida= $this->obtenerPartida($id_partida);
-        $jugador=$this->obtenerJugador($id_jugador);
+        $partida = $this->obtenerPartida($id_partida);
+        $jugador = $this->obtenerJugador($id_jugador);
 
-        if(!$partida || !$jugador){
+        if (!$partida || !$jugador) {
             return;
         }
 
-        $puntaje_partida= (float)$partida['puntaje_total'];
-        $puntaje_jugador= (float)$jugador['puntaje_maximo'];
+        $puntaje_partida = (float)$partida['puntaje_total'];
+        $puntaje_jugador = (float)$jugador['puntaje_maximo'];
 
-        if($puntaje_partida > $puntaje_jugador){
-            $sql="UPDATE usuarios SET puntaje_maximo = '$puntaje_partida'
+        if ($puntaje_partida > $puntaje_jugador) {
+            $sql = "UPDATE usuarios SET puntaje_maximo = '$puntaje_partida'
             WHERE id = $id_jugador ";
             $this->database->execute($sql);
         }
-
     }
 
     private function calcularTiempoValido($id_partida, $id_pregunta)
     {
         $actual = new DateTime($this->obtenerFechaActual());
 
-        $sql= "SELECT * FROM pregunta_partida WHERE partida_id= '$id_partida' AND pregunta_id='$id_pregunta'";
+        $sql = "SELECT * FROM pregunta_partida WHERE partida_id= '$id_partida' AND pregunta_id='$id_pregunta'";
 
-        $result=$this->database->execute($sql);
+        $result = $this->database->execute($sql);
 
-        if($result->num_rows == 0){
+        if ($result->num_rows == 0) {
             return false;
         }
 
@@ -453,7 +453,7 @@ class PartidaModel
 
     private function crearPreguntaPartida($id_partida, $id_pregunta)
     {
-        $fecha_actual=$this->obtenerFechaActual();
+        $fecha_actual = $this->obtenerFechaActual();
         $sql = "INSERT INTO pregunta_partida 
         (pregunta_id, partida_id,fecha_inicio) 
         VALUES 
@@ -492,7 +492,7 @@ class PartidaModel
         return false;
     }
 
-    public function insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta,$respondioCorrectamente)
+    public function insertarRespuestaPregunta_partida($respuesta, $id_jugador, $id_partida, $id_pregunta, $respondioCorrectamente)
     {
         $update = "UPDATE pregunta_partida 
            SET respuesta_usuario = '$respuesta', 
@@ -500,9 +500,9 @@ class PartidaModel
                respondio_correctamente = '$respondioCorrectamente' 
            WHERE partida_id = '$id_partida' AND pregunta_id = '$id_pregunta'";
 
-        !$result= $this->database->execute($update);
+        !$result = $this->database->execute($update);
 
-        if(!$result){
+        if (!$result) {
             die(); //para testear luego borrate esta linea
         }
     }
@@ -577,12 +577,12 @@ class PartidaModel
         $this->database->execute($update);
     }
 
-    private function insertarPartidaActualAlUsuarioConIdDePartida($id_partida,$id_pregunta)
+    private function insertarPartidaActualAlUsuarioConIdDePartida($id_partida, $id_pregunta)
     {
 
         $partida = $this->obtenerPartida($id_partida);
 
-        $id_usuario= $partida['usuario_id'];
+        $id_usuario = $partida['usuario_id'];
 
         $update = "UPDATE usuarios 
                SET partida_actual = '$id_partida', 
@@ -590,9 +590,5 @@ class PartidaModel
                WHERE id = '$id_usuario'";
 
         $this->database->execute($update);
-
-
     }
-
-
 }

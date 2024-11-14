@@ -18,6 +18,9 @@ class ModificarPreguntaController
             header("location:/");
         }
 
-        $this->presenter->show('modificarPregunta');
+        $data['preguntas'] = $this->model->obtenerPreguntas();
+        $data['opciones'] = "";
+
+        $this->presenter->show('modificarPregunta', $data);
     }
 }
