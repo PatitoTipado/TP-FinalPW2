@@ -18,11 +18,11 @@
         <div class="row justify-content-center">
             <!-- Foto de perfil -->
             <div class="col-md-3 d-flex justify-content-center mb-3">
-                <img alt="Foto de perfil" src="{{foto}}" class="img-fluid rounded-circle" width="150" />
+                <img alt="Foto de perfil" src="/{{foto}}" class="img-fluid rounded-circle" width="150" />
             </div>
             <!-- Información de perfil -->
             <div class="col-md-6">
-                <h3><strong>Nombre de usuario:</strong> {{user}}</h3>
+                <h3><strong>Nombre de usuario:</strong> {{username}}</h3>
                 <h3><strong>Email:</strong> {{email}}</h3>
                 <h3><strong>Puntaje máximo alcanzado:</strong></h3>
                 <h3><strong>QR:</strong></h3>
@@ -37,13 +37,9 @@
         </div>
     {{/not_found}}
 
-    {{#not_found_partidas}}
-        <div class="alert alert-danger" role="alert">
-            {{not_found_partidas}}
-        </div>
-    {{/not_found_partidas}}
 
-    {{^not_found_partidas}}
+    {{#not_found_partidas}}
+
         <div class="mt-4">
             <h2>Listado de partidas</h2>
             <table class="table table-bordered table-hover">
@@ -55,19 +51,30 @@
                     <th>Estado</th>
                 </tr>
                 </thead>
-                <tbody>
                 {{#opciones}}
+
+                <tbody>
                     <tr>
                         <td>{{fecha}}</td>
                         <td>{{puntaje}}</td>
                         <td>{{nivel}}</td>
                         <td>{{estado}}</td>
                     </tr>
-                {{/opciones}}
                 </tbody>
-            </table>
+    {{/opciones}}
+
+</table>
         </div>
     {{/not_found_partidas}}
+
+    {{^not_found_partidas}}
+    <div class="alert alert-danger" role="alert">
+        {{not_found_partidas}}
+    </div>
+
+    {{/not_found_partidas}}
+
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"

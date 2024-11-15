@@ -117,6 +117,7 @@ class UserModel
             $data['longitud'] = $usuario['longitud'];
             $data['nombre'] = $usuario['nombre'];
             $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+            $data['username']=$usuario['nombre_de_usuario'];
 
             return $data;
         } else {

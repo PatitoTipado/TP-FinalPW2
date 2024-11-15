@@ -21,7 +21,7 @@ class RankingModel
 
     public function obtenerUsuario($id)
     {
-        return $this->database->query("SELECT u.nombre_de_usuario, u.email, MAX(p.puntaje_total) AS mejor_puntaje, u.pais, u.ciudad, u.nombre, u.imagen_url,
+        return $this->database->query("SELECT u.nombre_de_usuario, u.email, MAX(p.puntaje_total) AS mejor_puntaje, u.latitud, u.longitud, u.nombre, u.imagen_url,
         CASE 
            WHEN u.sexo = 'F' THEN 'Femenino'
            WHEN u.sexo = 'M' THEN 'Masculino'
