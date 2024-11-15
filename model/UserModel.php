@@ -1,5 +1,5 @@
 <?php
-
+require_once ('./helper/FilePHPEmailSender.php');
 class UserModel
 {
     private $database;
@@ -41,6 +41,7 @@ class UserModel
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
+            $phpEmailSender= new FilePHPEmailSender($email,$hash,$nombre_de_usuario);
             return "exitoso";
         } else {
             return "ocurrio un error en la base de datos.";
