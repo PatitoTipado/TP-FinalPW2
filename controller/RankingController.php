@@ -23,6 +23,7 @@ class RankingController
         $this->presenter->show('ranking', $data);
     }
 
+    //preguntar si borrar
     private function obtenerUsuario($id)
     {
 
@@ -35,6 +36,7 @@ class RankingController
         return $data;
     }
 
+    //preguntar si borrar
     public function verUsuario()
     {
         $id = $_GET['id'];

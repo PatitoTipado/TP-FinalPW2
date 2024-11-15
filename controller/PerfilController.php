@@ -20,8 +20,14 @@ class PerfilController
             header("location:/");
         }
 
-        $data = $this->obtenerDatosPerfil();
-        $data2 = $this->obtenerPartidas();
+        $id = $_GET['id']?? "";
+
+        if (empty($id)) {
+            $id = $_SESSION['id_usuario'];
+        }
+
+        $data = $this->obtenerDatosPerfil($id);
+        $data2 = $this->obtenerPartidas($id);
 
         $dataCompleto = array_merge($data, $data2, $_SESSION);
 
@@ -30,10 +36,8 @@ class PerfilController
         unset($data['partidas']);
     }
 
-    private function obtenerDatosPerfil()
+    private function obtenerDatosPerfil($id)
     {
-
-        $id = $_SESSION['id_usuario'];
 
         $data = $this->model->obtenerDatosDePerfil($id);
 
@@ -44,14 +48,13 @@ class PerfilController
         return $data;
     }
 
-    private function obtenerPartidas()
+    private function obtenerPartidas($id)
     {
-        $id_usuario = $_SESSION['id_usuario'];
 
-        $data = $this->partidaModel->obtenerPartidas($id_usuario);
+        $data = $this->partidaModel->obtenerPartidas($id);
 
         if (!$data['result']) {
-            $_SESSION['not_found'] = "no se encontraron partidas pasadas";
+            $_SESSION['not_found_partidas'] = "no se encontraron partidas pasadas";
         }
 
         return $data;

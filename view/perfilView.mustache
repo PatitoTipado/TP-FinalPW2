@@ -1,55 +1,96 @@
-  <div class="pag-perfil">
-  <div class="btn-inicio">
-   <a href="../home">Inicio</a>
-  {{#not_found}}
+<div class="pag-perfil container mt-5">
+    <!-- Botón de Inicio -->
+    <div class="btn-inicio mb-4">
+        <a href="../home" class="btn btn-primary">Inicio</a>
+    </div>
 
-          <div class="alert alert-danger" role="alert">
-              {{not_found}}
-          </div>
+    {{#not_found}}
+        <div class="alert alert-danger" role="alert">
+            {{not_found}}
+        </div>
+    {{/not_found}}
 
-  {{/not_found}}
+    {{^not_found}}
+        <div class="text-center mb-4">
+            <h2>Perfil</h2>
+        </div>
 
-  {{^not_found}}
-          </div>
-              <div class="w3-container mt-5" style="text-align: center;">
-                  <h1>Trivia Gaucha</h1>
-                  <h2>Perfil</h2>
-              </div>
-          </div>
+        <div class="row justify-content-center">
+            <!-- Foto de perfil -->
+            <div class="col-md-3 d-flex justify-content-center mb-3">
+                <img alt="Foto de perfil" src="/{{foto}}" class="img-fluid rounded-circle" width="150" />
+            </div>
+            <!-- Información de perfil -->
+            <div class="col-md-6">
+                <h3><strong>Nombre de usuario:</strong> {{username}}</h3>
+                <h3><strong>Email:</strong> {{email}}</h3>
+                <h3><strong>Puntaje máximo alcanzado:</strong></h3>
+                <h3><strong>QR:</strong></h3>
+                <h3><strong>Nombre:</strong> {{nombre}}</h3>
+                <h3><strong>Sexo:</strong> {{sexo}}</h3>
+            </div>
+        </div>
 
-          <div class="w3-container mt-5 perfil">
-                <div>
-                   <img alt="Foto de perfil" src="{{ foto }}" width="100" />
-                </div>
-                <div>
-                <h3>Nombre de usuario: {{user}}</h3>
-                    <h3>Email: {{email}}</h3>
-                    <h3>Puntaje máximo alcanzado:</h3>
-                    <h3>QR</h3>
-                    <h3>País: {{pais}}</h3>
-                    <h3>Ciudad: {{ciudad}}</h3>
-                    <h3>Nombre: {{nombre}}</h3>
-                    <h3>Sexo: {{sexo}}</h3>
-                </div>             
-          </div>
+        <!-- Mapa -->
+        <div class="mt-4">
+            <div id="mi_mapa" class="border rounded" style="height: 300px; width: 100%;"></div>
+        </div>
+    {{/not_found}}
 
-          <div class="w3-container w3-padding">
-              <h2 class="mb-3">Listado de partidas</h2>
-              <table class="w3-table">
-                  <tr>
-                      <th>Fecha</th>
-                      <th>Puntaje total</th>
-                      <th>Nivel</th>
-                      <th>Estado</th>
-                  </tr>
-                 {{#opciones}}
-                      <tr>
-                          <td>{{fecha}}</td>
-                          <td>{{puntaje}}</td>
-                          <td>{{nivel}}</td>
-                          <td>{{estado}}</td>
-                      </tr>
-                  {{/opciones}}
-              </table>
-          </div>
-      {{/not_found}}
+
+    {{#not_found_partidas}}
+
+        <div class="mt-4">
+            <h2>Listado de partidas</h2>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Puntaje total</th>
+                    <th>Nivel</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                {{#opciones}}
+
+                <tbody>
+                    <tr>
+                        <td>{{fecha}}</td>
+                        <td>{{puntaje}}</td>
+                        <td>{{nivel}}</td>
+                        <td>{{estado}}</td>
+                    </tr>
+                </tbody>
+    {{/opciones}}
+
+</table>
+        </div>
+    {{/not_found_partidas}}
+
+    {{^not_found_partidas}}
+    <div class="alert alert-danger" role="alert">
+        {{not_found_partidas}}
+    </div>
+
+    {{/not_found_partidas}}
+
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+          integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+  <script>
+      // Pasar las variables del backend al JavaScript
+      const latitud = {{latitud}};
+      const longitud = {{longitud}};
+
+      let map = L.map('mi_mapa').setView([latitud, longitud], 16)
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',).addTo(map);
+
+      //marcador
+      L.marker([latitud, longitud]).addTo(map).bindPopup("su ubicacion es aqui")
+
+
+  </script>

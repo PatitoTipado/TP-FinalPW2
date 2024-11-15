@@ -107,3 +107,9 @@ ALTER TABLE usuarios
     ADD COLUMN partida_actual INT DEFAULT 0;
 ALTER TABLE usuarios
     ADD COLUMN pregunta_actual INT DEFAULT 0;
+
+ALTER TABLE usuarios
+DROP COLUMN pais,
+DROP COLUMN ciudad,
+ADD COLUMN latitud VARCHAR(255) NULL,
+ADD COLUMN longitud VARCHAR(255) NULL;
