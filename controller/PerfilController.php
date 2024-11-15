@@ -51,7 +51,7 @@ class PerfilController
         $data = $this->partidaModel->obtenerPartidas($id_usuario);
 
         if (!$data['result']) {
-            $_SESSION['not_found'] = "no se encontraron partidas pasadas";
+            $_SESSION['not_found_partidas'] = "no se encontraron partidas pasadas";
         }
 
         return $data;

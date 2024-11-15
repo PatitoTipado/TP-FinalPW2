@@ -113,8 +113,8 @@ class UserModel
             $data['result'] = true;
             $data['foto'] = $usuario['imagen_url'];
             $data['email'] = $usuario['email'];
-            $data['pais'] = $usuario['pais'];
-            $data['ciudad'] = $usuario['ciudad'];
+            $data['latitud'] = $usuario['latitud'];
+            $data['longitud'] = $usuario['longitud'];
             $data['nombre'] = $usuario['nombre'];
             $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
 
