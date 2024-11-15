@@ -11,7 +11,7 @@ class UserModel
         $this->database = $database;
     }
 
-    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $foto, $sexo, $pais, $ciudad)
+    public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $foto, $sexo, $latitud, $longitud)
     {
 
         if ($this->validarNombreUsuario($nombre_de_usuario)) {
@@ -26,14 +26,18 @@ class UserModel
             return "el nombre debe tener solo letras y sin espacios.";
         }
 
+        if(empty($latitud) || empty($longitud)){
+            return "seleccione una ubicacion por favor";
+        }
+
         $fecha_registro = $this->obtenerFechaRegistro();
 
         $hash = $this->obtenerHash();
 
         $sql = "INSERT INTO usuarios 
-        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, pais, ciudad,fecha_registro,imagen_url,hash,rol) 
+        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, latitud,longitud ,fecha_registro,imagen_url,hash,rol) 
         VALUES 
-        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$pais', '$ciudad', '$fecha_registro','$foto','$hash','jugador')";
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$latitud', '$longitud', '$fecha_registro','$foto','$hash','jugador')";
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");

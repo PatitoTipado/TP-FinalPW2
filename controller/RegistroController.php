@@ -26,8 +26,8 @@ class RegistroController
         $nombre = $_POST['nombre'] ?? '';
         $anio_de_nacimiento = $_POST['anio'] ?? 0;
         $sexo = $_POST['sexo'] ?? '';
-        $pais = $_POST['pais'] ?? '';
-        $ciudad = $_POST['ciudad'] ?? '';
+        $latitud = $_POST['latitud'] ?? '';
+        $longitud = $_POST['longitud'] ?? '';
         $email = $_POST['email'] ?? '';
         $contrasena = $_POST['contrasena'] ?? '';
         $repetir_contrasena = $_POST['repetir-contrasena'] ?? '';
@@ -51,7 +51,7 @@ class RegistroController
             exit();
         }
 
-        $registro=$this->model->registrarUsuario($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$foto,$sexo,$pais,$ciudad);
+        $registro=$this->model->registrarUsuario($nombre_de_usuario,$nombre,$anio_de_nacimiento,$email,$contrasena,$foto,$sexo,$latitud,$longitud);
 
         if($registro=="exitoso"){
             header("location:/registro/validarCorreo");

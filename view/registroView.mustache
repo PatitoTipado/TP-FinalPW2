@@ -1,102 +1,118 @@
 <div class="container d-flex justify-content-center align-items-center">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Registrarse</h2>
+                        <form id="registroForm" method="POST" action="/Registro/registrarUsuario" enctype="multipart/form-data">
 
-<div class="container m-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h2 class="text-center mb-4">Registrarse</h2>
-                    <form id="registroForm" method="POST" action="/Registro/registrarUsuario" enctype="multipart/form-data">
+                            <!-- Campos en dos columnas -->
+                            <div class="row">
+                                <!-- Primera columna -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Ingresar nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre">
+                                    </div>
 
-                        <div class="row">
-                            <!-- Primera columna -->
-                            <div class="col-md-6">
-                                <!-- Nombre -->
-                                <div class="mb-3">
-                                    <label for="nombre" class="form-label">Ingresar nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre">
+                                    <div class="mb-3">
+                                        <label for="anio" class="form-label">Ingresar año de nacimiento</label>
+                                        <input type="number" class="form-control" id="anio" name="anio" placeholder="Ej. 1990">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <select class="form-select" id="sexo" name="sexo">
+                                            <option value="" disabled selected>Selecciona</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Femenino</option>
+                                            <option value="Otro">Prefiero no cargarlo</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="usuario" class="form-label">Nombre de usuario</label>
+                                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Tu nombre de usuario">
+                                    </div>
                                 </div>
 
-                                <!-- Año de nacimiento -->
-                                <div class="mb-3">
-                                    <label for="anio" class="form-label">Ingresar año de nacimiento</label>
-                                    <input type="number" class="form-control" id="anio" name="anio" placeholder="Ej. 1990">
-                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo electrónico</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Ej. correo@ejemplo.com">
+                                    </div>
 
-                                <!-- Sexo -->
-                                <div class="mb-3">
-                                    <label for="sexo" class="form-label">Sexo</label>
-                                    <select class="form-select" id="sexo" name="sexo">
-                                        <option value="" disabled selected>Selecciona</option>
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Femenino</option>
-                                        <option value="Otro">Prefiero no cargarlo</option>
-                                    </select>
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="contrasena" class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña">
+                                    </div>
 
-                                <!-- País -->
-                                <div class="mb-3">
-                                    <label for="pais" class="form-label">País</label>
-                                    <input type="text" class="form-control" id="pais" name="pais" placeholder="Tu país">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="repetir-contrasena" class="form-label">Repetir contraseña</label>
+                                        <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repite tu contraseña">
+                                    </div>
 
-                                <!-- Ciudad -->
-                                <div class="mb-3">
-                                    <label for="ciudad" class="form-label">Ciudad</label>
-                                    <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Tu ciudad">
-                                </div>
-                            </div>
-
-                            <!-- Segunda columna -->
-                            <div class="col-md-6">
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ej. correo@ejemplo.com">
-                                </div>
-
-                                <!-- Contraseña -->
-                                <div class="mb-3">
-                                    <label for="contrasena" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña">
-                                </div>
-
-                                <!-- Repetir Contraseña -->
-                                <div class="mb-3">
-                                    <label for="repetir-contrasena" class="form-label">Repetir contraseña</label>
-                                    <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repite tu contraseña">
-                                </div>
-
-                                <!-- Nombre de usuario -->
-                                <div class="mb-3">
-                                    <label for="usuario" class="form-label">Nombre de usuario</label>
-                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Tu nombre de usuario">
-                                </div>
-
-                                <!-- Foto de perfil -->
-                                <div class="mb-3">
-                                    <label for="foto" class="form-label">Subir foto de perfil</label>
-                                    <input type="file" class="form-control" id="foto" name="foto">
+                                    <div class="mb-3">
+                                        <label for="foto" class="form-label">Subir foto de perfil</label>
+                                        <input type="file" class="form-control" id="foto" name="foto">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Mensaje de error (si existe) -->
-                        {{#error_registro}}
-                            <div class="alert alert-danger text-center" role="alert">
-                                {{error_registro}}
+
+
+                            <!-- Mapa -->
+                            <div class="mt-4">
+                                <label for="mi_mapa" class="form-label">Selecciona donde vives</label>
+                                <div id="mi_mapa" style="height: 300px; width: 100%; border: 1px solid #ccc; border-radius: 5px;"></div>
                             </div>
-                        {{/error_registro}}
+                            <!-- Mensaje de error (si existe) -->
+                            {{#error_registro}}
+                                <div class="alert alert-danger text-center mt-3" role="alert">
+                                    {{error_registro}}
+                                </div>
+                            {{/error_registro}}
+                            <!-- Coordenadas ocultas -->
+                            <input type="hidden" id="latitud" name="latitud">
+                            <input type="hidden" id="longitud" name="longitud">
 
-                        <!-- Botón de Registro -->
-                        <button class="btn btn-primary w-100 mt-4" type="submit">Registrarse</button>
-
-                    </form>
+                            <!-- Botón de Registro -->
+                            <button class="btn btn-primary w-100 mt-4" type="submit">Registrarse</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-</div>
 
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+
+<script>
+    let map = L.map('mi_mapa').setView([-34.670109, -58.564258], 16)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',).addTo(map);
+
+    //marcador
+    L.marker([-34.670109, -58.564258]).addTo(map).bindPopup("se encuentra aqui")
+
+    // Capturar clics en el mapa
+    map.on('click', function (e) {
+        // Mostrar coordenadas en un popup
+        L.popup()
+                .setLatLng(e.latlng)
+                .setContent("ubicacion seleccionada aproximada: " + e.latlng.toString())
+                .openOn(map);
+
+        // Guardar coordenadas en campos ocultos
+        document.getElementById('latitud').value = e.latlng.lat;
+        document.getElementById('longitud').value = e.latlng.lng;
+    });
+
+</script>
