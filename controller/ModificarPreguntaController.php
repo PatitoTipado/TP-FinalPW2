@@ -17,10 +17,18 @@ class ModificarPreguntaController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-
         $data['preguntas'] = $this->model->obtenerPreguntas();
-        $data['opciones'] = "";
-
         $this->presenter->show('modificarPregunta', $data);
+    }
+
+    public function verPregunta()
+    {
+        $id = $_GET['id'];
+
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+        }
+        $data['pregunta'] = $this->model->obtenerPregunta($id);
+        $this->presenter->show('pregunta', $data);
     }
 }
