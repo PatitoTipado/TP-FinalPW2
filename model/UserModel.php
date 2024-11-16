@@ -1,14 +1,16 @@
 <?php
-require_once ('./helper/FilePHPEmailSender.php');
+
 class UserModel
 {
     private $database;
     private $emailSender;
+    private $phpMailSender;
 
-    public function __construct($database, $emailSender)
+    public function __construct($database, $emailSender,$phpMailSender)
     {
         $this->emailSender = $emailSender;
         $this->database = $database;
+        $this->phpMailSender= $phpMailSender;
     }
 
     public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $foto, $sexo, $latitud, $longitud)
@@ -41,7 +43,7 @@ class UserModel
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
-            $phpEmailSender= new FilePHPEmailSender($email,$hash,$nombre_de_usuario);
+            $this->phpMailSender->sendEmail($email,$hash,$nombre_de_usuario);
             return "exitoso";
         } else {
             return "ocurrio un error en la base de datos.";

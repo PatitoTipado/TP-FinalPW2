@@ -4,6 +4,7 @@ include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 include_once ("helper/FileEmailSender.php");
+require_once ('helper/FilePHPEmailSender.php');
 
 include_once("model/UserModel.php");
 include_once ("model/PartidaModel.php");
@@ -71,7 +72,7 @@ class Configuration
 
     public function getUserModel()
     {
-        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
+        return new UserModel($this->getDatabase(),$this->getFileEmailSender(),$this->getPHPEmailSender());
     }
 
     public function getPartidaModel()
@@ -100,6 +101,18 @@ class Configuration
             $config['user'],
             $config['password'],
             $config["database"]
+        );
+    }
+
+    private function getPHPEmailSender()
+    {
+        $config= parse_ini_file('configuration/emailConfig.ini');
+
+        return new FilePHPEmailSender(
+            $config['port'],
+            $config['host'],
+            $config['password'],
+            $config['username']
         );
     }
 
