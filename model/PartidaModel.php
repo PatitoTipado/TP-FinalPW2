@@ -195,6 +195,24 @@ class PartidaModel
         return $usuario['partida_actual'];
     }
 
+    public function realizarReporte($id_jugador,$descripcion,$categoria)
+    {
+        $id= $this->obtenerUltimaPreguntaDelUsuario($id_jugador);
+
+        $fecha= $this->obtenerFechaActual();
+
+        $sql = "INSERT INTO reportes 
+        (pregunta_id, usuario_realiza_id ,fecha_reporte, descripcion , categoria) 
+        VALUES 
+        ('$id', '$id_jugador','$fecha','$descripcion','$categoria')";
+
+        if($this->database->execute($sql)){
+            return true;
+        }
+
+        return false;
+    }
+
     private function isJugadorValido($id_jugador)
     {
 
