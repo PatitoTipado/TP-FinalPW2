@@ -21,6 +21,16 @@ class AgregarPreguntaController
     }
 
     public function agregar() {
-        $this->model->agregarPregunta();
+         if (isset($_POST["pregunta"]) && isset($_POST["opcion1"]) && isset($_POST["opcion2"]) && isset($_POST["opcion3"]) && isset($_POST["opcionCorrecta"])) {
+             $pregunta = $_POST['pregunta'];
+             $opcion1 = $_POST['opcion1'];
+             $opcion2 = $_POST['opcion2'];
+             $opcion3 = $_POST['opcion3'];
+             $opcionCorrecta = $_POST['opcionCorrecta'];
+
+             $this->model->agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+             header("location:/editor");
+             exit();
+         }   
     }
 }

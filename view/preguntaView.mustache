@@ -1,15 +1,22 @@
 <div>
     {{#pregunta}}
-       <input type="text" placeholder="{{pregunta}}" class="input-pregunta">
+    <form method="POST" action="/modificarPregunta/modificar?id={{id_pregunta}}">
+       <label for="pregunta">Pregunta:</label>
+       <input type="text" class="input-pregunta" placeholder="{{pregunta}}" id="pregunta" name="pregunta">
        <br><br>
-       <input type="text" placeholder="{{opcion1}}" class="input-opcion">
+       <label for="opcion1">Opción 1: </label>
+       <input type="text" class="input-opcion" placeholder="{{opcion1}}" id="opcion1" name="opcion1">
        <br><br>
-       <input type="text" placeholder="{{opcion2}}" class="input-opcion">
+       <label for="opcion2">Opción 2: </label>
+       <input type="text" class="input-opcion" placeholder="{{opcion2}}" id="opcion2" name="opcion2">
        <br><br>
-       <input type="text" placeholder="{{opcion3}}" class="input-opcion">
+       <label for="opcion3">Opción 3: </label>
+       <input type="text" class="input-opcion" id="opcion3" name="opcion3">
        <br><br>
-       <input type="text" placeholder="{{opcion_correcta}}" class="input-opcion-correcta">
+       <label for="opcionCorrecta">Opción correcta: </label>
+       <input type="text"class="input-opcion-correcta" placeholder="{{opcion_correcta}}"  id="opcionCorrecta" name="opcionCorrecta">
        <br><br>
-       <a href="/modificarPregunta/modificar?id={{id_pregunta}}">Modificar</a>
+       <button type="submit">Modificar</button>
+    </form>    
     {{/pregunta}}
 </div>

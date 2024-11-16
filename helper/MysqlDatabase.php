@@ -29,6 +29,9 @@ class MysqlDatabase
     {
         return $this->conn;
     }
+    public function getLastInsertId() {
+        return $this->conn->insert_id;
+    }
 
     public function __destruct()
     {

@@ -22,7 +22,30 @@ class PreguntaModel
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
 
-    public function agregarPregunta() {
-       
+    public function agregarPregunta($pregunta)
+    {
+        $sql = "INSERT INTO preguntas (pregunta, categoria_id, usuario_id) 
+        VALUES ('$pregunta', 1, 1)";
+
+        $this->database->execute($sql);
+
+        $idPregunta = $this->database->getLastInsertId();
+
+        return $idPregunta;
+    }
+
+    public function agregarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    {
+        $sql = "INSERT INTO opciones (pregunta_id, opcion1, opcion2, opcion3, opcion_correcta) 
+                    VALUES ($idPregunta, '$opcion1', '$opcion2', '$opcion3', '$opcionCorrecta')";
+
+        $this->database->execute($sql);
+    }
+
+    public function agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    {
+        $idPregunta = $this->agregarPregunta($pregunta);
+
+        $this->agregarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
     }
 }
