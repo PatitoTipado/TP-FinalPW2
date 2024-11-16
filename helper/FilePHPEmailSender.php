@@ -9,33 +9,46 @@ require './vendor/PHPMailer/src/SMTP.php';
 class FilePHPEmailSender
 {
 
-    public function __construct($destinatario,$hash,$nombre_de_usuario)
-    {
-        $mail = new PHPMailer(true);
+    private $mailSender;
+    private $mailOwner;
+    private $password;
+    private $host;
+    private $port;
 
+    public function __construct($port, $host, $password, $username)
+    {
+        $this->mailSender = new PHPMailer(true);
+        $this->mailOwner= $username;
+        $this->password=$password;
+        $this->host=$host;
+        $this->port=$port;
+
+    }
+
+    public function sendEmail($destinatario,$hash,$nombre_de_usuario)
+    {
         try {
             //Server settings
-            $mail->SMTPDebug = 0;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'mauricionahueldominguez@gmail.com';                     //SMTP username
-            $mail->Password   = 'rsvj awbh cicf pqei';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
-            $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $this->mailSender->SMTPDebug = 0;                      //Enable verbose debug output
+            $this->mailSender->isSMTP();                                            //Send using SMTP
+            $this->mailSender->Host       = $this->host;                     //Set the SMTP server to send through
+            $this->mailSender->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $this->mailSender->Username   = $this->mailOwner;                     //SMTP username
+            $this->mailSender->Password   = $this->password;                               //SMTP password
+            $this->mailSender->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
+            $this->mailSender->Port       = $this->port;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-            $mail->setFrom('mauricionahueldominguez@gmail.com', 'admin');
-            $mail->addAddress($destinatario, 'jugador'); // Destinatario
+            $this->mailSender->setFrom($this->mailOwner, 'admin');
+            $this->mailSender->addAddress($destinatario, 'jugador'); // Destinatario
 
-            $mail->isHTML(true);
-            $mail->Subject = $nombre_de_usuario;
-            $mail->Body    = 'validacion correo tu codigo hash es ' .  $hash;
-            $mail->AltBody = "tu codigo hash es '$hash'";
+            $this->mailSender->isHTML(true);
+            $this->mailSender->Subject = $nombre_de_usuario;
+            $this->mailSender->Body    = 'validacion correo tu codigo hash es ' .  $hash;
+            $this->mailSender->AltBody = "tu codigo hash es '$hash'";
 
-            $mail->send();
-            echo 'Message has been sent';
+            $this->mailSender->send();
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            die($this->mailSender->ErrorInfo);
         }
     }
 }
