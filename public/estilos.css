@@ -112,6 +112,7 @@ a:hover {
 
 .input-opcion, .input-opcion-correcta{
   width: 80% !important;
+  color: white !important;
 }
 
 .input-opcion {

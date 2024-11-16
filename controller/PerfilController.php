@@ -20,7 +20,7 @@ class PerfilController
             header("location:/");
         }
 
-        $id = $_GET['id']?? "";
+        $id = $_GET['id'] ?? "";
 
         if (empty($id)) {
             $id = $_SESSION['id_usuario'];
@@ -31,7 +31,14 @@ class PerfilController
 
         $dataCompleto = array_merge($data, $data2, $_SESSION);
 
-        $this->presenter->show('perfil', $dataCompleto);
+        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
+            $this->presenter->show('editor', $dataCompleto);
+        } elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador') {
+            $this->presenter->show('administrador', $dataCompleto);
+        } else {
+            $this->presenter->show('perfil', $dataCompleto);
+        }
+
         unset($_SESSION['not_found']);
         unset($data['partidas']);
     }

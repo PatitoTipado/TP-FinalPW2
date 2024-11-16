@@ -18,6 +18,7 @@ include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
 include_once ("controller/RankingController.php");
 include_once ("controller/ModificarPreguntaController.php");
+include_once ("controller/AgregarPreguntaController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -62,6 +63,11 @@ class Configuration
     public function getModificarPreguntaController()
     {
         return new ModificarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
+    public function getAgregarPreguntaController()
+    {
+        return new AgregarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
     }
 
     //MODELOS

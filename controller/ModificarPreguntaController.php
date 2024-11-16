@@ -2,7 +2,6 @@
 
 class ModificarPreguntaController
 {
-
     private $presenter;
     private $model;
 

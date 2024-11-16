@@ -21,4 +21,8 @@ class PreguntaModel
         return $this->database->query("SELECT p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
+
+    public function agregarPregunta() {
+       
+    }
 }

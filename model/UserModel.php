@@ -6,11 +6,11 @@ class UserModel
     private $emailSender;
     private $phpMailSender;
 
-    public function __construct($database, $emailSender,$phpMailSender)
+    public function __construct($database, $emailSender, $phpMailSender)
     {
         $this->emailSender = $emailSender;
         $this->database = $database;
-        $this->phpMailSender= $phpMailSender;
+        $this->phpMailSender = $phpMailSender;
     }
 
     public function registrarUsuario($nombre_de_usuario, $nombre, $anio_de_nacimiento, $email, $contrasena, $foto, $sexo, $latitud, $longitud)
@@ -28,7 +28,7 @@ class UserModel
             return "el nombre debe tener solo letras y sin espacios.";
         }
 
-        if(empty($latitud) || empty($longitud)){
+        if (empty($latitud) || empty($longitud)) {
             return "seleccione una ubicacion por favor";
         }
 
@@ -43,7 +43,7 @@ class UserModel
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
-            $this->phpMailSender->sendEmail($email,$hash,$nombre_de_usuario);
+            $this->phpMailSender->sendEmail($email, $hash, $nombre_de_usuario);
             return "exitoso";
         } else {
             return "ocurrio un error en la base de datos.";
@@ -117,10 +117,13 @@ class UserModel
             $data['foto'] = $usuario['imagen_url'];
             $data['email'] = $usuario['email'];
             $data['latitud'] = $usuario['latitud'];
-            $data['longitud'] = $usuario['longitud'];
+            // if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'jugador') {
+            //     $data['longitud'] = $usuario['longitud'];
+            // }
+
             $data['nombre'] = $usuario['nombre'];
             $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
-            $data['username']=$usuario['nombre_de_usuario'];
+            $data['username'] = $usuario['nombre_de_usuario'];
 
             return $data;
         } else {

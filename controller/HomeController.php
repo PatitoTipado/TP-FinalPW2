@@ -19,11 +19,16 @@ class HomeController
         if (!isset($_SESSION['user'])) {
             header("location:/");
         }
-        $data = $this->obtenerPartidas();
 
+        $data = $this->obtenerPartidas();
         $dataCompleto = array_merge($data, $_SESSION);
 
-        $this->presenter->show('home', $dataCompleto);
+        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
+            $this->presenter->show('editor', $dataCompleto);
+        } else {
+            $this->presenter->show('home', $dataCompleto);
+        }
+
         unset($_SESSION["error_partida"]);
         unset($_SESSION['not_found']);
         unset($data['partidas']);
