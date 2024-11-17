@@ -18,7 +18,7 @@ class PreguntaModel
 
     public function obtenerPregunta($id)
     {
-        return $this->database->query("SELECT p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
+        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
 
@@ -52,10 +52,7 @@ class PreguntaModel
     public function modificarPregunta($id, $pregunta)
     {
         if ($pregunta !== "") {
-            $sql = "UPDATE preguntas
-            SET pregunta = '$pregunta'
-            WHERE id = '$id'";
-
+            $sql = "UPDATE preguntas SET pregunta = '$pregunta' WHERE id = '$id'";
             $this->database->execute($sql);
         }
     }

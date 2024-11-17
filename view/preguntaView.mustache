@@ -1,6 +1,6 @@
 <div>
     {{#pregunta}}
-    <form method="POST" action="/modificarPregunta/modificar">
+    <form method="POST" action="/modificarPregunta/modificar?id={{id_pregunta}}">
        <label for="pregunta">Pregunta:</label>
        <input type="text" class="input-pregunta" placeholder="{{pregunta}}" id="pregunta" name="pregunta">
        <br><br>
