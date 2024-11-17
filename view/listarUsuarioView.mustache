@@ -1,0 +1,39 @@
+<main class="bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Bienvenido, Administrador</h1>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="/admin/listarUsuarios" class="btn btn-primary btn-lg px-5">Listar Usuarios</a>
+            <a href="/admin/listarPartidas" class="btn btn-success btn-lg px-5">Listar Partidas</a>
+            <a href="/admin/listarPreguntas" class="btn btn-warning btn-lg px-5">Listar Preguntas</a>
+        </div>
+    </div>
+
+    <!--botones    -->
+    <div class="p-4">
+
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <!-- Botones con tamaño fijo y alineados en línea -->
+            <a href="/admin/jugadoresTotales" class="btn btn-secondary text-white" style="width: 200px;">Ver la cantidad de jugadores totales</a>
+            <a href="/usuarios-nuevos-por-fechas" class="btn btn-secondary text-white" style="width: 200px;">Cantidad de usuarios nuevos</a>
+            <a href="/usuarios-por-pais" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por país</a>
+            <a href="/usuarios-por-sexo" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por sexo</a>
+            <a href="/usuarios-por-grupo-de-edad" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por grupo de edad</a>
+        </div>
+
+    </div>
+    </div>
+
+
+
+    <!-- jugadoresTotales -->
+
+    <h3>Jugadores por Estado</h3>
+    <ul>
+        {{#jugadoresPorEstado}}
+            <li>Estado: {{estado}} - Cantidad: {{cantidad}}</li>
+        {{/jugadoresPorEstado}}
+    </ul>
+
+</main>
