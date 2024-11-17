@@ -48,4 +48,57 @@ class PreguntaModel
 
         $this->agregarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
     }
+
+    public function modificarPregunta($id, $pregunta)
+    {
+        if ($pregunta !== "") {
+            $sql = "UPDATE preguntas
+            SET pregunta = '$pregunta'
+            WHERE id = '$id'";
+
+            $this->database->execute($sql);
+        }
+    }
+
+    public function modificarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    {
+        if ($opcion1 !== "") {
+            $sql = "UPDATE opciones
+            SET opcion1 = '$opcion1'
+            WHERE pregunta_id = '$idPregunta'";
+
+            $this->database->execute($sql);
+        }
+
+        if ($opcion2 !== "") {
+            $sql = "UPDATE opciones
+            SET opcion2 = '$opcion2'
+            WHERE pregunta_id = '$idPregunta'";
+
+            $this->database->execute($sql);
+        }
+
+        if ($opcion3 !== "") {
+            $sql = "UPDATE opciones
+            SET opcion2 = '$opcion3'
+            WHERE pregunta_id = '$idPregunta'";
+
+            $this->database->execute($sql);
+        }
+
+        if ($opcionCorrecta !== "") {
+            $sql = "UPDATE opciones
+            SET opcion_correcta = '$opcionCorrecta'
+            WHERE pregunta_id = '$idPregunta'";
+
+            $this->database->execute($sql);
+        }
+    }
+
+    public function modificarPreguntaConOpciones($idPregunta, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    {
+        $this->modificarPregunta($idPregunta, $pregunta);
+
+        $this->modificarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+    }
 }
