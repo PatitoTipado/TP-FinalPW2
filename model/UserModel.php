@@ -70,7 +70,7 @@ class UserModel
 
         // Verificar si hubo algún error con la solicitud
         if(curl_errno($ch)) {
-            return 'Error en la solicitud: ' . curl_error($ch);
+            die( 'Error en la solicitud: ' . curl_error($ch));
         }
 
         // Cerrar cURL
@@ -92,7 +92,7 @@ class UserModel
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        // Establecer User-Agent para evitar el error 403
+        // Establecer User-Agent para evitar el error 403 --> no toque el agent por que no lo necesite
         curl_setopt($ch, CURLOPT_USERAGENT, 'MiApp/1.0 (miemail@dominio.com)');
 
         // Ejecutar la solicitud
@@ -100,7 +100,7 @@ class UserModel
 
         // Verificar si hubo algún error con la solicitud
         if(curl_errno($ch)) {
-            return 'Error en la solicitud: ' . curl_error($ch);
+            die( 'Error en la solicitud: ' . curl_error($ch));
         }
 
         // Cerrar cURL

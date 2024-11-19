@@ -250,7 +250,53 @@ class AdminModel
         }
 
         return $data;
-
     }
+
+    public function obtenerPorcentajeDeRespuesta()
+    {
+        $cantidadAparicionesTotal= $this->obtenerDeTodasLasPreguntasCuantasVecesAparecio();
+        $cantidadVecesCorrectas=$this->obtenerDeTodasLasPreguntasCuantasVecesSeRespondio();
+
+        $data ['correctas']= ($cantidadVecesCorrectas /$cantidadAparicionesTotal) *100;
+        $data ['incorrectas']=100 - $data['correctas'];
+
+        return $data;
+    }
+
+    private function obtenerDeTodasLasPreguntasCuantasVecesAparecio()
+    {
+
+        $query = "SELECT SUM(cantidad_apariciones) AS total FROM preguntas
+                  WHERE cantidad_apariciones IS NOT NULL AND cantidad_apariciones != ''";
+
+        $result = $this->database->execute($query);
+
+        if (!$result) {
+            die("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
+        }
+
+        $row = $result->fetch_assoc();
+
+        return $row['total'];
+    }
+
+    private function obtenerDeTodasLasPreguntasCuantasVecesSeRespondio()
+    {
+
+        $query = "SELECT SUM(cantidad_veces_respondidas) AS total FROM preguntas
+                  WHERE cantidad_veces_respondidas IS NOT NULL AND cantidad_veces_respondidas != ''";
+
+        $result = $this->database->execute($query);
+
+        if (!$result) {
+            die("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
+        }
+
+        $row = $result->fetch_assoc();
+
+        return $row['total'];
+    }
+
+
 
 }

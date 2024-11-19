@@ -225,8 +225,27 @@ class AdminController
         $this->presenter->show('listarPreguntas', $dataCompleto);
 
         unset($_SESSION['preguntas']);
-
     }
+
+    public function porcentajeDePreguntas()
+    {
+        $this->validarAdministrador();
+
+        $_SESSION['porcentaje'] = true;
+
+        $preguntasPorPorcentaje = $this->model->obtenerPorcentajeDeRespuesta();
+
+        if (!$preguntasPorPorcentaje) {
+            die("No se encontraron preguntas.");
+        }
+
+        $dataCompleto = array_merge($_SESSION, $preguntasPorPorcentaje);
+
+        $this->presenter->show('listarPreguntas', $dataCompleto);
+
+        unset($_SESSION['porcentaje']);
+    }
+
     public function validarAdministrador()
     {
         if (!isset($_SESSION['user'])) {
