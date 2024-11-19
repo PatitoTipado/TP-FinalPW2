@@ -2,9 +2,9 @@
     <div class="container py-5">
         <h1 class="text-center mb-4">Bienvenido, Administrador</h1>
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="/admin/listarUsuarios" class="btn btn-primary btn-lg px-5">Listar Usuarios</a>
-            <a href="/admin/listarPartidas" class="btn btn-success btn-lg px-5">Listar Partidas</a>
-            <a href="/admin/listarPreguntas" class="btn btn-warning btn-lg px-5">Listar Preguntas</a>
+            <a href="/admin/listarUsuarios" class="btn btn-primary btn-lg px-5">Listar en usuarios</a>
+            <a href="/admin/listarTotalPartidas" class="btn btn-success btn-lg px-5">Listar total de partidas</a>
+            <a href="/admin/listarPreguntas" class="btn btn-warning btn-lg px-5">Listar en preguntas</a>
         </div>
     </div>
 
@@ -16,24 +16,124 @@
         <div class="d-flex flex-wrap justify-content-center gap-3">
             <!-- Botones con tamaño fijo y alineados en línea -->
             <a href="/admin/jugadoresTotales" class="btn btn-secondary text-white" style="width: 200px;">Ver la cantidad de jugadores totales</a>
-            <a href="/usuarios-nuevos-por-fechas" class="btn btn-secondary text-white" style="width: 200px;">Cantidad de usuarios nuevos</a>
-            <a href="/usuarios-por-pais" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por país</a>
-            <a href="/usuarios-por-sexo" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por sexo</a>
-            <a href="/usuarios-por-grupo-de-edad" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por grupo de edad</a>
+            <a href="/admin/usuariosNuevos" class="btn btn-secondary text-white" style="width: 200px;">Cantidad de usuarios nuevos</a>
+            <a href="/admin/filtroPais" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por país</a>
+            <a href="/admin/filtroSexo" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por sexo</a>
+            <a href="/admin/filtroEdad" class="btn btn-secondary text-white" style="width: 200px;">Usuarios por grupo de edad</a>
         </div>
 
     </div>
     </div>
 
-
+    {{#jugadores_totales}}
 
     <!-- jugadoresTotales -->
-
     <h3>Jugadores por Estado</h3>
     <ul>
         {{#jugadoresPorEstado}}
             <li>Estado: {{estado}} - Cantidad: {{cantidad}}</li>
         {{/jugadoresPorEstado}}
     </ul>
+
+    {{/jugadores_totales}}
+
+    {{#jugadores_nuevos}}
+
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Filtrar Registros por Rango de Fechas</h1>
+            <div class="card p-4 shadow">
+                <form action="/admin/usuariosNuevos" method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="fecha_inicio" class="form-label">Fecha Inicio:</label>
+                        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fecha_fin" class="form-label">Fecha Fin:</label>
+                        <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{#error}}
+            {{error}}
+        {{/error}}
+
+        {{#result}}
+            <br>
+            cantidad filtrada: {{cantidad}}
+        {{/result}}
+
+        {{#cantidad_total}}
+            <br><br>
+            cantidad total de usuarios: {{cantidad_total}}
+            <br><br>
+
+        {{/cantidad_total}}
+
+    {{/jugadores_nuevos}}
+
+    {{#filtro_pais}}
+
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Filtrar jugadores por pais y ciudad </h1>
+            <div class="card p-4 shadow">
+                <form action="/admin/filtroPais" method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="pais" class="form-label">Pais:</label>
+                        <input type="text" id="pais" name="pais" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ciudad" class="form-label">Ciudad:</label>
+                        <input type="text" id="ciudad" name="ciudad" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        {{#result}}
+            <br>
+            cantidad filtrada: {{cantidad}}
+        {{/result}}
+
+        {{#cantidad_total}}
+            <br><br>
+            cantidad total de usuarios: {{cantidad_total}}
+            <br><br>
+        {{/cantidad_total}}
+
+    {{/filtro_pais}}
+
+    {{#filtro_sexo}}
+        <!-- jugadoresTotales -->
+        <h3>Jugadores por sexo</h3>
+        <ul>
+            {{#jugadoresPorSexo}}
+                <li>sexo: {{sexo}} - Cantidad: {{cantidad}}</li>
+            {{/jugadoresPorSexo}}
+        </ul>
+
+    {{/filtro_sexo}}
+
+    {{#filtro_edad}}
+
+        {{#jugadoresPorEdad}}
+            <br>
+            Menores de 18 años: {{menores}}
+            <br>
+            Entre 18 y 60 años: {{adultos}}
+            <br>
+            Mayores de 60 años: {{jubilados}}
+            <br>
+        {{/jugadoresPorEdad}}
+
+    {{/filtro_edad}}
 
 </main>
