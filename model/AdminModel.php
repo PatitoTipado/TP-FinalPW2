@@ -177,12 +177,10 @@ class AdminModel
 
     public function obtenerPartidasPorEstadoFiltradasPorFecha($inicio, $fin)
     {
-        // Si ambos campos están vacíos, devolver todas las partidas agrupadas por estado
         if (empty($inicio) && empty($fin)) {
             return $this->obtenerPartidasPorEstado();
         }
 
-        // Construir las condiciones del WHERE dinámicamente
         $conditions = [];
 
         if (!empty($inicio)) {
@@ -193,24 +191,20 @@ class AdminModel
             $conditions[] = "fecha_de_finalizacion <= '$fin'";
         }
 
-        // Unir las condiciones con "AND"
         $whereClause = implode(' AND ', $conditions);
 
-        // Crear la consulta completa
         $query = "SELECT estado, COUNT(*) AS cantidad FROM partidas";
         if (!empty($whereClause)) {
             $query .= " WHERE $whereClause";
         }
         $query .= " GROUP BY estado";
 
-        // Ejecutar la consulta
         $result = mysqli_query($this->database->getConn(), $query);
 
         if (!$result) {
             throw new Exception("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
         }
 
-        // Transformar los resultados en un array
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
@@ -219,6 +213,24 @@ class AdminModel
         return $data;
     }
 
+    public function obtenerElTotalDePreguntasPorEstado()
+    {
+        $query = "SELECT estado AS estados, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
 
+        $result = mysqli_query($this->database->getConn(), $query);
+
+        if (!$result) {
+            die("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
+        }
+
+        $data = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+
+        return $data;
+
+    }
 
 }

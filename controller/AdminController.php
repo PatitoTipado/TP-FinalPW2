@@ -184,6 +184,28 @@ class AdminController
         unset($_SESSION['partidas_totales']);
     }
 
+    public function listarPreguntas()
+    {
+        $this->validarAdministrador();
+
+        $_SESSION['preguntas'] = true;
+
+        $preguntasPorEstado = $this->model->obtenerElTotalDePreguntasPorEstado();
+
+        if (!$preguntasPorEstado) {
+            die("No se encontraron partidas.");
+        }
+
+        $data = ['preguntasPorEstado' => $preguntasPorEstado];
+
+        $dataCompleto = array_merge($_SESSION, $data);
+
+        $this->presenter->show('listarPreguntas', $dataCompleto);
+
+        unset($_SESSION['preguntas']);
+
+    }
+
 
     public function validarAdministrador()
     {
