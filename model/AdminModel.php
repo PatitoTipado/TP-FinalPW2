@@ -233,4 +233,24 @@ class AdminModel
 
     }
 
+    public function obtenerPreguntasPorNivel()
+    {
+        $query = "SELECT nivel AS nivel, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
+
+        $result = mysqli_query($this->database->getConn(), $query);
+
+        if (!$result) {
+            die("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
+        }
+
+        $data = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+
+        return $data;
+
+    }
+
 }

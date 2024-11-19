@@ -206,7 +206,27 @@ class AdminController
 
     }
 
+    public function preguntasPorNivel()
+    {
+        $this->validarAdministrador();
 
+        $_SESSION['preguntas'] = true;
+
+        $preguntasPorEstado = $this->model->obtenerPreguntasPorNivel();
+
+        if (!$preguntasPorEstado) {
+            die("No se encontraron partidas.");
+        }
+
+        $data = ['preguntasPorNivel' => $preguntasPorEstado];
+
+        $dataCompleto = array_merge($_SESSION, $data);
+
+        $this->presenter->show('listarPreguntas', $dataCompleto);
+
+        unset($_SESSION['preguntas']);
+
+    }
     public function validarAdministrador()
     {
         if (!isset($_SESSION['user'])) {
