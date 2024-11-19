@@ -116,3 +116,9 @@ ADD COLUMN longitud VARCHAR(255) NULL;
 
 ALTER TABLE reportes
     ADD COLUMN categoria VARCHAR(255) NULL;
+ALTER TABLE usuarios
+    MODIFY COLUMN fecha_registro DATETIME(6);
+
+ALTER TABLE usuarios
+ADD COLUMN pais VARCHAR (255) NULL,
+ADD COLUMN ciudad VARCHAR (255) null;
