@@ -17,8 +17,10 @@ include_once("controller/RegistroController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
 include_once ("controller/RankingController.php");
+include_once ("controller/VerPreguntasController.php");
 include_once ("controller/ModificarPreguntaController.php");
 include_once ("controller/AgregarPreguntaController.php");
+include_once ("controller/EliminarPreguntaController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -60,6 +62,11 @@ class Configuration
         return new RankingController($this->getPresenter(), $this->getUserModel(), $this->getRankingModel());
     }
 
+    public function getVerPreguntasController()
+    {
+        return new VerPreguntasController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
     public function getModificarPreguntaController()
     {
         return new ModificarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
@@ -68,6 +75,11 @@ class Configuration
     public function getAgregarPreguntaController()
     {
         return new AgregarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
+    public function getEliminarPreguntaController()
+    {
+        return new EliminarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
     }
 
     //MODELOS

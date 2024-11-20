@@ -1,21 +1,20 @@
 <div>
-    <form>
-    <label>Pregunta:</label>
-       <input type="text" class="input-pregunta">
+   <form method="POST" action="/agregarPregunta/agregar">
+    <label for="pregunta">Pregunta:</label>
+       <input type="text" class="input-pregunta" id="pregunta" name="pregunta" required>
        <br><br>
-       <label>Opción 1: </label>
-       <input type="text" class="input-opcion">
+       <label for="opcion1">Opción 1: </label>
+       <input type="text" class="input-opcion" id="opcion1" name="opcion1" required>
        <br><br>
-       <label>Opción 2: </label>
-       <input type="text" class="input-opcion">
+       <label for="opcion2">Opción 2: </label>
+       <input type="text" class="input-opcion" id="opcion2" name="opcion2" required>
        <br><br>
-       <label>Opción 3: </label>
-       <input type="text" class="input-opcion">
+       <label for="opcion3">Opción 3: </label>
+       <input type="text" class="input-opcion" id="opcion3" name="opcion3" required>
        <br><br>
-       <label>Opción correcta: </label>
-       <input type="text"class="input-opcion-correcta">
+       <label for="opcionCorrecta">Opción correcta: </label>
+       <input type="text"class="input-opcion-correcta" id="opcionCorrecta" name="opcionCorrecta" required>
        <br><br>
-       <a href="/agregarPregunta/agregar">Agregar</a>
-    </form>
-       
+       <button type="submit">Agregar</button>
+    </form>    
 </div>
