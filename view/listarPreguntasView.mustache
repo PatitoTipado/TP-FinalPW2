@@ -1,0 +1,50 @@
+<main class="bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Bienvenido, Administrador</h1>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="/admin/listarUsuarios" class="btn btn-primary btn-lg px-5">Listar en usuarios</a>
+            <a href="/admin/listarTotalPartidas" class="btn btn-success btn-lg px-5">Listar total de partidas</a>
+            <a href="/admin/listarPreguntas" class="btn btn-warning btn-lg px-5">Listar en preguntas</a>
+        </div>
+    </div>
+
+
+    <!--botones    -->
+    <div class="p-4">
+
+        <div class="container">
+
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <!-- Botones con tamaño fijo y alineados en línea -->
+                <a href="/admin/listarPreguntas" class="btn btn-secondary text-white" style="width: 200px;">Ver la cantidad de preguntas totales por estado</a>
+                <a href="/admin/preguntasPorNivel" class="btn btn-secondary text-white" style="width: 200px;">Ver la cantidad de preguntas por nivel</a>
+                <a href="/admin/porcentajeDePreguntas" class="btn btn-secondary text-white" style="width: 200px;">Ver el porcentaje de preguntas respondidas correctamente</a>
+            </div>
+
+        </div>
+    </div>
+
+    {{#preguntasPorEstado}}
+        <br>
+        estado : {{estados}} --- cantidad {{cantidad}}
+        <br>
+    {{/preguntasPorEstado}}
+
+    {{#preguntasPorNivel}}
+        <br>
+        estado : {{nivel}} --- cantidad {{cantidad}}
+        <br>
+    {{/preguntasPorNivel}}
+
+    {{#porcentaje}}
+        <br>
+        porcentaje de correctas= {{correctas}}
+        <br>
+        <br>
+        porcentaje de incorrectas= {{incorrectas}}
+        <br>
+        <br>
+
+    {{/porcentaje}}
+
+</main>

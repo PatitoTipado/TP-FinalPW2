@@ -12,12 +12,20 @@ class LoginController
 
     public function show()
     {
-        if (isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user']) && !isset($_SESSION['rol'])) {
+            $this->presenter->show('login',$_SESSION);
+            unset($_SESSION["error_login"]);
+            return;
+        }
+        if($_SESSION['rol']=='administrador'){
+            header("location:/admin");
+            exit();
+        }
+
+        if($_SESSION['rol']=='jugador'){
             header("location:/home");
             exit();
         }
-        $this->presenter->show('login',$_SESSION);
-        unset($_SESSION["error_login"]);
     }
 
     public function validarLogin()
@@ -29,18 +37,18 @@ class LoginController
             $data=$this->model->validarLogin($username,$password);
             
             if($data['result']){
-                header("location:/home");
                 $_SESSION['id_usuario'] = $data['id_usuario'];
                 $_SESSION['rol'] =$data['rol'];
                 $_SESSION['user']=$data['user'];
                 $_SESSION['puntaje_maximo']=$data['puntaje_maximo'];
                 unset($_SESSION["error_login"]);
-                exit();
             }else{
                 $_SESSION['error_login']=$data['error'];
-                header("location:/login");
-                exit();
             }
+            //que se encargue el login de la vista asi no tengo que redireccionar aca
+            header("location:/login");
+            exit();
+
         }
     }
 

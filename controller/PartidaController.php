@@ -114,6 +114,11 @@ class PartidaController
             exit();
         }
 
+        if(!isset($_SESSION['respuesta_usuario'])){
+            header("location:/");
+            exit();
+        }
+
         $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
 
         $_SESSION['respuesta']=$this->model->obtenerRespuestaCorrecta($id_pregunta);
@@ -133,6 +138,12 @@ class PartidaController
             header("location:/");
             exit();
         }
+
+        if(!isset($_SESSION['respuesta_usuario'])){
+            header("location:/");
+            exit();
+        }
+
         $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
 
         if(isset($_SESSION['respuesta_usuario']) &&

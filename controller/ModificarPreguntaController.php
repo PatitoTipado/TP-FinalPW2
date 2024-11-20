@@ -33,6 +33,7 @@ class ModificarPreguntaController
         $opcionCorrecta = isset($_POST['opcionCorrecta']) ? $_POST['opcionCorrecta'] : "";
 
         $this->model->modificarPreguntaConOpciones($id, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+<
         header("location:/verPreguntas");
         exit();
     }

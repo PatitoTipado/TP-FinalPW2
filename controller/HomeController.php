@@ -18,6 +18,12 @@ class HomeController
     {
         if (!isset($_SESSION['user'])) {
             header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
         }
 
         $data = $this->obtenerPartidas();
