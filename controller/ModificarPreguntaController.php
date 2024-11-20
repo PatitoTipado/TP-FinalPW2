@@ -11,15 +11,6 @@ class ModificarPreguntaController
         $this->presenter = $presenter;
     }
 
-    public function show()
-    {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
-        $data['preguntas'] = $this->model->obtenerPreguntas();
-        $this->presenter->show('modificarPregunta', $data);
-    }
-
     public function verPregunta()
     {
         $id = $_GET['id'];
@@ -42,7 +33,8 @@ class ModificarPreguntaController
         $opcionCorrecta = isset($_POST['opcionCorrecta']) ? $_POST['opcionCorrecta'] : "";
 
         $this->model->modificarPreguntaConOpciones($id, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
-        header("location:/editor");
+<
+        header("location:/verPreguntas");
         exit();
     }
 }

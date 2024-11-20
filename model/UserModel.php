@@ -133,7 +133,6 @@ class UserModel
 
             return false;
         } else {
-
             return "El usuario ya está activo.";
         }
     }
