@@ -17,7 +17,7 @@ class VerPreguntasController
             header("location:/");
         }
         $data['preguntas'] = $this->model->obtenerPreguntas();
-        $this->presenter->show('modificarPregunta', $data);
+        $this->presenter->show('verPreguntas', $data);
     }
 
     public function verPregunta()

@@ -24,8 +24,17 @@ class PreguntaModel
 
     public function agregarPregunta($pregunta)
     {
+        $sql = "SELECT COUNT(*) AS cantidad FROM preguntas WHERE pregunta = '$pregunta'";
+        $result = $this->database->execute($sql);
+        $row = $result->fetch_assoc();
+        $cantidad = $row['cantidad'];
+
+        if ($cantidad > 0) {
+            return "La pregunta ya existe.";
+        }
+
         $sql = "INSERT INTO preguntas (pregunta, categoria_id, usuario_id) 
-        VALUES ('$pregunta', 1, 1)";
+            VALUES ('$pregunta', 1, 1)";
 
         $this->database->execute($sql);
 
@@ -45,6 +54,10 @@ class PreguntaModel
     public function agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
     {
         $idPregunta = $this->agregarPregunta($pregunta);
+
+        if (is_string($idPregunta)) {
+            return "La pregunta ya existe";
+        }
 
         $this->agregarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
     }

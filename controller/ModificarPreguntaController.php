@@ -11,15 +11,6 @@ class ModificarPreguntaController
         $this->presenter = $presenter;
     }
 
-    public function show()
-    {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
-        $data['preguntas'] = $this->model->obtenerPreguntas();
-        $this->presenter->show('modificarPregunta', $data);
-    }
-
     public function verPregunta()
     {
         $id = $_GET['id'];

@@ -29,9 +29,15 @@ class AgregarPreguntaController
             $opcion3 = $_POST['opcion3'];
             $opcionCorrecta = $_POST['opcionCorrecta'];
 
-            $this->model->agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
-            header("location:/verPreguntas");
-            exit();
+            $result = $this->model->agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+
+            if (is_string($result)) {
+                $_SESSION["error_al_agregar"] = "La pregunta ya existe";
+                header("Location: /agregarPregunta");
+            } else {
+                header("Location: /verPreguntas");
+                exit();
+            }
         }
     }
 }

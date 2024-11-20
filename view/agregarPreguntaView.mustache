@@ -1,4 +1,9 @@
 <div>
+                {{#error_al_agregar}}
+                    <div class="alert alert-danger" role="alert">
+                        {{error_al_agregar}}
+                    </div>
+                {{/error_al_agregar}}
    <form method="POST" action="/agregarPregunta/agregar">
     <label for="pregunta">Pregunta:</label>
        <input type="text" class="input-pregunta" id="pregunta" name="pregunta" required>

@@ -11,15 +11,6 @@ class EliminarPreguntaController
         $this->presenter = $presenter;
     }
 
-    public function show()
-    {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
-
-        $this->presenter->show('agregarPregunta');
-    }
-
     public function eliminar()
     {
         $id = $_GET['id'];
