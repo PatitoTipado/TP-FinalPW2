@@ -21,6 +21,8 @@ include_once ("controller/VerPreguntasController.php");
 include_once ("controller/ModificarPreguntaController.php");
 include_once ("controller/AgregarPreguntaController.php");
 include_once ("controller/EliminarPreguntaController.php");
+include_once ("controller/VerSugeridasController.php");
+include_once ("controller/VerReportesController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 
@@ -77,9 +79,14 @@ class Configuration
         return new AgregarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
     }
 
-    public function getEliminarPreguntaController()
+    public function getVerSugeridasController()
     {
-        return new EliminarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
+        return new VerSugeridasController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
+    public function getVerReportesController()
+    {
+        return new VerReportesController($this->getPresenter(), $this->getPreguntaModel());
     }
 
     //MODELOS
