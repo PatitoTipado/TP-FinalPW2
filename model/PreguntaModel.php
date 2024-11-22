@@ -23,7 +23,7 @@ class PreguntaModel
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
 
-    public function obtenerReportes()
+    public function obtenerPreguntasReportadas()
     {
         return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta, p.estado FROM preguntas p
         JOIN opciones o ON p.id = o.pregunta_id JOIN reportes r ON r.pregunta_id = p.id            
@@ -146,7 +146,21 @@ class PreguntaModel
         $this->eliminarPregunta($idPregunta);
     }
 
-    public function aprobarPreguntaReportada($id) {}
+    public function aprobarPreguntaReportada($id) {
+        $sql = "UPDATE reportes SET estado = 'rechazado' WHERE pregunta_id = '$id'";
+        $this->database->execute($sql);
+
+        $sql = "UPDATE preguntas SET estado = 'aprobada' WHERE id = '$id'";
+        $this->database->execute($sql);
+    }
+
+    public function eliminarPreguntaReportada($id) {
+        $sql = "UPDATE reportes SET estado = 'aprobado' WHERE pregunta_id = '$id'";
+        $this->database->execute($sql);
+
+        $sql = "UPDATE preguntas SET estado = 'rechazada' WHERE id = '$id'";
+        $this->database->execute($sql);
+    }
 
     public function aprobarPreguntaSugerida($id)
     {
@@ -154,16 +168,9 @@ class PreguntaModel
         $this->database->execute($sql);
     }
 
-    public function eliminarPreguntaReportada($id) {
-        
-    }
-
     public function rechazarPreguntaSugerida($id)
     {
-        $sql = "DELETE FROM opciones WHERE pregunta_id = $id";
-        $this->database->execute($sql);
-
-        $sql = "DELETE FROM preguntas WHERE id = $id";
+        $sql = "UPDATE preguntas SET estado = 'rechazada' WHERE id = '$id'";
         $this->database->execute($sql);
     }
 }

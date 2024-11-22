@@ -24,7 +24,7 @@ class VerSugeridasController
         $id = $_GET['id'];
 
         $this->model->aprobarPreguntaSugerida($id);
-        header("location:/verSugeridas");
+        header("location:/verPreguntas");
         exit();
     }
 
