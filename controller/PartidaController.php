@@ -43,6 +43,7 @@ class PartidaController
 
         $data = $this->model->obtenerDataPartida($id_partida);
 
+        $_SESSION['tiempo']= $data['tiempo'];
         $_SESSION['id_pregunta'] = $data['id_pregunta'];
         $_SESSION['pregunta'] = $data['pregunta'];
         $_SESSION['opciones'] = $data['opciones'];
@@ -91,6 +92,7 @@ class PartidaController
 
             $data = $this->model->obtenerDataPartida($id_partida);
 
+            $_SESSION['tiempo']=$data['tiempo'];
             $_SESSION['id_pregunta'] = $data['id_pregunta'];
             $_SESSION['pregunta'] = $data['pregunta'];
             $_SESSION['opciones'] = $data['opciones'];
