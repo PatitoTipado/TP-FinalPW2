@@ -74,6 +74,11 @@ class Configuration
         return new ModificarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
     }
 
+    public function getEliminarPreguntaController()
+    {
+        return new EliminarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
+    }
+
     public function getAgregarPreguntaController()
     {
         return new AgregarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
