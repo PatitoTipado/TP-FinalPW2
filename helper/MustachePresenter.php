@@ -28,4 +28,10 @@ class MustachePresenter
         $contentAsString .= file_get_contents($this->partialsPathLoader . '/footer.mustache');
         return $this->mustache->render($contentAsString, $data);
     }
+
+    public function generateHtmlPdf($contentFile, $data = array())
+    {
+        $contentAsString = file_get_contents($contentFile);
+        return $this->mustache->render($contentAsString, $data);
+    }
 }

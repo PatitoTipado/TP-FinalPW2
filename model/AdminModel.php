@@ -37,7 +37,7 @@ class AdminModel
     public function filtrarUsuariosPorRangoDeFecha($inicio, $fin)
     {
         if ($inicio <= $fin) {
-            $sql = "SELECT COUNT(*) AS cantidad FROM usuarios WHERE fecha_registro BETWEEN '$inicio' AND '$fin' AND rol = 'jugador'";
+            $sql = "SELECT COUNT(*) AS cantidad FROM usuarios WHERE fecha_registro BETWEEN '$inicio' AND '$fin' AND rol = 'jugador' GROUP BY estado";
             $data['result'] = false;
 
             $result = $this->database->query($sql);
@@ -53,6 +53,7 @@ class AdminModel
         }
 
         $data['error'] = "La fecha de inicio no puede ser mayor que la fecha de fin.";
+
         return $data;
     }
 
@@ -88,7 +89,8 @@ class AdminModel
 
     public function filtrarPorSexo()
     {
-        $query = "SELECT sexo AS sexo, COUNT(*) AS cantidad FROM usuarios WHERE rol = 'jugador' GROUP BY sexo";
+        //pongo estado por que es mas facil escribir ne paantalla
+        $query = "SELECT sexo AS estado, COUNT(*) AS cantidad FROM usuarios WHERE rol = 'jugador' GROUP BY sexo";
 
         $result = mysqli_query($this->database->getConn(), $query);
 
@@ -201,10 +203,6 @@ class AdminModel
 
         $result = mysqli_query($this->database->getConn(), $query);
 
-        if (!$result) {
-            throw new Exception("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
-        }
-
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
@@ -215,7 +213,7 @@ class AdminModel
 
     public function obtenerElTotalDePreguntasPorEstado()
     {
-        $query = "SELECT estado AS estados, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
+        $query = "SELECT estado AS estado, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
 
         $result = mysqli_query($this->database->getConn(), $query);
 
@@ -235,13 +233,9 @@ class AdminModel
 
     public function obtenerPreguntasPorNivel()
     {
-        $query = "SELECT nivel AS nivel, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
+        $query = "SELECT nivel AS estado, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
 
         $result = mysqli_query($this->database->getConn(), $query);
-
-        if (!$result) {
-            die("Error en la consulta SQL: " . mysqli_error($this->database->getConn()));
-        }
 
         $data = [];
 

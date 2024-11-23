@@ -24,27 +24,93 @@
         </div>
     </div>
 
-    {{#preguntasPorEstado}}
-        <br>
-        estado : {{estados}} --- cantidad {{cantidad}}
-        <br>
-    {{/preguntasPorEstado}}
+    {{#filtro_aplicado}}
 
-    {{#preguntasPorNivel}}
-        <br>
-        estado : {{nivel}} --- cantidad {{cantidad}}
-        <br>
-    {{/preguntasPorNivel}}
+        <article id="total" style="text-align: center; margin: 0 auto; width: 80%;">
+            <h1 style="margin-top: 20px;">{{titulo}}</h1>
+            <h3 style="margin-top: 20px;">{{filtro_aplicado}}</h3>
+
+            <div>
+                <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
+                    <thead>
+                    <tr style="background-color: #333; color: #fff;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">{{tipo}}</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#row}}
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{estado}}</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{cantidad}}</td>
+                        </tr>
+                    {{/row}}
+
+                    {{#cantidad_total}}
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">cantidad total de jugadores</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{cantidad_total}}</td>
+                        </tr>
+                    {{/cantidad_total}}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+    {{/filtro_aplicado}}
 
     {{#porcentaje}}
-        <br>
-        porcentaje de correctas= {{correctas}}
-        <br>
-        <br>
-        porcentaje de incorrectas= {{incorrectas}}
-        <br>
-        <br>
-
+        <article style="text-align: center; margin: 0 auto; width: 80%;">
+            <h1 style="margin-top: 20px;">Reporte de Porcentajes</h1>
+            <div>
+                <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
+                    <thead>
+                    <tr style="background-color: #333; color: #fff;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Tipo</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Porcentaje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#row}}
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Porcentaje de correctas</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{correctas}}%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Porcentaje de incorrectas</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{incorrectas}}%</td>
+                        </tr>
+                    {{/row}}
+                    </tbody>
+                </table>
+            </div>
+        </article>
     {{/porcentaje}}
+
+    {{#generar}}
+
+        <form action="/admin/generarPdf" method="POST">
+            <!-- Campos ocultos con los valores pasados desde el controlador -->
+            <input type="hidden" name="titulo" value="{{titulo}}">
+            <input type="hidden" name="tipo" value="{{tipo}}">
+            <input type="hidden" name="filtro" value="{{filtro_aplicado}}">
+            <input type="hidden" name="inicio" value="{{inicio}}">
+            <input type="hidden" name="fin" value="{{fin}}">
+            <input type="hidden" name="cantidad_total" value="{{cantidad_total}}">
+            <input type="hidden" name="pais" value="{{pais}}">
+            <input type="hidden" name="ciudad" value="{{ciudad}}">
+            <input type="hidden" name="filtro_edad" value="{{filtro_edad}}">
+            <input type="hidden" name="menores" value="{{menores}}">
+            <input type="hidden" name="adultos" value="{{adultos}}">
+            <input type="hidden" name="jubilados" value="{{jubilados}}">
+            <input type="hidden" name="isPregunta" value="{{isPregunta}}">
+            <input type="hidden" name="porcentaje" value="{{porcentaje}}">
+
+
+            <button type="submit" class="btn btn-success btn-lg">Generar PDF</button>
+        </form>
+
+    {{/generar}}
+
 
 </main>
