@@ -36,19 +36,83 @@ class UserModel
 
         $hash = $this->obtenerHash();
 
+        $pais =strtolower($this->obtenerPais($latitud,$longitud));
+        $ciudad=strtolower($this->obtenerProvincia($latitud,$longitud));
+
         $sql = "INSERT INTO usuarios 
-        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, latitud,longitud ,fecha_registro,imagen_url,hash,rol) 
+        (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, latitud,longitud ,fecha_registro,imagen_url,hash,rol,pais,ciudad) 
         VALUES 
-        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$latitud', '$longitud', '$fecha_registro','$foto','$hash','jugador')";
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$latitud', '$longitud', '$fecha_registro','$foto','$hash','jugador','$pais', '$ciudad')";
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
-            $this->phpMailSender->sendEmail($email, $hash, $nombre_de_usuario);
+            //$this->phpMailSender->sendEmail($email, $hash, $nombre_de_usuario);
             return "exitoso";
         } else {
             return "ocurrio un error en la base de datos.";
         }
     }
+
+    private function obtenerPais($lat, $lon)
+    {
+        $url = "https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$lon&format=json&addressdetails=1&language=es";
+
+        // Inicializar cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // Establecer User-Agent para evitar el error 403
+        curl_setopt($ch, CURLOPT_USERAGENT, 'MiApp/1.0 (miemail@dominio.com)');
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si hubo algún error con la solicitud
+        if(curl_errno($ch)) {
+            die( 'Error en la solicitud: ' . curl_error($ch));
+        }
+
+        // Cerrar cURL
+        curl_close($ch);
+
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
+
+        // Verificar si se obtuvo el país
+        return $data['address']['country'] ?? 'No se pudo obtener el país';
+    }
+
+    private function obtenerProvincia($lat, $lon)
+    {
+        $url = "https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$lon&format=json&addressdetails=1&language=es";
+
+        // Inicializar cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        // Establecer User-Agent para evitar el error 403 --> no toque el agent por que no lo necesite
+        curl_setopt($ch, CURLOPT_USERAGENT, 'MiApp/1.0 (miemail@dominio.com)');
+
+        // Ejecutar la solicitud
+        $response = curl_exec($ch);
+
+        // Verificar si hubo algún error con la solicitud
+        if(curl_errno($ch)) {
+            die( 'Error en la solicitud: ' . curl_error($ch));
+        }
+
+        // Cerrar cURL
+        curl_close($ch);
+
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
+
+        // Verificar si se obtuvo la provincia
+        return $data['address']['state'] ?? 'No se pudo obtener la provincia';
+    }
+
 
     public function validarHash($hash)
     {

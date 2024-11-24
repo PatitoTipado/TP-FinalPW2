@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Reporte PDF</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<body>
+
+{{#filtro_aplicado}}
+    <article id="total" style="text-align: center; margin: 0 auto; width: 80%;">
+    <h1 style="margin-top: 20px;">{{titulo}}</h1>
+    <h3 style="margin-top: 20px;">{{filtro_aplicado}}</h3>
+    <div>
+        <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
+            <thead>
+            <tr style="background-color: #333; color: #fff;">
+                <th style="padding: 10px; border: 1px solid #ddd;">{{tipo}}</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Cantidad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#row}}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{estado}}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{cantidad}}</td>
+                </tr>
+            {{/row}}
+
+            {{#cantidad_total}}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">cantidad total de jugadores</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{cantidad_total}}</td>
+                </tr>
+            {{/cantidad_total}}
+            </tbody>
+        </table>
+    </div>
+</article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
+
+{{/filtro_aplicado}}
+
+
+{{#filtro_edad}}
+
+    <article style="text-align: center; margin: 0 auto; width: 80%;">
+        <h1 style="margin-top: 20px;">{{titulo}}</h1>
+        <h3 style="margin-top: 20px;">{{filtro_aplicado}}</h3>
+        <div>
+            <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
+                <thead>
+                <tr style="background-color: #333; color: #fff;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">{{tipo}}</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Cantidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#row}}
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Menores de 18 años</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{menores}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Entre 18 y 60 años</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{adultos}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Mayores de 60 años:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{jubilados}}</td>
+                    </tr>
+
+                    {{#cantidad_total}}
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">cantidad total de jugadores</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{cantidad_total}}</td>
+                        </tr>
+                    {{/cantidad_total}}
+                {{/row}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
+
+{{/filtro_edad}}
+
+{{#porcentaje}}
+
+    <article style="text-align: center; margin: 0 auto; width: 80%;">
+        <h1 style="margin-top: 20px;">Reporte de Porcentajes</h1>
+        <div>
+            <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
+                <thead>
+                <tr style="background-color: #333; color: #fff;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Tipo</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Porcentaje</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#row}}
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Porcentaje de correctas</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{correctas}}%</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Porcentaje de incorrectas</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{incorrectas}}%</td>
+                    </tr>
+                {{/row}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
+
+{{/porcentaje}}
+
+
+
+</body>
+</html>
