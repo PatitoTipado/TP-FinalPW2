@@ -130,6 +130,9 @@ class PreguntaModel
 
     public function eliminarPregunta($id)
     {
+        $sqlReportes = "DELETE FROM reportes WHERE pregunta_id = $id";
+        $this->database->execute($sqlReportes);
+
         $sql = "DELETE FROM preguntas WHERE id = $id";
         $this->database->execute($sql);
     }
@@ -146,7 +149,8 @@ class PreguntaModel
         $this->eliminarPregunta($idPregunta);
     }
 
-    public function aprobarPreguntaReportada($id) {
+    public function aprobarPreguntaReportada($id)
+    {
         $sql = "UPDATE reportes SET estado = 'rechazado' WHERE pregunta_id = '$id'";
         $this->database->execute($sql);
 
@@ -154,7 +158,8 @@ class PreguntaModel
         $this->database->execute($sql);
     }
 
-    public function eliminarPreguntaReportada($id) {
+    public function eliminarPreguntaReportada($id)
+    {
         $sql = "UPDATE reportes SET estado = 'aprobado' WHERE pregunta_id = '$id'";
         $this->database->execute($sql);
 
