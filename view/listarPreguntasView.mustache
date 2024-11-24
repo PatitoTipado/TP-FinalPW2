@@ -57,6 +57,21 @@
             </div>
         </article>
 
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <!-- Contenedor del gráfico -->
+            <div id="chart_div"
+                 style="
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            height: 500px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        ">
+                <!-- El gráfico se dibuja aquí -->
+            </div>
+        </div>
+
     {{/filtro_aplicado}}
 
     {{#porcentaje}}
@@ -85,6 +100,23 @@
                 </table>
             </div>
         </article>
+
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <!-- Contenedor del gráfico -->
+            <div id="chart_div"
+                 style="
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            height: 500px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        ">
+                <!-- El gráfico se dibuja aquí -->
+            </div>
+        </div>
+
+
     {{/porcentaje}}
 
     {{#generar}}
@@ -105,6 +137,7 @@
             <input type="hidden" name="jubilados" value="{{jubilados}}">
             <input type="hidden" name="isPregunta" value="{{isPregunta}}">
             <input type="hidden" name="porcentaje" value="{{porcentaje}}">
+            <input type="hidden" id="chart_image" name="chart_image">
 
 
             <button type="submit" class="btn btn-success btn-lg">Generar PDF</button>
@@ -112,5 +145,56 @@
 
     {{/generar}}
 
-
 </main>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script >
+    // Cargar Google Charts
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        let data;
+        if('{{titulo}}' === 'Obtener preguntas por nivel' || '{{titulo}}' === 'obtener todas las preguntas'){
+            // Crear los datos para el gráfico
+            data = google.visualization.arrayToDataTable([
+                ['{{tipo}}', 'Cantidad'], // Encabezados de las columnas
+                {{#row}}
+                    ['{{estado}}', {{cantidad}}], // Datos dinámicos
+                {{/row}}
+            ]);
+        }
+
+        if('{{titulo}}' === 'Obtener porcentaje de preguntas'){
+            // Crear los datos para el gráfico
+            data = google.visualization.arrayToDataTable([
+                ['Tipo', 'Porcentaje'], // Encabezados de las columnas
+                {{#row}}
+                    ['Porcentaje de correctas', {{correctas}}],
+                    ['Porcentaje de incorrectas', {{incorrectas}}],
+                {{/row}}
+            ]);
+
+        }
+
+        // Configurar opciones del gráfico
+        const options = {
+            title: '{{titulo}}',
+            width: '100%',
+            height: '90%'
+        };
+
+        // Dibujar el gráfico en el contenedor
+        //barChart
+        const chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        // Obtener la URI Base64 directamente después de dibujar el gráfico
+        const chartImage = chart.getImageURI();
+        const imageInput = document.getElementById('chart_image');
+        if (imageInput) {
+            imageInput.value = chartImage;
+        }
+
+    }
+
+</script>

@@ -89,8 +89,8 @@ class AdminController
 
         }
 
-        //para partidas
-        if(empty($inicio) && empty($fin) && $data['titulo'] == 'obtener todas las partidas filtradas por fecha'){
+        //para partidas por estado
+        if(empty($inicio) && empty($fin) && $data['titulo'] == 'obtener el estado de todas las partidas'){
             $data ['row'] = $this->model->obtenerPartidasPorEstado();
             $data['estado']='filtro desde:  ' . $inicio . ' hasta: ' . $fin;
             $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
@@ -228,7 +228,7 @@ class AdminController
         $data['fecha']=true;
 
         if(empty($inicio) || empty($fin)){
-
+            $data['titulo']= 'obtener el estado de todas las partidas';
             $data ['row'] = $this->model->obtenerPartidasPorEstado();
             $this->presenter->show('listarPartidas', $data);
             exit();
@@ -322,7 +322,7 @@ class AdminController
             return $this->model->filtrarUsuariosPorRangoDeFecha($inicio, $fin);
         }
 
-        if($titulo=='obtener todas las partidas filtradas por fecha'){
+        if($titulo=='obtener todas las partidas filtradas por fecha' ){
 
             return $this->model->obtenerPartidasPorEstadoFiltradasPorFecha($inicio,$fin);
         }

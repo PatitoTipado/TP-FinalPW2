@@ -233,7 +233,7 @@ class AdminModel
 
     public function obtenerPreguntasPorNivel()
     {
-        $query = "SELECT nivel AS estado, COUNT(*) AS cantidad FROM preguntas GROUP BY estado";
+        $query = "SELECT nivel AS estado, COUNT(*) AS cantidad FROM preguntas group by nivel";
 
         $result = mysqli_query($this->database->getConn(), $query);
 
