@@ -7,11 +7,9 @@
 <body>
 
 {{#filtro_aplicado}}
-
     <article id="total" style="text-align: center; margin: 0 auto; width: 80%;">
     <h1 style="margin-top: 20px;">{{titulo}}</h1>
     <h3 style="margin-top: 20px;">{{filtro_aplicado}}</h3>
-
     <div>
         <table style="border-collapse: collapse; margin: 20px auto; width: 100%; max-width: 600px; text-align: center;">
             <thead>
@@ -38,11 +36,17 @@
         </table>
     </div>
 </article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
 
 {{/filtro_aplicado}}
 
 
 {{#filtro_edad}}
+    <h1>Grafico</h1>
+    <img src='{{grafico}}' style="width:100%; height:auto;" alt="grafico">
+
     <article style="text-align: center; margin: 0 auto; width: 80%;">
         <h1 style="margin-top: 20px;">{{titulo}}</h1>
         <h3 style="margin-top: 20px;">{{filtro_aplicado}}</h3>
@@ -80,10 +84,16 @@
             </table>
         </div>
     </article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
 
 {{/filtro_edad}}
 
 {{#porcentaje}}
+    <h1>Grafico</h1>
+    <img src='{{grafico}}' style="width:100%; height:auto;" alt="grafico">
+
     <article style="text-align: center; margin: 0 auto; width: 80%;">
         <h1 style="margin-top: 20px;">Reporte de Porcentajes</h1>
         <div>
@@ -109,6 +119,10 @@
             </table>
         </div>
     </article>
+    <div style="display: flex; width: 80%; margin: auto; justify-content: center; align-items: center;">
+        <img src="http://localhost/public/grafico.png" alt="grafico">
+    </div>
+
 {{/porcentaje}}
 
 

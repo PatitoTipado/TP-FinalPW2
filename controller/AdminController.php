@@ -56,13 +56,33 @@ class AdminController
         $fin= $_POST['fin'];
         $pais= $_POST['pais'];
         $ciudad=$_POST['ciudad'];
+        $isPregunta=$_POST['isPregunta']??false;
 
         //vizualizar en el generador cada parte
         $data['filtro_edad']= $_POST['filtro_edad'] ??false;
         $data['porcentaje']=$_POST['porcentaje']??false;
+        $base64Image = $_POST['chart_image'] ?? '';
 
+        if (!empty($base64Image)) {
+            // Decodificar la imagen Base64 y guardarla como archivo
+            $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
+            $nombreArchivo = 'grafico.PNG';
+
+            // Separar el encabezado del contenido Base64 (si existe un encabezado)
+            $imageData = explode(',', $base64Image);
+            $base64Content = isset($imageData[1]) ? $imageData[1] : $imageData[0];
+
+            // Decodificar y guardar el contenido de la imagen
+            $rutaArchivo = $carpetaImagenes . $nombreArchivo;
+            file_put_contents($rutaArchivo, base64_decode($base64Content));
+
+            // Guardar la ruta en el array de datos para usarla después
+            $data['grafico'] = $rutaArchivo;
+        }else{
+            die("me mori llego vacio");
+        }
         //para imprimir preguntas
-        if($_POST['isPregunta']){
+        if($isPregunta){
             $data['row']= $this->obtenerDatosPorTituloDePregunta($data['titulo']);
             $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
             return;
@@ -126,6 +146,7 @@ class AdminController
             $data['tipo'] = 'Rango de fecha';
             $data['generar']= true;
             $data['estado']='filtro desde:  ' . $fechaInicio . ' hasta: ' . $fechaFin;
+            $data['sobrante']= $data['cantidad_total']-$data['row']['cantidad'];
         }
 
         $data['inicio']=$fechaInicio;
@@ -152,6 +173,7 @@ class AdminController
             $data['tipo'] = 'pais y ciudad';
             $data['generar']= true;
             $data['estado']='pais:  ' . $pais . ' ciudad: ' . $ciudad;
+            $data['sobrante']= $data['cantidad_total']-$data['row']['cantidad'];
 
         }
 
