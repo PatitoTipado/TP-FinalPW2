@@ -11,8 +11,9 @@ class PreguntaModel
 
     public function obtenerPreguntas()
     {
-        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
-        JOIN opciones o ON p.id = o.pregunta_id                  
+        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta, p.estado FROM preguntas p
+        JOIN opciones o ON p.id = o.pregunta_id  
+        WHERE p.estado = 'aprobada'                
         GROUP BY p.id");
     }
 
@@ -22,7 +23,22 @@ class PreguntaModel
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
 
-    public function agregarPregunta($pregunta)
+    public function obtenerPreguntasReportadas()
+    {
+        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta, p.estado FROM preguntas p
+        JOIN opciones o ON p.id = o.pregunta_id JOIN reportes r ON r.pregunta_id = p.id            
+        GROUP BY p.id");
+    }
+
+    public function obtenerPreguntasSugeridas()
+    {
+        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, p.tipo_pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta, p.estado FROM preguntas p
+        JOIN opciones o ON p.id = o.pregunta_id  
+        WHERE p.tipo_pregunta = 'sugerida' AND p.estado = 'pendiente'                
+        GROUP BY p.id");
+    }
+
+    public function agregarPregunta($pregunta, $nivel)
     {
         $sql = "SELECT COUNT(*) AS cantidad FROM preguntas WHERE pregunta = '$pregunta'";
         $result = $this->database->execute($sql);
@@ -33,8 +49,8 @@ class PreguntaModel
             return "La pregunta ya existe.";
         }
 
-        $sql = "INSERT INTO preguntas (pregunta, categoria_id, usuario_id) 
-            VALUES ('$pregunta', 1, 1)";
+        $sql = "INSERT INTO preguntas (pregunta, nivel, categoria_id, usuario_id, estado, fecha_creacion) 
+            VALUES ('$pregunta', '$nivel', 1, 1, 'aprobada', NOW())";
 
         $this->database->execute($sql);
 
@@ -51,9 +67,9 @@ class PreguntaModel
         $this->database->execute($sql);
     }
 
-    public function agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    public function agregarPreguntaConOpciones($pregunta, $nivel, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
     {
-        $idPregunta = $this->agregarPregunta($pregunta);
+        $idPregunta = $this->agregarPregunta($pregunta, $nivel);
 
         if (is_string($idPregunta)) {
             return "La pregunta ya existe";
@@ -128,5 +144,33 @@ class PreguntaModel
     {
         $this->eliminarOpciones($idPregunta);
         $this->eliminarPregunta($idPregunta);
+    }
+
+    public function aprobarPreguntaReportada($id) {
+        $sql = "UPDATE reportes SET estado = 'rechazado' WHERE pregunta_id = '$id'";
+        $this->database->execute($sql);
+
+        $sql = "UPDATE preguntas SET estado = 'aprobada' WHERE id = '$id'";
+        $this->database->execute($sql);
+    }
+
+    public function eliminarPreguntaReportada($id) {
+        $sql = "UPDATE reportes SET estado = 'aprobado' WHERE pregunta_id = '$id'";
+        $this->database->execute($sql);
+
+        $sql = "UPDATE preguntas SET estado = 'rechazada' WHERE id = '$id'";
+        $this->database->execute($sql);
+    }
+
+    public function aprobarPreguntaSugerida($id)
+    {
+        $sql = "UPDATE preguntas SET estado = 'aprobada' WHERE id = '$id'";
+        $this->database->execute($sql);
+    }
+
+    public function rechazarPreguntaSugerida($id)
+    {
+        $sql = "UPDATE preguntas SET estado = 'rechazada' WHERE id = '$id'";
+        $this->database->execute($sql);
     }
 }

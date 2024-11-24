@@ -22,14 +22,15 @@ class AgregarPreguntaController
 
     public function agregar()
     {
-        if (isset($_POST["pregunta"]) && isset($_POST["opcion1"]) && isset($_POST["opcion2"]) && isset($_POST["opcion3"]) && isset($_POST["opcionCorrecta"])) {
+        if (isset($_POST["pregunta"]) && isset($_POST["opcion1"]) && isset($_POST["opcion2"]) && isset($_POST["opcion3"]) && isset($_POST["opcionCorrecta"]) && isset($_POST['nivel'])) {
             $pregunta = $_POST['pregunta'];
             $opcion1 = $_POST['opcion1'];
             $opcion2 = $_POST['opcion2'];
             $opcion3 = $_POST['opcion3'];
             $opcionCorrecta = $_POST['opcionCorrecta'];
+            $nivel = $_POST['nivel'];
 
-            $result = $this->model->agregarPreguntaConOpciones($pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+            $result = $this->model->agregarPreguntaConOpciones($pregunta, $nivel, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
 
             if (is_string($result)) {
                 $_SESSION["error_al_agregar"] = "La pregunta ya existe";
