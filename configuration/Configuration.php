@@ -5,6 +5,7 @@ include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 include_once ("helper/FileEmailSender.php");
 require_once ('helper/FilePHPEmailSender.php');
+include_once ('helper/PDFFilesGenerator.php');
 
 include_once("model/UserModel.php");
 include_once ("model/PartidaModel.php");
@@ -26,6 +27,7 @@ include_once ("controller/AdminController.php");
 include_once ("controller/ReporteController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
+include_once('vendor/dompdf/autoload.inc.php');
 
 class Configuration
 {
@@ -90,7 +92,7 @@ class Configuration
 
     public function getAdminController()
     {
-        return new AdminController($this->getPresenter(),$this->getAdminModel());
+        return new AdminController($this->getPresenter(),$this->getAdminModel(),$this->getPdfGenerator());
     }
 
     //MODELOS
@@ -158,6 +160,11 @@ class Configuration
     private function getFileEmailSender()
     {
         return new FileEmailSender();
+    }
+
+    public function getPdfGenerator()
+    {
+        return new PDFFilesGenerator($this->getPresenter());
     }
 
 }

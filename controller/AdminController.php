@@ -5,10 +5,13 @@ class AdminController
 
     private $presenter;
     private $model;
-    public function __construct($presenter, $model)
+    private $pdfGenerator;
+
+    public function __construct($presenter, $model,$pdfGenerator)
     {
         $this->model = $model;
         $this->presenter = $presenter;
+        $this->pdfGenerator=$pdfGenerator;
     }
 
     public function show()
@@ -18,232 +21,271 @@ class AdminController
         $this->presenter->show('listarUsuario',$_SESSION);
     }
 
+    //JUGADORES
+
     public function jugadoresTotales()
     {
         $this->validarAdministrador();
 
-        $_SESSION['jugadores_totales'] = true;
+        $data['titulo']= 'Reporte jugadores totales';
+        $data['tipo']= 'estado de jugador';
+        $data['filtro_aplicado']="obtener todos los jugadores por estado";
+        $data['row'] = $this->model->obtenerJugadoresTotales();
+        $data['generar']= true;
 
-        // Obtener los jugadores agrupados por estado
-        $jugadoresPorEstado = $this->model->obtenerJugadoresTotales();
-
-        // Verifica si hay resultados antes de pasarlos a la vista
-        if (!$jugadoresPorEstado) {
-            die("No se encontraron jugadores.");
-        }
-
-        // Pasar los datos a la vista
-        $data = ['jugadoresPorEstado' => $jugadoresPorEstado];
-
-        // Combina datos con la sesión si es necesario
         $dataCompleto = array_merge($_SESSION, $data);
 
-        // Pasar los datos a la vista
         $this->presenter->show('listarUsuario', $dataCompleto);
 
-        unset($_SESSION['jugadores_totales']);
+    }
+
+    //se que lo mejor es modularizarlo e imprimir pdf por usuario pregunta y partida
+    //pero estoy apretado y creo que me sale mas barato
+
+    public function generarPdf()
+    {
+        $this->validarAdministrador();
+
+        //atributos comunes
+        $data['titulo']= $_POST['titulo']?? '';
+        $data['tipo']= $_POST['tipo']??'';
+        $data['filtro_aplicado']= $_POST['filtro']??'';
+
+        //atributos validadores
+        $inicio= $_POST['inicio']??'';
+        $fin= $_POST['fin'];
+        $pais= $_POST['pais'];
+        $ciudad=$_POST['ciudad'];
+        $isPregunta=$_POST['isPregunta']??false;
+
+        //vizualizar en el generador cada parte
+        $data['filtro_edad']= $_POST['filtro_edad'] ??false;
+        $data['porcentaje']=$_POST['porcentaje']??false;
+        $base64Image = $_POST['chart_image'] ?? '';
+
+        if (!empty($base64Image)) {
+            // Decodificar la imagen Base64 y guardarla como archivo
+            $carpetaImagenes = $_SERVER['DOCUMENT_ROOT'] . '/public/';
+            $nombreArchivo = 'grafico.PNG';
+
+            // Separar el encabezado del contenido Base64 (si existe un encabezado)
+            $imageData = explode(',', $base64Image);
+            $base64Content = isset($imageData[1]) ? $imageData[1] : $imageData[0];
+
+            // Decodificar y guardar el contenido de la imagen
+            $rutaArchivo = $carpetaImagenes . $nombreArchivo;
+            file_put_contents($rutaArchivo, base64_decode($base64Content));
+
+            // Guardar la ruta en el array de datos para usarla después
+            $data['grafico'] = $rutaArchivo;
+        }else{
+            die("me mori llego vacio");
+        }
+        //para imprimir preguntas
+        if($isPregunta){
+            $data['row']= $this->obtenerDatosPorTituloDePregunta($data['titulo']);
+            $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
+            return;
+
+        }
+
+        //para partidas por estado
+        if(empty($inicio) && empty($fin) && $data['titulo'] == 'obtener el estado de todas las partidas'){
+            $data ['row'] = $this->model->obtenerPartidasPorEstado();
+            $data['estado']='filtro desde:  ' . $inicio . ' hasta: ' . $fin;
+            $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
+            return;
+        }
+
+        //para jugadores
+        if($data['filtro_edad']){
+            $data['menores']=$_POST['menores']??'';
+            $data['adultos']= $_POST['adultos']??'';
+            $data['jubilados']=$_POST['jubilados']??'';
+        }
+
+        if(!empty($inicio) && !empty($fin)){
+            $data['row'] = $this->obtenerDatosPorTituloFiltradoPorFecha($data['titulo'],$inicio,$fin);
+            //para que no salgan en partidas cuando obtengo por titulo
+            if($data['titulo']!='obtener todas las partidas filtradas por fecha'){
+                $data['cantidad_total'] = $this->model->obtenerLaCantidadDeJugadoresTotales();
+            }
+
+            $data['estado']='filtro desde:  ' . $inicio . ' hasta: ' . $fin;
+            $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
+            return;
+        }
+
+        if(!empty($pais) && !empty($ciudad)){
+            $data['row'] = $this->obtenerDatosPorTituloFiltradoPorPaisYCiudad($data['titulo'],$pais,$ciudad);
+            $data['cantidad_total'] = $this->model->obtenerLaCantidadDeJugadoresTotales();
+            $data['estado']='El pais es:  ' . $pais . ' y su ciudad: ' . $ciudad;
+            $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
+            return;
+        }
+
+        $data['cantidad_total'] = $this->model->obtenerLaCantidadDeJugadoresTotales();
+        $data['row'] = $this->obtenerDatosPorTitulo($data['titulo']);
+
+        $this->pdfGenerator->generateAndRenderPdf('./view/reportePdfView.mustache', $data, 'total.pdf', 0);
     }
 
     public function usuariosNuevos()
     {
         $this->validarAdministrador();
-        $_SESSION['jugadores_nuevos'] = true;
+        $data['fecha']=true;
 
-        $fechaInicio= $_GET['fecha_inicio']?? '';
-        $fechaFin= $_GET['fecha_fin'] ?? '';
+        $fechaInicio = $_GET['fecha_inicio'] ?? '';
+        $fechaFin = $_GET['fecha_fin'] ?? '';
 
-        $dataCompleto=$_SESSION;
-
-        if(!empty($fechaFin) && !empty($fechaInicio)){
-            $data= $this->model->filtrarUsuariosPorRangoDeFecha($fechaInicio,$fechaFin);
-            $data['cantidad_total']= $this->model->obtenerLaCantidadDeJugadoresTotales();
-            $dataCompleto = array_merge($_SESSION, $data);
+        if (!empty($fechaFin) && !empty($fechaInicio)) {
+            $data['row'] = $this->model->filtrarUsuariosPorRangoDeFecha($fechaInicio, $fechaFin);
+            $data['cantidad_total'] = $this->model->obtenerLaCantidadDeJugadoresTotales();
+            $data['filtro_aplicado'] = "Obtener jugadores nuevos por rango de fechas";
+            $data['titulo'] = 'Reporte de jugadores nuevos';
+            $data['tipo'] = 'Rango de fecha';
+            $data['generar']= true;
+            $data['estado']='filtro desde:  ' . $fechaInicio . ' hasta: ' . $fechaFin;
+            $data['sobrante']= $data['cantidad_total']-$data['row']['cantidad'];
         }
 
-        $this->presenter->show('listarUsuario', $dataCompleto);
+        $data['inicio']=$fechaInicio;
+        $data['fin']= $fechaFin;
 
-        unset($_SESSION['jugadores_nuevos']);
+        $this->presenter->show('listarUsuario', $data);
+
     }
 
     public function filtroPais()
     {
         $this->validarAdministrador();
-        $_SESSION['filtro_pais'] = true;
+        $data['mostrar_pais'] = true;
 
         $pais= $_GET['pais']?? '';
         $ciudad=$_GET['ciudad'] ??'';
-        $dataCompleto=$_SESSION;
 
         if(!empty($pais) && !empty($ciudad)){
-            $data= $this->model->filtrarPorPaisYCiudad($pais,$ciudad);
+
+            $data['row']= $this->model->filtrarPorPaisYCiudad($pais,$ciudad);
             $data['cantidad_total']= $this->model->obtenerLaCantidadDeJugadoresTotales();
-            $dataCompleto = array_merge($_SESSION, $data);
+            $data['filtro_aplicado'] = "obtener jugadores por pais y ciudad";
+            $data['titulo'] = 'Reporte de jugadores por pais y ciudad';
+            $data['tipo'] = 'pais y ciudad';
+            $data['generar']= true;
+            $data['estado']='pais:  ' . $pais . ' ciudad: ' . $ciudad;
+            $data['sobrante']= $data['cantidad_total']-$data['row']['cantidad'];
+
         }
 
-        $this->presenter->show('listarUsuario', $dataCompleto);
+        $data['pais']=$pais;
+        $data['ciudad']= $ciudad;
 
-        unset($_SESSION['filtro_pais']);
-
+        $this->presenter->show('listarUsuario', $data);
     }
 
     public function filtroSexo()
     {
         $this->validarAdministrador();
 
-        $_SESSION['filtro_sexo'] = true;
+        $data['titulo']= 'Obtener todos los jugadores filtrados por sexo';
+        $data['tipo']= 'Filtro sexo';
+        $data['filtro_aplicado']="Obtener todos los jugadores filtrados por sexo";
+        $data['generar']= true;
 
-        // Obtener los jugadores agrupados por sexo
-        $jugadoresPorSexo = $this->model->filtrarPorSexo();
+        $data['row'] = $this->model->filtrarPorSexo();
 
-        // Verifica si hay resultados antes de pasarlos a la vista
-        if (!$jugadoresPorSexo) {
-            die("No se encontraron jugadores.");
-        }
+        $this->presenter->show('listarUsuario', $data);
 
-        // Pasar los datos a la vista
-        $data = ['jugadoresPorSexo' => $jugadoresPorSexo];
-
-        // Combina datos con la sesión si es necesario
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        // Pasar los datos a la vista
-        $this->presenter->show('listarUsuario', $dataCompleto);
-
-        unset($_SESSION['filtro_sexo']);
     }
 
     public function filtroEdad()
     {
         $this->validarAdministrador();
 
-        $_SESSION['filtro_edad'] = true;
+        $data['titulo']= 'Obtener todos los jugadores filtrados por edad';
+        $data['tipo']= 'Filtro edad';
+        $data['filtro_edad']="Obtener todos los jugadores filtrados por edad";
+        $data['generar']= true;
 
-        // Obtener los jugadores agrupados por sexo
-        $jugadoresPorEdad = $this->model->filtrarPorEdad();
+        $data ['row'] = $this->model->filtrarPorEdad();
 
-        // Verifica si hay resultados antes de pasarlos a la vista
-        if (!$jugadoresPorEdad) {
-            die("No se encontraron jugadores.");
-        }
-
-        // Pasar los datos a la vista
-        $data = ['jugadoresPorEdad' => $jugadoresPorEdad];
-
-        // Combina datos con la sesión si es necesario
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        // Pasar los datos a la vista
-        $this->presenter->show('listarUsuario', $dataCompleto);
-
-        unset($_SESSION['filtro_edad']);
+        $this->presenter->show('listarUsuario', $data);
 
     }
+
+    //PARTIDAS
 
     public function listarTotalPartidas()
     {
         $this->validarAdministrador();
 
-        $_SESSION['partidas_totales'] = true;
+        $inicio=$_GET['fecha_inicio']?? '';
+        $fin= $_GET['fecha_fin']?? '';
+        $data['generar']= true;
+        $data['titulo']= 'obtener todas las partidas filtradas por fecha';
+        $data['tipo']= 'filtro partidas por fecha';
+        $data['filtro_aplicado']="obtener todas las partidas las partidas";
+        $data['fecha']=true;
 
-        $partidasPorEstado = $this->model->obtenerPartidasPorEstado();
-
-        if (!$partidasPorEstado) {
-            die("No se encontraron partidas.");
+        if(empty($inicio) || empty($fin)){
+            $data['titulo']= 'obtener el estado de todas las partidas';
+            $data ['row'] = $this->model->obtenerPartidasPorEstado();
+            $this->presenter->show('listarPartidas', $data);
+            exit();
         }
 
-        $data = ['partidasPorEstado' => $partidasPorEstado];
-
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        $this->presenter->show('listarPartidas', $dataCompleto);
-
-        unset($_SESSION['partidas_totales']);
+        $data ['row']=$this->model->obtenerPartidasPorEstadoFiltradasPorFecha($inicio,$fin);
+        $data['inicio']=$inicio;
+        $data['fin']=$fin;
+        $this->presenter->show('listarPartidas', $data);
+        exit();
     }
 
-    public function listarPartidasPorFecha()
-    {
-        $this->validarAdministrador();
-
-        $inicio=$_GET['fecha_inicio'];
-        $fin= $_GET['fecha_fin'];
-
-        $_SESSION['partidas_totales'] = true;
-
-        $partidasPorEstado = $this->model->obtenerPartidasPorEstadoFiltradasPorFecha($inicio,$fin);
-
-        if (!$partidasPorEstado) {
-            die("No se encontraron partidas.");
-        }
-
-        $data = ['partidasPorEstado' => $partidasPorEstado];
-
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        $this->presenter->show('listarPartidas', $dataCompleto);
-
-        unset($_SESSION['partidas_totales']);
-    }
+    //PREGUNTAS
 
     public function listarPreguntas()
     {
         $this->validarAdministrador();
+        $data['generar']= true;
+        $data['isPregunta']=true;
 
-        $_SESSION['preguntas'] = true;
+        $data['titulo']= 'obtener todas las preguntas';
+        $data['tipo']= 'Preguntas por estado';
+        $data['filtro_aplicado']="obtener todas las preguntas";
 
-        $preguntasPorEstado = $this->model->obtenerElTotalDePreguntasPorEstado();
+        $data ['row']= $this->model->obtenerElTotalDePreguntasPorEstado();
 
-        if (!$preguntasPorEstado) {
-            die("No se encontraron partidas.");
-        }
-
-        $data = ['preguntasPorEstado' => $preguntasPorEstado];
-
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        $this->presenter->show('listarPreguntas', $dataCompleto);
-
-        unset($_SESSION['preguntas']);
+        $this->presenter->show('listarPreguntas', $data);
 
     }
 
     public function preguntasPorNivel()
     {
         $this->validarAdministrador();
+        $data['generar']= true;
+        $data['isPregunta']=true;
 
-        $_SESSION['preguntas'] = true;
+        $data['titulo']= 'Obtener preguntas por nivel';
+        $data['tipo']= 'Preguntas por nivel';
+        $data['filtro_aplicado']="Obtener preguntas por nivel";
 
-        $preguntasPorEstado = $this->model->obtenerPreguntasPorNivel();
+        $data['row'] = $this->model->obtenerPreguntasPorNivel();
 
-        if (!$preguntasPorEstado) {
-            die("No se encontraron partidas.");
-        }
-
-        $data = ['preguntasPorNivel' => $preguntasPorEstado];
-
-        $dataCompleto = array_merge($_SESSION, $data);
-
-        $this->presenter->show('listarPreguntas', $dataCompleto);
-
-        unset($_SESSION['preguntas']);
+        $this->presenter->show('listarPreguntas', $data);
     }
 
     public function porcentajeDePreguntas()
     {
         $this->validarAdministrador();
+        $data['generar']= true;
+        $data['isPregunta']=true;
+        $data['titulo']= 'Obtener porcentaje de preguntas';
+        $data['tipo']= 'Tipos de porcentaje';
+        $data['porcentaje']="porcentajes de preguntas";
 
-        $_SESSION['porcentaje'] = true;
+        $data['row']= $this->model->obtenerPorcentajeDeRespuesta();
 
-        $preguntasPorPorcentaje = $this->model->obtenerPorcentajeDeRespuesta();
-
-        if (!$preguntasPorPorcentaje) {
-            die("No se encontraron preguntas.");
-        }
-
-        $dataCompleto = array_merge($_SESSION, $preguntasPorPorcentaje);
-
-        $this->presenter->show('listarPreguntas', $dataCompleto);
-
-        unset($_SESSION['porcentaje']);
+        $this->presenter->show('listarPreguntas', $data);
     }
 
     public function validarAdministrador()
@@ -257,5 +299,61 @@ class AdminController
             header("location:/");
             exit();
         }
+    }
+
+    private function obtenerDatosPorTitulo($titulo)
+    {
+        if($titulo == 'Reporte jugadores totales'){
+            return $this->model->obtenerJugadoresTotales();
+        }
+        if($titulo =='Obtener todos los jugadores filtrados por sexo'){
+            return $this->model->filtrarPorSexo();
+        }
+        if($titulo== 'Obtener todos los jugadores filtrados por edad'){
+            return $this->model->filtrarPorEdad();
+        }
+
+        return null;
+    }
+
+    private function obtenerDatosPorTituloFiltradoPorFecha($titulo, $inicio, $fin)
+    {
+        if($titulo== 'Reporte de jugadores nuevos'){
+            return $this->model->filtrarUsuariosPorRangoDeFecha($inicio, $fin);
+        }
+
+        if($titulo=='obtener todas las partidas filtradas por fecha' ){
+
+            return $this->model->obtenerPartidasPorEstadoFiltradasPorFecha($inicio,$fin);
+        }
+
+        return null;
+    }
+
+    private function obtenerDatosPorTituloFiltradoPorPaisYCiudad($titulo, $pais, $ciudad)
+    {
+        if($titulo== 'Reporte de jugadores por pais y ciudad'){
+            return $this->model->filtrarPorPaisYCiudad($pais, $ciudad);
+        }
+
+        return null;
+
+    }
+
+    private function obtenerDatosPorTituloDePregunta($titulo)
+    {
+        if($titulo == 'Obtener porcentaje de preguntas'){
+            return $this->model->obtenerPorcentajeDeRespuesta();
+        }
+
+        if($titulo== 'Obtener preguntas por nivel'){
+            return $this->model->obtenerPreguntasPorNivel();
+        }
+
+        if($titulo=='obtener todas las preguntas'){
+            return $this->model->obtenerElTotalDePreguntasPorEstado();
+        }
+
+        return null;
     }
 }
