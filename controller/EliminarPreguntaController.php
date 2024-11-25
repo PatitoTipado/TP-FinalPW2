@@ -13,9 +13,26 @@ class EliminarPreguntaController
 
     public function eliminar()
     {
+        $this->validarEditor();
+
         $id = $_GET['id'];
         $this->model->eliminarPreguntaConOpciones($id);
         header("location:/verPreguntas");
         exit();
     }
+
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

@@ -16,17 +16,7 @@ class HomeController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-            exit();
-        }
-
-        //ya con este validaria los roles caen al login y los manda donde debe
-        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
-            header("location:/");
-            exit();
-        }
-
+        $this->validarJugador();
 
         if(isset($_POST['estado']) && $_POST['estado']== 'finalizada'){
             $data= $this->obtenerPartidasFinalizadas();
@@ -36,11 +26,7 @@ class HomeController
             $data['en_curso']=true;
         }
 
-        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
-            $this->presenter->show('editor', $data);
-        } else {
-            $this->presenter->show('home', $data);
-        }
+        $this->presenter->show('home', $data);
 
         unset($_SESSION["error_partida"]);
         unset($_SESSION['not_found']);
@@ -79,4 +65,19 @@ class HomeController
         return $data;
 
     }
+
+    public function validarJugador()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

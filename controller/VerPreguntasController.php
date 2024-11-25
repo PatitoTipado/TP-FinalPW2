@@ -13,9 +13,9 @@ class VerPreguntasController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+
+        $this->validarEditor();
+
         $data['preguntas'] = $this->model->obtenerPreguntas();
         $this->presenter->show('verPreguntas', $data);
     }
@@ -30,4 +30,19 @@ class VerPreguntasController
         $data['pregunta'] = $this->model->obtenerPregunta($id);
         $this->presenter->show('pregunta', $data);
     }
+
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

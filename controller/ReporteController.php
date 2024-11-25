@@ -12,10 +12,7 @@ class ReporteController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/home");
-            exit();
-        }
+        $this->validarJugador();
         $this->presenter->show('reporte',$_SESSION);
     }
 
@@ -34,6 +31,20 @@ class ReporteController
 
         header('location:/home');
         exit();
+    }
+
+    public function validarJugador()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
+        }
+
     }
 
 }

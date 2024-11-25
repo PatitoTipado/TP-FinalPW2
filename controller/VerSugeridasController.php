@@ -13,14 +13,14 @@ class VerSugeridasController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarEditor();
         $data['sugeridas'] = $this->model->obtenerPreguntasSugeridas();
         $this->presenter->show('verSugeridas', $data);
     }
 
     public function aprobar() {
+        $this->validarEditor();
+
         $id = $_GET['id'];
 
         $this->model->aprobarPreguntaSugerida($id);
@@ -29,10 +29,27 @@ class VerSugeridasController
     }
 
     public function rechazar() {
+        $this->validarEditor();
+
         $id = $_GET['id'];
 
         $this->model->rechazarPreguntaSugerida($id);
         header("location:/verSugeridas");
         exit();
     }
+
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }
