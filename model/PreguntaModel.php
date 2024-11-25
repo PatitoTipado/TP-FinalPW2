@@ -130,8 +130,11 @@ class PreguntaModel
 
     public function eliminarPregunta($id)
     {
-        $sqlReportes = "DELETE FROM reportes WHERE pregunta_id = $id";
-        $this->database->execute($sqlReportes);
+        $sql = "DELETE FROM reportes WHERE pregunta_id = $id";
+        $this->database->execute($sql);
+
+        $sql = "DELETE FROM pregunta_partida WHERE pregunta_id = $id";
+        $this->database->execute($sql);
 
         $sql = "DELETE FROM preguntas WHERE id = $id";
         $this->database->execute($sql);
