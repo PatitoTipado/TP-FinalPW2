@@ -19,6 +19,7 @@ include_once("controller/RegistroController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
 include_once ("controller/RankingController.php");
+include_once ("controller/EditorController.php");
 include_once ("controller/VerPreguntasController.php");
 include_once ("controller/ModificarPreguntaController.php");
 include_once ("controller/AgregarPreguntaController.php");
@@ -65,6 +66,11 @@ class Configuration
     public function getRankingController()
     {
         return new RankingController($this->getPresenter(), $this->getUserModel(), $this->getRankingModel());
+    }
+
+    public function getEditorController()
+    {
+        return new EditorController($this->getPresenter(), $this->getPreguntaModel());
     }
 
     public function getVerPreguntasController()

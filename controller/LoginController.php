@@ -49,6 +49,9 @@ class LoginController
                 if($data['rol'] =='jugador'){
                     $_SESSION['jugador']=true;
                 }
+                if($data['rol'] =='editor'){
+                    $_SESSION['editor']=true;
+                }
 
                 $_SESSION['user']=$data['user'];
                 $_SESSION['puntaje_maximo']=$data['puntaje_maximo'];
