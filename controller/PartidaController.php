@@ -46,6 +46,8 @@ class PartidaController
         $_SESSION['pregunta'] = $data['pregunta'];
         $_SESSION['opciones'] = $data['opciones'];
         $_SESSION['id_partida_actual']=$data['id_partida'];
+        $_SESSION['color']= $data['color'];
+        $_SESSION['categoria_nombre']=$data['categoria_nombre'];
 
         header("location: /partida/show");
         exit();
@@ -97,6 +99,9 @@ class PartidaController
             $_SESSION['id_pregunta'] = $data['id_pregunta'];
             $_SESSION['pregunta'] = $data['pregunta'];
             $_SESSION['opciones'] = $data['opciones'];
+            $_SESSION['color']= $data['color'];
+            $_SESSION['categoria_nombre']=$data['categoria_nombre'];
+            $_SESSION['nivel']=$data['nivel'];
 
             $_SESSION['id_partida_actual']=$id_partida;
 

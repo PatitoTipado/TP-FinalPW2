@@ -58,15 +58,16 @@
                 <thead>
                 <tr>
                     <th>id de partida</th>
-                    <th>Fecha</th>
+                    <th>Fecha de inicio</th>
+                    {{#finalizada}}
+                        <th>Fecha de finalizacion</th>
+                    {{/finalizada}}
                     <th>Puntaje total</th>
                     <th>nivel</th>
                     <th>Estado</th>
-        {{#en_curso}}
-
-                <th>Continuar</th>
-        {{/en_curso}}
-
+                    {{#en_curso}}
+                        <th>Continuar</th>
+                    {{/en_curso}}
                 </tr>
                 </thead>
                 <tbody>
@@ -74,14 +75,16 @@
                     <tr>
                         <td>{{id_partida}}</td>
                         <td>{{fecha}}</td>
+                        {{#finalizada}}
+                        <td>{{fecha_fin}}</td>
+                        {{/finalizada}}
                         <td>{{puntaje}}</td>
                         <td>{{nivel}}</td>
                         <td>{{estado}}</td>
                         {{#en_curso}}
-
                             <td>
-                            <a href="/partida/reanudar?id_partida={{id_partida}}" class="btn"> Continuar </a>
-                        </td>
+                                <a href="/partida/reanudar?id_partida={{id_partida}}" class="btn"> Continuar </a>
+                            </td>
                         {{/en_curso}}
 
                     </tr>

@@ -57,6 +57,8 @@ class PartidaModel
 
         $id_pregunta = $pregunta['id'];
 
+        $categoria= $this->obtenerCategoriaDePregunta($pregunta['categoria_id']);
+
         $opciones = $this->obtenerOpcionesPorIdDePregunta($id_pregunta);
 
         $data['id_pregunta'] = $pregunta['id'];
@@ -68,6 +70,12 @@ class PartidaModel
             ['opcion' => $opciones['opcion_correcta']],
             ['opcion' => $opciones['opcion3']]
         ];
+        if($categoria!=null){
+            $data['categoria_nombre']=$categoria['nombre_de_categoria'];
+            $data['color']= $categoria['color_de_categoria'];
+        }
+
+        $data['nivel']=$pregunta['nivel'];
 
         shuffle($data['opciones']);
 
@@ -682,9 +690,22 @@ class PartidaModel
                 'nivel' => $row['nivel'],
                 'estado' => $row['estado'],
                 'fecha' => $row['fecha_de_partida'],
+                'fecha_fin' =>$row['fecha_de_finalizacion'],
             ];
         }
 
         return $data;
+    }
+
+    private function obtenerCategoriaDePregunta($categoria_id)
+    {
+        $sql="SELECT * FROM categorias WHERE id= '$categoria_id'";
+        $result = $this->database->execute($sql);
+
+        if($result->num_rows == 0){
+           return null;
+        }
+
+        return $result->fetch_assoc();
     }
 }
