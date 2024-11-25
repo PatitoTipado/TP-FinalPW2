@@ -15,9 +15,8 @@ class ModificarPreguntaController
     {
         $id = $_GET['id'];
 
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarEditor();
+
         $data['pregunta'] = $this->model->obtenerPregunta($id);
         $this->presenter->show('pregunta', $data);
     }
@@ -34,7 +33,23 @@ class ModificarPreguntaController
         $nivel = $_POST['nivel'];
 
         $this->model->modificarPreguntaConOpciones($id, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta, $nivel);
+
         header("location:/verPreguntas");
         exit();
     }
+
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

@@ -13,9 +13,7 @@ class VerReportesController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarEditor();
         $data['reportes'] = $this->model->obtenerPreguntasReportadas();
         $this->presenter->show('verReportes', $data);
     }
@@ -35,4 +33,18 @@ class VerReportesController
         header("location:/verSugeridas");
         exit();
     }
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

@@ -16,18 +16,17 @@ class HomeController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
+        $this->validarJugador();
+
+        if(isset($_POST['estado']) && $_POST['estado']== 'finalizada'){
+            $data= $this->obtenerPartidasFinalizadas();
+            $data['finalizada']=true;
+        }else{
+            $data = $this->obtenerPartidasEnCurso();
+            $data['en_curso']=true;
         }
 
-        $data = $this->obtenerPartidas();
-        $dataCompleto = array_merge($data, $_SESSION);
-
-        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
-            $this->presenter->show('editor', $dataCompleto);
-        } else {
-            $this->presenter->show('home', $dataCompleto);
-        }
+        $this->presenter->show('home', $data);
 
         unset($_SESSION["error_partida"]);
         unset($_SESSION['not_found']);
@@ -40,11 +39,11 @@ class HomeController
 
     }
 
-    private function obtenerPartidas()
+    private function obtenerPartidasEnCurso()
     {
         $id_usuario = $_SESSION['id_usuario'];
 
-        $data = $this->partidaModel->obtenerPartidas($id_usuario);
+        $data = $this->partidaModel->obtenerPartidasEnCurso($id_usuario);
 
         if (!$data['result']) {
             $_SESSION['not_found'] = "no se encontraron partidas pasadas";
@@ -52,4 +51,33 @@ class HomeController
 
         return $data;
     }
+
+    private function obtenerPartidasFinalizadas()
+    {
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $data = $this->partidaModel->obtenerPartidasFinalizadas($id_usuario);
+
+        if (!$data['result']) {
+            $_SESSION['not_found'] = "no se encontraron partidas pasadas";
+        }
+
+        return $data;
+
+    }
+
+    public function validarJugador()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

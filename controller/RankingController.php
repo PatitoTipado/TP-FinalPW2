@@ -16,9 +16,8 @@ class RankingController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarJugador();
+
         $data['users'] = $this->rankingModel->getNameAndScoreByPositionOfUsers();
         $this->presenter->show('ranking', $data);
     }
@@ -26,6 +25,7 @@ class RankingController
     //preguntar si borrar
     private function obtenerUsuario($id)
     {
+        $this->validarJugador();
 
         $data = $this->rankingModel->obtenerUsuario($id);
 
@@ -41,10 +41,24 @@ class RankingController
     {
         $id = $_GET['id'];
 
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarJugador();
+
         $data['user'] = $this->rankingModel->obtenerUsuario($id);
         $this->presenter->show('usuario', $data);
     }
+
+    public function validarJugador()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }

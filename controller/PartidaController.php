@@ -13,10 +13,7 @@ class PartidaController
 
     public function show()
     {
-        if (!isset($_SESSION['user']) ){
-            header("location:/");
-            exit();
-        }
+        $this->validarJugador();
 
         if(!isset($_SESSION['id_partida_actual'])){
             header("location:/home");
@@ -30,6 +27,7 @@ class PartidaController
 
     public function jugarNuevaPartida()
     {
+        $this->validarJugador();
 
         $id_jugador= $_SESSION['id_usuario'];
 
@@ -43,6 +41,7 @@ class PartidaController
 
         $data = $this->model->obtenerDataPartida($id_partida);
 
+        $_SESSION['tiempo']= $data['tiempo'];
         $_SESSION['id_pregunta'] = $data['id_pregunta'];
         $_SESSION['pregunta'] = $data['pregunta'];
         $_SESSION['opciones'] = $data['opciones'];
@@ -54,6 +53,7 @@ class PartidaController
 
     public function validarRespuesta()
     {
+        $this->validarJugador();
 
         $respuesta=$_POST['respuesta'];
         $id_jugador=$_SESSION['id_usuario'];
@@ -80,6 +80,8 @@ class PartidaController
 
     public function reanudar()
     {
+        $this->validarJugador();
+
         $id_partida = $_GET['id_partida']?? '';
         $id_jugador = $_SESSION['id_usuario'];
 
@@ -91,6 +93,7 @@ class PartidaController
 
             $data = $this->model->obtenerDataPartida($id_partida);
 
+            $_SESSION['tiempo']=$data['tiempo'];
             $_SESSION['id_pregunta'] = $data['id_pregunta'];
             $_SESSION['pregunta'] = $data['pregunta'];
             $_SESSION['opciones'] = $data['opciones'];
@@ -109,7 +112,9 @@ class PartidaController
 
     public function vistaPerdedor()
     {
-        if (!isset($_SESSION['user']) ){
+        $this->validarJugador();
+
+        if(!isset($_SESSION['respuesta_usuario'])){
             header("location:/");
             exit();
         }
@@ -129,10 +134,14 @@ class PartidaController
 
     public function vistaGanador()
     {
-        if (!isset($_SESSION['user']) ){
+
+        $this->validarJugador();
+
+        if(!isset($_SESSION['respuesta_usuario'])){
             header("location:/");
             exit();
         }
+
         $id_pregunta=$this->model->obtenerUltimaPreguntaDelUsuario($_SESSION['id_usuario']);
 
         if(isset($_SESSION['respuesta_usuario']) &&
@@ -145,6 +154,7 @@ class PartidaController
 
     public function vistaError()
     {
+        $this->validarJugador();
 
         $this->presenter->show('error', $_SESSION);
         unset($_SESSION['id_pregunta']);
@@ -154,5 +164,20 @@ class PartidaController
         unset($_SESSION['respuesta']);
 
     }
+
+    public function validarJugador()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 
 }

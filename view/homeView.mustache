@@ -1,22 +1,56 @@
 <body>
-    <div class="header">
-        <div>Trivia Gaucha</div>
-    </div>
     <div class="main-content">
         <h2>Lobby</h2>
         <p>Bienvenido, {{user}} tu máximo puntaje fue: {{puntaje_maximo}}</p>
         <div class="btn-group">
-            <a class="btn-home" href="../partida/jugarNuevaPartida">Nueva partida</a>
-            <a class="btn-home" href="../ranking">Ver ranking</a>
-            <a class="btn-home" href="../perfil">Visitar mi perfil</a>
+            <a class="btn-home" href="../partida/jugarNuevaPartida" style="background-color: rgba(135, 206, 250, 0.9); color: black; padding: 10px 20px; border: none; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; text-decoration: none;" onmouseover="this.style.backgroundColor='rgba(135, 206, 250, 1)'" onmouseout="this.style.backgroundColor='rgba(135, 206, 250, 0.9)'">Nueva partida</a>
+            <a class="btn-home" href="../ranking" style="background-color: rgba(135, 206, 250, 0.9); color: black; padding: 10px 20px; border: none; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; text-decoration: none;" onmouseover="this.style.backgroundColor='rgba(135, 206, 250, 1)'" onmouseout="this.style.backgroundColor='rgba(135, 206, 250, 0.9)'">Ver ranking</a>
+            <a class="btn-home" href="../perfil" style="background-color: rgba(135, 206, 250, 0.9); color: black; padding: 10px 20px; border: none; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; text-decoration: none;" onmouseover="this.style.backgroundColor='rgba(135, 206, 250, 1)'" onmouseout="this.style.backgroundColor='rgba(135, 206, 250, 0.9)'">Visitar mi perfil</a>
         </div>
 
-        <!-- Error de partida -->
         {{#error_partida}}
             <div class="alert alert-danger" role="alert">
                 {{error_partida}}
             </div>
         {{/error_partida}}
+
+        {{#finalizada}}
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <form action="/home" method="POST">
+                <input type="hidden" name="estado" value="en curso">
+                <button type="submit" style="background-color: #b0b0b0; color: white; padding: 10px 20px; border: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px; cursor: pointer;">
+                    Partidas en curso
+                </button>
+            </form>
+
+            <form action="/home" method="POST">
+                <input type="hidden" name="estado" value="finalizada">
+                <button type="submit" style="background-color: rgba(135, 206, 250, 1); color: black; padding: 10px 20px; border: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px; cursor: pointer;">
+                    Partidas finalizadas
+                </button>
+            </form>
+        </div>
+        {{/finalizada}}
+
+        {{#en_curso}}
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                <form action="/home" method="POST">
+                    <input type="hidden" name="estado" value="en curso">
+                    <button type="submit" style="background-color: rgba(135, 206, 250, 1); color: black; padding: 10px 20px; border: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px; cursor: pointer;">
+                        Partidas en curso
+                    </button>
+                </form>
+
+                <form action="/home" method="POST">
+                    <input type="hidden" name="estado" value="finalizada">
+                    <button type="submit" style="background-color: #b0b0b0; color: white; padding: 10px 20px; border: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px; cursor: pointer;">
+                        Partidas finalizadas
+                    </button>
+                </form>
+            </div>
+
+        {{/en_curso}}
+
         {{#opciones}}
 
         <div class="table-responsive">
@@ -28,7 +62,11 @@
                     <th>Puntaje total</th>
                     <th>nivel</th>
                     <th>Estado</th>
-                    <th>Continuar</th>
+        {{#en_curso}}
+
+                <th>Continuar</th>
+        {{/en_curso}}
+
                 </tr>
                 </thead>
                 <tbody>
@@ -39,9 +77,13 @@
                         <td>{{puntaje}}</td>
                         <td>{{nivel}}</td>
                         <td>{{estado}}</td>
-                        <td>
+                        {{#en_curso}}
+
+                            <td>
                             <a href="/partida/reanudar?id_partida={{id_partida}}" class="btn"> Continuar </a>
                         </td>
+                        {{/en_curso}}
+
                     </tr>
 
                 </tbody>

@@ -5,12 +5,10 @@ class PerfilController
 
     private $presenter;
     private $model;
-    private $partidaModel;
 
-    public function __construct($presenter, $model, $partidaModel)
+    public function __construct($presenter, $model)
     {
         $this->model = $model;
-        $this->partidaModel = $partidaModel;
         $this->presenter = $presenter;
     }
 
@@ -27,16 +25,13 @@ class PerfilController
         }
 
         $data = $this->obtenerDatosPerfil($id);
-        $data2 = $this->obtenerPartidas($id);
-
-        $dataCompleto = array_merge($data, $data2, $_SESSION);
 
         if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
-            $this->presenter->show('editor', $dataCompleto);
+            $this->presenter->show('editor', $data);
         } elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'administrador') {
-            $this->presenter->show('administrador', $dataCompleto);
+            $this->presenter->show('administrador', $data);
         } else {
-            $this->presenter->show('perfil', $dataCompleto);
+            $this->presenter->show('perfil', $data);
         }
 
         unset($_SESSION['not_found']);
@@ -55,15 +50,6 @@ class PerfilController
         return $data;
     }
 
-    private function obtenerPartidas($id)
-    {
 
-        $data = $this->partidaModel->obtenerPartidas($id);
 
-        if (!$data['result']) {
-            $_SESSION['not_found_partidas'] = "no se encontraron partidas pasadas";
-        }
-
-        return $data;
-    }
 }

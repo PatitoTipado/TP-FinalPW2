@@ -37,4 +37,13 @@ class MysqlDatabase
     {
         mysqli_close($this->conn);
     }
+
+    public function obtenerFechaActual()
+    {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $fecha_actual = new DateTime();
+
+        return $fecha_actual->format('Y-m-d H:i:s');
+    }
+
 }

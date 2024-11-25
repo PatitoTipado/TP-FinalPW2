@@ -9,32 +9,17 @@ class PartidaModel
         $this->database = $database;
     }
 
-    public function obtenerPartidas($id_usuario)
+    public function obtenerPartidasEnCurso($id_usuario)
     {
-        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario'";
-        $result = $this->database->execute($sql);
-
-        $data = [];
-        if ($result->num_rows == 0) {
-            $data['result'] = false;
-            return $data;
-        }
-
-        $data['result'] = true;
-        $data['opciones'] = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $data['opciones'][] = [
-                'id_partida' => $row['id'],
-                'puntaje' => $row['puntaje_total'],
-                'nivel' => $row['nivel'],
-                'estado' => $row['estado'],
-                'fecha' => $row['fecha_de_partida'],
-            ];
-        }
-
-        return $data;
+        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'en curso'";
+        return $this->obtenerParidas($sql);
     }
+    public function obtenerPartidasFinalizadas($id_usuario)
+    {
+        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'finalizada'";
+        return $this->obtenerParidas($sql);
+    }
+
 
     public function iniciarNuevaPartida($id_jugador)
     {
@@ -86,11 +71,31 @@ class PartidaModel
 
         shuffle($data['opciones']);
 
-        $this->crearPreguntaPartida($id_partida, $id_pregunta);
+        $fecha = $this->crearPreguntaPartida($id_partida, $id_pregunta);
+
+        $data['tiempo']=$this->calcularTiempoRestante($fecha);
 
         $this->insertarPartidaActualAlUsuarioConIdDePartida($id_partida, $id_pregunta);
 
         return $data;
+    }
+
+    private function calcularTiempoRestante($fecha) {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+        $fechaBaseObj = DateTime::createFromFormat('Y-m-d H:i:s', $fecha);
+        $fechaActual = new DateTime();
+
+        // Comparar las fechas por el formato 'Y-m-d H:i:s' para eliminar microsegundos
+        if ($fechaBaseObj->format('Y-m-d H:i:s') === $fechaActual->format('Y-m-d H:i:s')) {
+            return 30; // Si las fechas son exactamente iguales, devolvemos 30 segundos
+        }
+
+        // Diferencia en segundos
+        $diferenciaSegundos = $fechaActual->getTimestamp() - $fechaBaseObj->getTimestamp();
+
+        // Calcular el tiempo restante
+        return max($this->obtenerLimiteDeTiempoDeRespuesta() - $diferenciaSegundos, 0);
     }
 
     public function validarRespuesta($respuesta, $id_pregunta, $id_jugador, $id_partida)
@@ -141,6 +146,11 @@ class PartidaModel
 
     public function isPartidaValida($id_partida, $id_jugador)
     {
+        if($this->validarSiLaPartidaTieneUnaPreguntaPendienteYSiTieneTiempoRestante($id_partida)){
+            $this->cambiarEstadoDePartidaAFinalizada($id_partida);
+            return false;
+        }
+
         $sql = "SELECT * FROM partidas WHERE id='$id_partida' AND usuario_id='$id_jugador'";
         $result = $this->database->execute($sql);
 
@@ -153,8 +163,30 @@ class PartidaModel
             return false;
         }
 
-
         return true;
+    }
+
+    private function validarSiLaPartidaTieneUnaPreguntaPendienteYSiTieneTiempoRestante($id_partida)
+    {
+        // Consulta para obtener el id de la pregunta sin respuesta y la fecha de inicio
+        $sql_check = "SELECT pregunta_id, fecha_inicio 
+                  FROM pregunta_partida
+                  WHERE partida_id = '$id_partida' AND respuesta_usuario IS NULL LIMIT 1";
+
+        $resultado = $this->database->query($sql_check);
+
+        // Si hay una pregunta pendiente
+        if ($resultado && count($resultado) > 0) {
+            $id_pregunta = $resultado[0]['pregunta_id'];
+            $fecha_inicio = $resultado[0]['fecha_inicio'];
+
+            // Verificar si aún hay tiempo restante
+            if (!$this->calcularTiempoValido($id_partida, $id_pregunta)) {
+                return true; // Si el tiempo es válido, se puede continuar
+            }
+        }
+
+        return false; // No hay preguntas sin respuesta o el tiempo ha expirado
     }
 
     public function obtenerRespuestaCorrecta($id_pregunta)
@@ -193,6 +225,24 @@ class PartidaModel
         $usuario = $this->obtenerJugador($id_usuario);
 
         return $usuario['partida_actual'];
+    }
+
+    public function realizarReporte($id_jugador,$descripcion,$categoria)
+    {
+        $id= $this->obtenerUltimaPreguntaDelUsuario($id_jugador);
+
+        $fecha= $this->obtenerFechaActual();
+
+        $sql = "INSERT INTO reportes 
+        (pregunta_id, usuario_realiza_id ,fecha_reporte, descripcion , categoria) 
+        VALUES 
+        ('$id', '$id_jugador','$fecha','$descripcion','$categoria')";
+
+        if($this->database->execute($sql)){
+            return true;
+        }
+
+        return false;
     }
 
     private function isJugadorValido($id_jugador)
@@ -453,14 +503,29 @@ class PartidaModel
 
     private function crearPreguntaPartida($id_partida, $id_pregunta)
     {
+        // Obtener la fecha actual
         $fecha_actual = $this->obtenerFechaActual();
-        $sql = "INSERT INTO pregunta_partida 
-        (pregunta_id, partida_id,fecha_inicio) 
-        VALUES 
-        ('$id_pregunta', '$id_partida','$fecha_actual')";
 
-        $this->database->execute($sql);
+        // Primero, verificar si ya existe una entrada para esa combinación de partida y pregunta
+        $sql_check = "SELECT fecha_inicio FROM pregunta_partida 
+                  WHERE partida_id = '$id_partida' AND pregunta_id = '$id_pregunta' LIMIT 1";
+
+        $resultado = $this->database->query($sql_check);
+
+        if ($resultado) {
+            // Si existe, obtener la fecha de la base de datos
+            return $resultado[0]['fecha_inicio'];
+        } else {
+            // Si no existe, realizar la inserción
+            $sql_insert = "INSERT INTO pregunta_partida (pregunta_id, partida_id, fecha_inicio) 
+                       VALUES ('$id_pregunta', '$id_partida', '$fecha_actual')";
+
+            $this->database->execute($sql_insert);
+
+            return $fecha_actual;
+        }
     }
+
 
     private function verificarSiTeniaPreguntaEnCursoSinRespuestaDelUsuario($id_partida)
     {
@@ -590,5 +655,36 @@ class PartidaModel
                WHERE id = '$id_usuario'";
 
         $this->database->execute($update);
+    }
+
+    private function obtenerLimiteDeTiempoDeRespuesta()
+    {
+        return 30;
+    }
+
+    public function obtenerParidas($sql)
+    {
+        $result = $this->database->execute($sql);
+
+        $data = [];
+        if ($result->num_rows == 0) {
+            $data['result'] = false;
+            return $data;
+        }
+
+        $data['result'] = true;
+        $data['opciones'] = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $data['opciones'][] = [
+                'id_partida' => $row['id'],
+                'puntaje' => $row['puntaje_total'],
+                'nivel' => $row['nivel'],
+                'estado' => $row['estado'],
+                'fecha' => $row['fecha_de_partida'],
+            ];
+        }
+
+        return $data;
     }
 }

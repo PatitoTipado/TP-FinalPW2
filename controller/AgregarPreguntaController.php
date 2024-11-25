@@ -13,15 +13,14 @@ class AgregarPreguntaController
 
     public function show()
     {
-        if (!isset($_SESSION['user'])) {
-            header("location:/");
-        }
+        $this->validarEditor();
 
         $this->presenter->show('agregarPregunta');
     }
 
     public function agregar()
     {
+        $this->validarEditor();
         if (isset($_POST["pregunta"]) && isset($_POST["opcion1"]) && isset($_POST["opcion2"]) && isset($_POST["opcion3"]) && isset($_POST["opcionCorrecta"]) && isset($_POST['nivel'])) {
             $pregunta = $_POST['pregunta'];
             $opcion1 = $_POST['opcion1'];
@@ -41,4 +40,19 @@ class AgregarPreguntaController
             }
         }
     }
+
+    public function validarEditor()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location:/");
+            exit();
+        }
+
+        if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'editor'){
+            header("location:/");
+            exit();
+        }
+
+    }
+
 }
