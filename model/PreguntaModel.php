@@ -19,7 +19,7 @@ class PreguntaModel
 
     public function obtenerPregunta($id)
     {
-        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
+        return $this->database->query("SELECT p.id id_pregunta, p.pregunta, p.nivel, o.opcion1, o.opcion2, o.opcion3, o.opcion_correcta FROM preguntas p
         JOIN opciones o ON p.id = o.pregunta_id WHERE p.id = '$id'");
     }
 
@@ -121,11 +121,17 @@ class PreguntaModel
         }
     }
 
-    public function modificarPreguntaConOpciones($idPregunta, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta)
+    public function modificarPreguntaConOpciones($idPregunta, $pregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta, $nivel)
     {
         $this->modificarPregunta($idPregunta, $pregunta);
 
         $this->modificarOpciones($idPregunta, $opcion1, $opcion2, $opcion3, $opcionCorrecta);
+
+        $sql = "UPDATE preguntas
+        SET nivel = '$nivel'
+        WHERE id = '$idPregunta'";
+
+        $this->database->execute($sql);
     }
 
     public function eliminarPregunta($id)
