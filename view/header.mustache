@@ -59,9 +59,11 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../perfil">Perfil</a>
-                    </li>
+                    {{#jugador}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="../perfil">Perfil</a>
+                        </li>
+                    {{/jugador}}
                     <li class="nav-item">
                         <a href="../login/cerrarSesion" class="nav-link">Cerrar sesión</a>
                     </li>

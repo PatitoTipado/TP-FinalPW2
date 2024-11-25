@@ -34,6 +34,8 @@ class UserModel
 
         $fecha_registro = $this->obtenerFechaRegistro();
 
+        $hashed_password = password_hash($contrasena, PASSWORD_DEFAULT);
+
         $hash = $this->obtenerHash();
 
         $pais =strtolower($this->obtenerPais($latitud,$longitud));
@@ -42,7 +44,7 @@ class UserModel
         $sql = "INSERT INTO usuarios 
         (nombre_de_usuario, nombre, anio_de_nacimiento, email, contrasena, sexo, latitud,longitud ,fecha_registro,imagen_url,hash,rol,pais,ciudad) 
         VALUES 
-        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$contrasena', '$sexo', '$latitud', '$longitud', '$fecha_registro','$foto','$hash','jugador','$pais', '$ciudad')";
+        ('$nombre_de_usuario', '$nombre', '$anio_de_nacimiento', '$email', '$hashed_password', '$sexo', '$latitud', '$longitud', '$fecha_registro','$foto','$hash','jugador','$pais', '$ciudad')";
 
         if ($this->database->execute($sql)) {
             $this->emailSender->sendEmail($nombre_de_usuario, 'validacion correo', "tu codigo hash es '$hash'");
@@ -120,7 +122,7 @@ class UserModel
         $result = $this->database->execute($sql);
 
         if ($result->num_rows == 0) {
-            return "codigo hash incorrecto";
+            return false;
         }
 
         $usuario = $result->fetch_assoc();
@@ -131,30 +133,25 @@ class UserModel
             $updateQuery = "UPDATE usuarios SET estado = 'activo' WHERE id = $idUsuario";
             $this->database->execute($updateQuery);
 
-            return false;
+            return true;
         } else {
-            return "El usuario ya está activo.";
+            return false;
         }
     }
 
     public function validarLogin($usuario, $password)
     {
-        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND contrasena LIKE '$password' AND estado LIKE'activo'";
+        $result= $this->validarUsuarioYPassword($usuario,$password);
 
-        $result = $this->database->execute($sql);
-
-        if ($result->num_rows == 1) {
-
-            $usuario = $result->fetch_assoc();
+        if ($result!=null) {
 
             $data['result'] = true;
-            $data['id_usuario'] = $usuario['id'];
-            $data['rol'] = $usuario['rol'];
-            $data['user'] = $usuario['nombre_de_usuario'];
-            $data['puntaje_maximo'] = $usuario['puntaje_maximo'];
-            $data['rol_editor'] = ($usuario['rol'] == 'editor') ? true : false;
+            $data['id_usuario'] = $result['id'];
+            $data['rol'] = $result['rol'];
+            $data['user'] = $result['nombre_de_usuario'];
+            $data['puntaje_maximo'] = $result['puntaje_maximo'];
+            $data['rol_editor'] = ($result['rol'] == 'editor') ? true : false;
 
-            return $data;
         } else {
             $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND estado LIKE'activo'";
 
@@ -162,8 +159,8 @@ class UserModel
             $data['result'] = false;
             $data['error'] = ($result->num_rows == 1) ? "contraseña incorrecta" : "usuario inexistente o inactivo";
 
-            return $data;
         }
+        return $data;
     }
 
     public function obtenerDatosDePerfil($id)
@@ -176,25 +173,32 @@ class UserModel
 
             $usuario = $result->fetch_assoc();
 
-            $data['result'] = true;
-            $data['foto'] = $usuario['imagen_url'];
-            $data['email'] = $usuario['email'];
-            $data['latitud'] = $usuario['latitud'];
-            // if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'jugador') {
-            //     $data['longitud'] = $usuario['longitud'];
-            // }
+            if($usuario['rol']!='jugador'){
+                $data['result'] = false;
+                $data['not_found'] = "no se encontro al usuario";
 
-            $data['nombre'] = $usuario['nombre'];
-            $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
-            $data['username'] = $usuario['nombre_de_usuario'];
+            } else{
+                $data['result'] = true;
+                $data['foto'] = $usuario['imagen_url'];
+                $data['email'] = $usuario['email'];
+                $data['latitud'] = $usuario['latitud'];
+                $data['longitud']= $usuario['longitud'];
+                $data['maximo']= $usuario['puntaje_maximo'];
+                $data['estado']=$usuario['estado'];
 
-            return $data;
+                $data['nombre'] = $usuario['nombre'];
+                $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
+                $data['username'] = $usuario['nombre_de_usuario'];
+
+            }
+
         } else {
-
             $data['result'] = false;
             $data['not_found'] = "no se encontro al usuario";
-            return $data;
+
         }
+
+        return $data;
     }
 
     private function validarNombreUsuario($nombre_de_usuario)
@@ -241,5 +245,21 @@ class UserModel
         $fecha_actual = new DateTime();
 
         return $fecha_actual->format('Y-m-d H:i:s');
+    }
+
+    private function validarUsuarioYPassword($usuario, $password)
+    {
+        $sql = "SELECT * FROM usuarios WHERE nombre_de_usuario = '$usuario' AND estado = 'activo'";
+
+        $result = $this->database->execute($sql);
+        if($result->num_rows == 1){
+            $row = $result->fetch_assoc();
+            if((password_verify($password, $row['contrasena']))){
+                return $row;
+            }
+
+        }
+
+        return null;
     }
 }

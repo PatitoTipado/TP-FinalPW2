@@ -9,32 +9,17 @@ class PartidaModel
         $this->database = $database;
     }
 
-    public function obtenerPartidas($id_usuario)
+    public function obtenerPartidasEnCurso($id_usuario)
     {
-        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario'";
-        $result = $this->database->execute($sql);
-
-        $data = [];
-        if ($result->num_rows == 0) {
-            $data['result'] = false;
-            return $data;
-        }
-
-        $data['result'] = true;
-        $data['opciones'] = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $data['opciones'][] = [
-                'id_partida' => $row['id'],
-                'puntaje' => $row['puntaje_total'],
-                'nivel' => $row['nivel'],
-                'estado' => $row['estado'],
-                'fecha' => $row['fecha_de_partida'],
-            ];
-        }
-
-        return $data;
+        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'en curso'";
+        return $this->obtenerParidas($sql);
     }
+    public function obtenerPartidasFinalizadas($id_usuario)
+    {
+        $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'finalizada'";
+        return $this->obtenerParidas($sql);
+    }
+
 
     public function iniciarNuevaPartida($id_jugador)
     {
@@ -675,5 +660,31 @@ class PartidaModel
     private function obtenerLimiteDeTiempoDeRespuesta()
     {
         return 30;
+    }
+
+    public function obtenerParidas($sql)
+    {
+        $result = $this->database->execute($sql);
+
+        $data = [];
+        if ($result->num_rows == 0) {
+            $data['result'] = false;
+            return $data;
+        }
+
+        $data['result'] = true;
+        $data['opciones'] = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $data['opciones'][] = [
+                'id_partida' => $row['id'],
+                'puntaje' => $row['puntaje_total'],
+                'nivel' => $row['nivel'],
+                'estado' => $row['estado'],
+                'fecha' => $row['fecha_de_partida'],
+            ];
+        }
+
+        return $data;
     }
 }

@@ -21,6 +21,10 @@ class LoginController
             header("location:/admin");
             exit();
         }
+        if($_SESSION['rol'] === 'editor'){
+            header("location:/editor");
+            exit();
+        }
 
         if($_SESSION['rol']=='jugador'){
             header("location:/home");
@@ -39,6 +43,13 @@ class LoginController
             if($data['result']){
                 $_SESSION['id_usuario'] = $data['id_usuario'];
                 $_SESSION['rol'] =$data['rol'];
+                if($data['rol'] =='administrador'){
+                    $_SESSION['administrador']=true;
+                }
+                if($data['rol'] =='jugador'){
+                    $_SESSION['jugador']=true;
+                }
+
                 $_SESSION['user']=$data['user'];
                 $_SESSION['puntaje_maximo']=$data['puntaje_maximo'];
                 unset($_SESSION["error_login"]);

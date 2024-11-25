@@ -21,18 +21,25 @@ class HomeController
             exit();
         }
 
+        //ya con este validaria los roles caen al login y los manda donde debe
         if(!isset($_SESSION['rol']) || $_SESSION['rol']!= 'jugador'){
             header("location:/");
             exit();
         }
 
-        $data = $this->obtenerPartidas();
-        $dataCompleto = array_merge($data, $_SESSION);
+
+        if(isset($_POST['estado']) && $_POST['estado']== 'finalizada'){
+            $data= $this->obtenerPartidasFinalizadas();
+            $data['finalizada']=true;
+        }else{
+            $data = $this->obtenerPartidasEnCurso();
+            $data['en_curso']=true;
+        }
 
         if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'editor') {
-            $this->presenter->show('editor', $dataCompleto);
+            $this->presenter->show('editor', $data);
         } else {
-            $this->presenter->show('home', $dataCompleto);
+            $this->presenter->show('home', $data);
         }
 
         unset($_SESSION["error_partida"]);
@@ -46,16 +53,30 @@ class HomeController
 
     }
 
-    private function obtenerPartidas()
+    private function obtenerPartidasEnCurso()
     {
         $id_usuario = $_SESSION['id_usuario'];
 
-        $data = $this->partidaModel->obtenerPartidas($id_usuario);
+        $data = $this->partidaModel->obtenerPartidasEnCurso($id_usuario);
 
         if (!$data['result']) {
             $_SESSION['not_found'] = "no se encontraron partidas pasadas";
         }
 
         return $data;
+    }
+
+    private function obtenerPartidasFinalizadas()
+    {
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $data = $this->partidaModel->obtenerPartidasFinalizadas($id_usuario);
+
+        if (!$data['result']) {
+            $_SESSION['not_found'] = "no se encontraron partidas pasadas";
+        }
+
+        return $data;
+
     }
 }

@@ -77,27 +77,16 @@ class RegistroController
 
     public function validarHash()
     {
-        $hash= $_POST['codigo'];
+        $hash= $_POST['codigo']??'';
 
         $validarHash=$this->model->validarHash($hash);
 
-        if(!$validarHash){
-            header("location: /registro/validacionExitosa");
-            exit();
-        }else{
-            $_SESSION['result_hash']=$validarHash;
-            header("location: /registro/validarCorreo");
-            exit();
-        }
-    }
-
-    public function validacionExitosa()
-    {
-        if(!$_SESSION['result_hash']){
+        if($validarHash){
             $this->presenter->show('validacionExitosa' , $_SESSION);
             unset($_SESSION["result_hash"]);
         }else{
-            header("location: /validacionCorreo");
+            $_SESSION['result_hash']='el hash es incorrecto o ya esta activo';
+            header("location:/registro/validarCorreo");
             exit();
         }
     }
