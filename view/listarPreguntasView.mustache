@@ -1,4 +1,4 @@
-<main class="bg-light">
+<main >
     <div class="container py-5">
         <h1 class="text-center mb-4">Bienvenido, Administrador</h1>
         <div class="d-flex flex-wrap justify-content-center gap-3">
@@ -62,7 +62,7 @@
             <div id="chart_div"
                  style="
             flex: 1;
-            min-width: 300px;
+            min-width: 200px;
             max-width: 600px;
             height: 500px;
             border: 1px solid #ddd;
@@ -121,7 +121,7 @@
 
     {{#generar}}
 
-        <form action="/admin/generarPdf" method="POST">
+        <form action="/admin/generarPdf" method="POST" style="margin-top: 20px;">
             <!-- Campos ocultos con los valores pasados desde el controlador -->
             <input type="hidden" name="titulo" value="{{titulo}}">
             <input type="hidden" name="tipo" value="{{tipo}}">
@@ -140,7 +140,7 @@
             <input type="hidden" id="chart_image" name="chart_image">
 
 
-            <button type="submit" class="btn btn-success btn-lg">Generar PDF</button>
+            <button type="submit" class="btn btn-success btn-lg">Generar reporte</button>
         </form>
 
     {{/generar}}

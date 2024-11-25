@@ -12,20 +12,90 @@
 <link href="../public/estilos.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
       integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<style>
+    body {
+        background-color: #f4f4f4;
+    }
+
+    .navbar {
+        background-color: rgba(135, 206, 250, 0.7);
+        padding: 20px;
+        transition: background 0.3s ease;
+    }
+
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .nav-link {
+        color: white !important;
+        font-weight: 500;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .nav-link:hover {
+        background: rgba(135, 206, 250, 0.7);
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 10px;
+        }
+    }
+</style>
 <body>
 
-<!-- Navbar -->
-<div class="w3-top">
-    <div class="w3-bar w3-black w3-card">
-        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-        <a href="../" class="w3-bar-item w3-button w3-padding-large">Login</a>
-        <a href="../registro" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Registro</a>
-        <a href="../home" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Home</a>
-        <a href="../perfil" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Perfil</a>
-        <a href="../login/cerrarSesion" class="w3-bar-item w3-button w3-padding-large">Cerrar sesión</a>
-        <a href="../registro/validarCorreo" class="w3-bar-item w3-button w3-padding-large">Validar correo</a>
-    </div>
-</div>
+{{#user}}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="nav-link" href="../home">TRIVIA-GAUCHA</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../perfil">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../login/cerrarSesion" class="nav-link">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{{/user}}
+
+{{^user}}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="nav-link" href="../">TRIVIA-GAUCHA</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../registro/validarCorreo">Validar correo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../registro" class="nav-link">Registrarse</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{{/user}}
 
 <!-- Page content -->
 <div class="w3-content" style="max-width:2000px;margin-top:46px"></div>

@@ -18,7 +18,7 @@ class AdminController
     {
         $this->validarAdministrador();
 
-        $this->presenter->show('listarUsuario',$_SESSION);
+        $this->presenter->show('listarUsuario');
     }
 
     //JUGADORES

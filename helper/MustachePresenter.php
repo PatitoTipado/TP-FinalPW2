@@ -18,7 +18,8 @@ class MustachePresenter
 
     public function show($contentFile, $data = array())
     {
-        echo  $this->generateHtml($this->partialsPathLoader . '/' . $contentFile . "View.mustache", $data);
+        $dataCompleto= array_merge($data,$_SESSION);
+        echo  $this->generateHtml($this->partialsPathLoader . '/' . $contentFile . "View.mustache", $dataCompleto);
     }
 
     public function generateHtml($contentFile, $data = array())
