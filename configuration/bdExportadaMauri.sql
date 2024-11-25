@@ -9,7 +9,7 @@ USE preguntados;
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-11-2024 a las 21:38:19
+-- Tiempo de generación: 25-11-2024 a las 22:44:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -95,7 +95,8 @@ INSERT INTO `opciones` (`id`, `pregunta_id`, `opcion1`, `opcion2`, `opcion3`, `o
                                                                                                      (25, 25, 'Andrés Nocioni', 'Luis Scola', 'Walter Herrmann', 'Manu Ginóbili'),
                                                                                                      (26, 26, 'Lionel Messi', 'Carlos Tévez', 'Ángel Di María', 'Maxi Rodríguez'),
                                                                                                      (27, 27, '15', '18', '10', '12'),
-                                                                                                     (28, 28, 'José Froilán González', 'Carlos Reutemann', 'Oscar Larrauri', 'Juan Manuel Fangio');
+                                                                                                     (28, 28, 'José Froilán González', 'Carlos Reutemann', 'Oscar Larrauri', 'Juan Manuel Fangio'),
+                                                                                                     (30, 30, '1', '2', '3', '4');
 
 -- --------------------------------------------------------
 
@@ -174,7 +175,8 @@ INSERT INTO `preguntas` (`id`, `categoria_id`, `pregunta`, `nivel`, `tipo_pregun
                                                                                                                                                                                          (25, 2, '¿Quién es el basquetbolista argentino con más puntos anotados en la NBA?', 'dificil', 'creada', 13, 13, 'aprobada', '2024-11-14 20:05:18', 1),
                                                                                                                                                                                          (26, 2, '¿Qué jugador argentino marcó un gol desde mitad de cancha contra Serbia y Montenegro en el Mundial de 2006?', 'dificil', 'creada', 12, 12, 'aprobada', '2024-11-18 11:40:27', 1),
                                                                                                                                                                                          (27, 2, '¿Cuál es el récord de medallas olímpicas obtenidas por Argentina en un solo evento?', 'dificil', 'creada', 12, 12, 'aprobada', '2024-11-21 15:25:14', 1),
-                                                                                                                                                                                         (28, 2, '¿Qué piloto argentino ganó cinco campeonatos de Fórmula 1?', 'dificil', 'creada', 12, 12, 'aprobada', '2024-11-25 17:05:02', 1);
+                                                                                                                                                                                         (28, 2, '¿Qué piloto argentino ganó cinco campeonatos de Fórmula 1?', 'dificil', 'creada', 12, 12, 'aprobada', '2024-11-25 17:05:02', 1),
+                                                                                                                                                                                         (30, 2, '1', 'facil', 'sugerida', 0, 0, 'rechazada', '2024-11-25 18:42:34', 4);
 
 -- --------------------------------------------------------
 
@@ -335,7 +337,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `opciones`
 --
 ALTER TABLE `opciones`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `partidas`
@@ -347,7 +349,7 @@ ALTER TABLE `partidas`
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `reportes`
