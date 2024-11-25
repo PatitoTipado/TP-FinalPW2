@@ -55,7 +55,7 @@ class Configuration
 
     public function getPerfilController()
     {
-        return new PerfilController($this->getPresenter(), $this->getUserModel());
+        return new PerfilController($this->getPresenter(), $this->getUserModel(),$this->getPreguntaModel());
     }
 
     public function getPartidaController()

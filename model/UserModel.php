@@ -55,6 +55,35 @@ class UserModel
         }
     }
 
+    public function sugerirPregunta($pregunta, $nivel, $opcion1, $opcion2, $opcion3, $opcionCorrecta, $id_categoria, $id_usuario)
+    {
+        $insertPregunta = "
+    INSERT INTO preguntas 
+    (categoria_id, pregunta, nivel, tipo_pregunta, cantidad_apariciones, cantidad_veces_respondidas, estado, fecha_creacion, usuario_id) 
+    VALUES 
+    ($id_categoria, '$pregunta', '$nivel', 'sugerida', 0, 0, 'pendiente', NOW(), $id_usuario)";
+
+        $result = $this->database->execute($insertPregunta);
+        if ($result) {
+
+            $pregunta_id = $this->database->getLastInsertId();
+            $insertOpciones = "
+        INSERT INTO opciones 
+        (pregunta_id, opcion1, opcion2, opcion3, opcion_correcta) 
+        VALUES 
+        ($pregunta_id, '$opcion1', '$opcion2', '$opcion3', '$opcionCorrecta')";
+            if ($this->database->execute($insertOpciones)) {
+                return true; //
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+
+    }
+
     private function obtenerPais($lat, $lon)
     {
         $url = "https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$lon&format=json&addressdetails=1&language=es";

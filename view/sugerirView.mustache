@@ -1,0 +1,39 @@
+<div>
+    {{#error}}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+    {{/error}}
+    <form method="POST" action="/perfil/sugerirPregunta">
+        <label for="pregunta">Pregunta:</label>
+        <input type="text" class="input-pregunta" id="pregunta" name="pregunta" required>
+        <br><br>
+        <label for="opcion1">Opción 1: </label>
+        <input type="text" class="input-opcion" id="opcion1" name="opcion1" required>
+        <br><br>
+        <label for="opcion2">Opción 2: </label>
+        <input type="text" class="input-opcion" id="opcion2" name="opcion2" required>
+        <br><br>
+        <label for="opcion3">Opción 3: </label>
+        <input type="text" class="input-opcion" id="opcion3" name="opcion3" required>
+        <br><br>
+        <label for="opcionCorrecta">Opción correcta: </label>
+        <input type="text" class="input-opcion-correcta" id="opcionCorrecta" name="opcionCorrecta" required>
+        <br><br>
+        <label for="nivel">Nivel: </label>
+        <select name="nivel" id="nivel">
+            <option value="facil">Fácil</option>
+            <option value="normal">Normal</option>
+            <option value="dificil">Difícil</option>
+        </select>
+        <label for="id_categoria">selecciona la categoria: </label>
+        <select name="id_categoria" id="id_categoria">
+            <option value="1">Historia de Argentina</option>
+            <option value="2">deporte argentino</option>
+            <option value="3">Arte y Literatura</option>
+        </select>
+
+        <br><br>
+        <button type="submit">sugerir</button>
+    </form>
+</div>

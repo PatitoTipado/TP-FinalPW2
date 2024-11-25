@@ -6,6 +6,12 @@
         </div>
     {{/not_found}}
 
+    {{#resultado}}
+        <div class="alert alert-danger" role="alert">
+            {{resultado}}
+        </div>
+    {{/resultado}}
+
     {{^not_found}}
         <div class="row justify-content-center">
             <!-- Foto de perfil -->
@@ -31,6 +37,8 @@
     {{/not_found}}
 
 </div>
+
+<a href="/perfil/sugerirPregunta">sugerir pregunta</a>
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
           integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>

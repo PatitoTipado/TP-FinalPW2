@@ -36,6 +36,7 @@ class PreguntaModel
         JOIN opciones o ON p.id = o.pregunta_id  
         WHERE p.tipo_pregunta = 'sugerida' AND p.estado = 'pendiente'                
         GROUP BY p.id");
+
     }
 
     public function agregarPregunta($pregunta, $nivel)
