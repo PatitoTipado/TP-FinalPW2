@@ -4,349 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="Genero pdfs con tablas solamente">
-      <change afterPath="$PROJECT_DIR$/helper/PDFFilesGenerator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/CONTRIBUTING.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/LICENSE.LGPL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/VERSION" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/autoload.inc.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/Cpdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Courier-Bold.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Courier-BoldOblique.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Courier-Oblique.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Courier.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-Bold.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-BoldOblique.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-BoldOblique.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-Oblique.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans-Oblique.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSans.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-Bold.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-BoldOblique.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-BoldOblique.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-Oblique.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono-Oblique.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSansMono.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-Bold.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-BoldItalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-BoldItalic.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-Italic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif-Italic.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/DejaVuSerif.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Helvetica-Bold.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Helvetica-BoldOblique.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Helvetica-Oblique.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Helvetica.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Symbol.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Bold.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-BoldItalic.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Italic.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Roman.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/ZapfDingbats.afm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/dompdf_font_family_cache.dist.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/mustRead.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/Data.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/InputStream.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/Parser.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/Tokenizer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/TreeBuilder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/html5lib/named-character-references.ser" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/CHANGELOG.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/Doxyfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/composer.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/CSSList/AtRuleBlockList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSBlockList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/CSSList/Document.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/CSSList/KeyFrame.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Comment/Comment.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Comment/Commentable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/OutputFormat.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Parser.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Parsing/OutputException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Parsing/ParserState.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Parsing/SourceException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Parsing/UnexpectedTokenException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Property/AtRule.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Property/CSSNamespace.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Property/Charset.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Property/Import.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Property/Selector.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Renderable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Rule/Rule.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/RuleSet/AtRuleSet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/RuleSet/DeclarationBlock.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/RuleSet/RuleSet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Settings.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/CSSFunction.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/CSSString.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/CalcFunction.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/CalcRuleValueList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/Color.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/LineName.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/PrimitiveValue.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/RuleValueList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/Size.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/URL.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/Value.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/lib/Sabberworm/CSS/Value/ValueList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/CSSList/AtRuleBlockListTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/CSSList/DocumentTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/OutputFormatTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/ParserTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/RuleSet/DeclarationBlockTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/Sabberworm/CSS/RuleSet/LenientParsingTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/bootstrap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-calc-no-space-around-minus.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-charset-after-rule.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-charset-in-block.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-empty-grid-linename.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-empty.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-end-token-2.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-end-token.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-fault-tolerance.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/-tobedone.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/1readme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/2readme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/atrules.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/calc-nested.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/calc.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/case-insensitivity.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/colortest.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/comments.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/create-shorthands.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/docuwiki.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/empty-grid-linename.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/expand-shorthands.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/functions.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/grid-linename.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/hex-alpha.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/ie-hacks.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/ie.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/important.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/inner-color.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/line-numbers.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/missing-property-value.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/ms-filter.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/namespaces.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/nested.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/slashed.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/specificity.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/trailing-whitespace.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/unicode-range.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/unicode.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/unmatched_braces.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/unopened-close-brackets.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/url.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/values.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/webkit.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/files/whitespace.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-css-parser/tests/quickdump.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/.htaccess" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/bower.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/adobe-standard-encoding.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1250.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1251.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1252.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1253.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1254.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1255.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1257.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp1258.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/cp874.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-1.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-11.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-15.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-16.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-2.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-4.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-5.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-7.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/iso-8859-9.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/koi8-r.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/maps/koi8-u.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/phpunit.xml.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/sample-fonts/IntelClear-Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/sample-fonts/NotoSansShavian-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/AdobeFontMetrics.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Autoloader.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/BinaryStream.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/EOT/File.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/EOT/Header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/EncodingMap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Exception/FontNotFoundException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Font.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Glyph/Outline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Glyph/OutlineComponent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Glyph/OutlineComposite.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Glyph/OutlineSimple.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/OpenType/File.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/OpenType/TableDirectoryEntry.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/DirectoryEntry.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/cmap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/glyf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/head.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/hhea.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/hmtx.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/kern.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/loca.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/maxp.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/name.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/nameRecord.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/os2.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/Table/Type/post.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/TrueType/Collection.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/TrueType/File.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/TrueType/Header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/TrueType/TableDirectoryEntry.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/WOFF/File.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/WOFF/Header.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/src/FontLib/WOFF/TableDirectoryEntry.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-font-lib/tests/FontLib/FontTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/COPYING" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/COPYING.GPL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/phpunit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/DefaultStyle.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Document.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Gradient/Stop.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Style.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Surface/CPdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Surface/SurfaceCpdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Surface/SurfaceGmagick.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Surface/SurfaceInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Surface/SurfacePDFLib.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/AbstractTag.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Anchor.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Circle.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/ClipPath.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Ellipse.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Group.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Line.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/LinearGradient.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Path.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Polygon.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Polyline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/RadialGradient.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Rect.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Shape.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Stop.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/StyleTag.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/Text.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/Svg/Tag/UseTag.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/src/autoload.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/php-svg-lib/tests/Svg/StyleTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/res/broken_image.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/res/broken_image.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/res/html.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/phpcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/phpunit.xml.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Adapter/CPDF.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Adapter/GD.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Adapter/PDFLib.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Autoloader.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Canvas.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/CanvasFactory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Cellmap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Css/AttributeTranslator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Css/Color.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Css/Style.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Css/Stylesheet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Dompdf.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Exception.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Exception/ImageException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FontMetrics.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/Factory.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/FrameList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/FrameListIterator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/FrameTree.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/FrameTreeIterator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Frame/FrameTreeList.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/AbstractFrameDecorator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Block.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Inline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/ListBullet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/ListBulletImage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/NullFrameDecorator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Page.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/TableCell.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/TableRow.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/TableRowGroup.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameDecorator/Text.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/AbstractFrameReflower.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Block.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Inline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/ListBullet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/NullFrameReflower.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Page.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/TableCell.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/TableRow.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/TableRowGroup.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/FrameReflower/Text.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Helpers.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Image/Cache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/JavascriptEmbedder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/LineBox.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Options.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/PhpEvaluator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/Absolute.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/AbstractPositioner.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/Block.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/Fixed.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/Inline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/ListBullet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/NullPositioner.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/TableCell.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Positioner/TableRow.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/AbstractRenderer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/Block.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/Inline.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/ListBullet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/TableCell.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/TableRowGroup.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/src/Renderer/Text.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/reportePdfView.mustache" afterDir="false" />
+    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="Git ignore">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/Configuration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/applications.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bitnami.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard/javascripts/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/javascripts/all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper/MustachePresenter.php" beforeDir="false" afterPath="$PROJECT_DIR$/helper/MustachePresenter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/AdminModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/AdminModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/phpunit.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/phpunit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/listarPartidasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/listarPartidasView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/listarPreguntasView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/listarPreguntasView.mustache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/listarUsuarioView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/listarUsuarioView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -412,8 +76,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Pato",
-    "last_opened_file_path": "C:/xampp/htdocs/vendor",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/xampp/htdocs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -430,9 +94,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs" />
       <recent name="C:\xampp\htdocs\vendor" />
       <recent name="C:\xampp\htdocs\view" />
-      <recent name="C:\xampp\htdocs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs" />
@@ -498,14 +162,10 @@
       <workItem from="1732187470364" duration="8000" />
       <workItem from="1732276572484" duration="18402000" />
       <workItem from="1732357489079" duration="25323000" />
-    </task>
-    <task id="LOCAL-00001" summary="init">
-      <option name="closed" value="true" />
-      <created>1728859813139</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1728859813139</updated>
+      <workItem from="1732443980849" duration="3482000" />
+      <workItem from="1732447527660" duration="1262000" />
+      <workItem from="1732534016564" duration="31731000" />
+      <workItem from="1733166163233" duration="1411000" />
     </task>
     <task id="LOCAL-00002" summary="Lo primero que necesitamos para iniciar">
       <option name="closed" value="true" />
@@ -827,7 +487,79 @@
       <option name="project" value="LOCAL" />
       <updated>1732290418928</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Genero pdfs con graficos de torta para usuarios con 1 filtro (2 filtros cubiertos)">
+      <option name="closed" value="true" />
+      <created>1732444810034</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1732444810034</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Genero pdfs con grafico en todos los filtros &#10;-administrador modularizado">
+      <option name="closed" value="true" />
+      <created>1732447446341</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1732447446341</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Estilizo el header y el footer &#10;Realizo el responsive de todas las vistas admin, login, registro.&#10;Al mustache presenter le paso siempre $_SESION para vistas estaticas asi pasar solo el data, se mergean so gooodddd">
+      <option name="closed" value="true" />
+      <created>1732542090710</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1732542090710</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Valido el hash de contraseña realizo responsive de perfil y home y en los controller tmb falta partida para terminar usuario en estilos tanto como en salidas&#10;faltan validacion de roles en vistas tmb">
+      <option name="closed" value="true" />
+      <created>1732552172046</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1732552172046</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Validacion de roles a nivel controlador">
+      <option name="closed" value="true" />
+      <created>1732553294868</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1732553294868</updated>
+    </task>
+    <task id="LOCAL-00047" summary="ultimas cosas&#10;activo correos">
+      <option name="closed" value="true" />
+      <created>1732567262333</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1732567262333</updated>
+    </task>
+    <task id="LOCAL-00048" summary="sugerir pregunta">
+      <option name="closed" value="true" />
+      <created>1732571067415</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1732571067415</updated>
+    </task>
+    <task id="LOCAL-00049" summary="ultima bd">
+      <option name="closed" value="true" />
+      <created>1732571158169</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1732571158169</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Git ignore">
+      <option name="closed" value="true" />
+      <created>1733167766091</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1733167766091</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -845,15 +577,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="nose funciona, hay que ver todas las cositas que deje comentadas" />
-    <MESSAGE value="falta pulirlo y testearlo" />
-    <MESSAGE value="Faa esta lleno de bugs" />
-    <MESSAGE value="Actualizacion de DB" />
-    <MESSAGE value="Preguntas sql" />
-    <MESSAGE value="Cambio de nombre" />
-    <MESSAGE value="Cambio el titulo de la pagina" />
-    <MESSAGE value="Timer en front" />
-    <MESSAGE value="Si va para atras en una pregunta salta vista error &#10;Agrego campo a usuario de puntaje_maximo&#10;Saco el error al equivocarse unseteando las variables desde el home" />
     <MESSAGE value="--Rompi todo--&#10;aplico recursividad por que puedo&#10;otra validacion anticheat para validar que cierre partidas, cuando muera la sesion asi impacta en su score" />
     <MESSAGE value="Muestro su maximo puntaje desde su tabla" />
     <MESSAGE value="Con dormir un poco pude solucionarlo" />
@@ -870,6 +593,15 @@
     <MESSAGE value="administrador trae todos los datos terminado" />
     <MESSAGE value="-tiempo en front solucionado -valido que me quede tiempo en reanudar para volver a entrar en la partida" />
     <MESSAGE value="Genero pdfs con tablas solamente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Genero pdfs con tablas solamente" />
+    <MESSAGE value="Genero pdfs con graficos de torta para usuarios con 1 filtro (2 filtros cubiertos)" />
+    <MESSAGE value="Genero pdfs con grafico en todos los filtros &#10;-administrador modularizado" />
+    <MESSAGE value="Estilizo el header y el footer &#10;Realizo el responsive de todas las vistas admin, login, registro.&#10;Al mustache presenter le paso siempre $_SESION para vistas estaticas asi pasar solo el data, se mergean so gooodddd" />
+    <MESSAGE value="Valido el hash de contraseña realizo responsive de perfil y home y en los controller tmb falta partida para terminar usuario en estilos tanto como en salidas&#10;faltan validacion de roles en vistas tmb" />
+    <MESSAGE value="Validacion de roles a nivel controlador" />
+    <MESSAGE value="ultimas cosas&#10;activo correos" />
+    <MESSAGE value="sugerir pregunta" />
+    <MESSAGE value="ultima bd" />
+    <MESSAGE value="Git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Git ignore" />
   </component>
 </project>
