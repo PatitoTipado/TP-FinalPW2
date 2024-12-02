@@ -88,25 +88,3 @@ El juego está desarrollado siguiendo el patrón **MVC** con **PHP** y **Mustach
 
 1. Abre tu **navegador web**. 🌐
 2. Accede a la siguiente URL:  http://localhost/<nombre_proyecto>
-
-
-
-sadasdasdas
-dsa
-da
-sd
-asd
-as
-das
-d
-sad
-as
-d
-asd
-asd
-as
-da
-sd
-asd
-asdad
-as
