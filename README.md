@@ -87,4 +87,19 @@ El juego está desarrollado siguiendo el patrón **MVC** con **PHP** y **Mustach
 ## 4. Levantar el Proyecto 🚀
 
 1. Abre tu **navegador web**. 🌐
-2. Accede a la siguiente URL:  http://localhost/<nombre_proyecto>
+2. Accede a la siguiente URL:  http://localhost:80/ .
+
+## 🕹️ Cómo Jugar
+
+1. Accede al juego con un usuario registrado o crea uno nuevo.
+   1.1. Para ver el usuario administrador creado desde la base, el nombre de usuario es **Administrador** y la contraseña es **123456789**.
+   1.2. Para utilizar el usuario editor, el nombre de usuario es **Editor** con la contraseña **123456789**.
+   1.3. Para jugar con cualquier usuario, tienes los siguientes usuarios:
+       - **Usuario**: con preguntas normales.
+       - **MalJugador**: con preguntas fáciles.
+       - **BuenJugador**: con preguntas difíciles.
+     Puedes loguearte con cualquiera de estos, utilizando la contraseña **123456789**.
+2. Responde las preguntas según el nivel de dificultad seleccionado.
+3. Envía sugerencias o reporta preguntas si es necesario.
+4. Administra el contenido o revisa estadísticas si tienes los permisos adecuados.
+
