@@ -4,13 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="Git ignore">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="Ignore files">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e/storage_v2/_src_/schema/preguntados.HtrZJg.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/admin.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/buen_jugador.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/editor.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/mal_jugador.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/usuario.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Bold.afm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Roman.afm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/dompdf_font_family_cache.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/fontawesome_normal_7ea195556637d817f455524c7885b526.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/fontawesome_normal_7ea195556637d817f455524c7885b526.ufm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/lato_normal_1e76f4095824347c5952fde032e6e608.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/lato_normal_1e76f4095824347c5952fde032e6e608.ufm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/applications.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bitnami.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dashboard/javascripts/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard/javascripts/all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/phpunit.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/phpunit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/bdExportadaMauri.sql" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/PreguntadosBaseV1.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/emailConfig.ini" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/emailConfig.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/BuenJuagdor.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/MalJugador.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Mariel.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Mauri.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Usuario.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,25 +92,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/xampp/htdocs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs" />
@@ -99,6 +118,7 @@
       <recent name="C:\xampp\htdocs\view" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\public" />
       <recent name="C:\xampp\htdocs" />
       <recent name="C:\xampp\htdocs\vendor\Mustache" />
       <recent name="C:\xampp\htdocs\vendor" />
@@ -165,15 +185,8 @@
       <workItem from="1732443980849" duration="3482000" />
       <workItem from="1732447527660" duration="1262000" />
       <workItem from="1732534016564" duration="31731000" />
-      <workItem from="1733166163233" duration="1411000" />
-    </task>
-    <task id="LOCAL-00002" summary="Lo primero que necesitamos para iniciar">
-      <option name="closed" value="true" />
-      <created>1728864991712</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1728864991712</updated>
+      <workItem from="1733166163233" duration="4132000" />
+      <workItem from="1733171240082" duration="3376000" />
     </task>
     <task id="LOCAL-00003" summary="Login y registro terminado, falta hacerlo lindo">
       <option name="closed" value="true" />
@@ -559,7 +572,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733167766091</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Ignore files">
+      <option name="closed" value="true" />
+      <created>1733168070587</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1733168070587</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -577,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="--Rompi todo--&#10;aplico recursividad por que puedo&#10;otra validacion anticheat para validar que cierre partidas, cuando muera la sesion asi impacta en su score" />
     <MESSAGE value="Muestro su maximo puntaje desde su tabla" />
     <MESSAGE value="Con dormir un poco pude solucionarlo" />
     <MESSAGE value="Ahora puedo registrarme seleccionando la ubicacion desde un mapa" />
@@ -602,6 +622,7 @@
     <MESSAGE value="sugerir pregunta" />
     <MESSAGE value="ultima bd" />
     <MESSAGE value="Git ignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Git ignore" />
+    <MESSAGE value="Ignore files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ignore files" />
   </component>
 </project>
