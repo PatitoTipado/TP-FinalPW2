@@ -1,4 +1,3 @@
-<body>
     {{#reportes}}
             <h2>Pregunta: {{pregunta}}</h2>
             <h3>Opción 1: {{opcion1}}</h3>
@@ -6,9 +5,8 @@
             <h3>Opción 3: {{opcion3}}</h3>
             <h3>Opción correcta: {{opcion_correcta}}</h3>
             <br>
-            <a href="/verReportes/aprobar?id={{id_pregunta}}">Aprobar pregunta</a>
-            <a href="/verReportes/eliminar?id={{id_pregunta}}">Eliminar pregunta</a>
+            <a href="/editor/aprobarReporte?id={{id_pregunta}}">Aprobar pregunta</a>
+            <a href="/editor/eliminarReporte?id={{id_pregunta}}">Eliminar pregunta</a>
             <br><br><br>
     {{/reportes}}
     <br><br><br>
-</div>

@@ -1,30 +1,42 @@
-<div>
-    {{#pregunta}}
-    <form method="POST" action="/modificarPregunta/modificar?id={{id_pregunta}}">
-       <label for="pregunta">Pregunta:</label>
-       <input type="text" class="input-pregunta" placeholder="{{pregunta}}" id="pregunta" name="pregunta">
-       <br><br>
-       <label for="opcion1">Opción 1: </label>
-       <input type="text" class="input-opcion" placeholder="{{opcion1}}" id="opcion1" name="opcion1">
-       <br><br>
-       <label for="opcion2">Opción 2: </label>
-       <input type="text" class="input-opcion" placeholder="{{opcion2}}" id="opcion2" name="opcion2">
-       <br><br>
-       <label for="opcion3">Opción 3: </label>
-       <input type="text" class="input-opcion" placeholder="{{opcion3}}" id="opcion3" name="opcion3">
-       <br><br>
-       <label for="opcionCorrecta">Opción correcta: </label>
-       <input type="text"class="input-opcion-correcta" placeholder="{{opcion_correcta}}"  id="opcionCorrecta" name="opcionCorrecta">
-       <br><br>           
-      <label for="nivel">Nivel: </label>
-       <select name="nivel" id="nivel">
-         <option value="actual">{{nivel}}</option>
-         <option value="facil">Fácil</option>
-         <option value="normal">Normal</option>
-         <option value="dificil">Difícil</option>
-       </select>
-       <br><br>           
-       <button type="submit">Modificar</button>
-    </form>    
-    {{/pregunta}}
+
+<div class="container d-flex justify-content-center mt-5 mb-5">
+    <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%; border-radius: 15px;">
+        <h2 class="text-center mb-4">Modificar Pregunta</h2>
+        {{#pregunta}}
+            <form method="POST" action="/editor/modificar?id={{id_pregunta}}">
+            <div class="mb-3">
+                <label for="pregunta" class="form-label">Pregunta:</label>
+                <input type="text" class="form-control" placeholder="{{pregunta}}" id="pregunta" name="pregunta">
+            </div>
+            <div class="mb-3">
+                <label for="opcion1" class="form-label">Opción 1:</label>
+                <input type="text" class="form-control" placeholder="{{opcion1}}" id="opcion1" name="opcion1">
+            </div>
+            <div class="mb-3">
+                <label for="opcion2" class="form-label">Opción 2:</label>
+                <input type="text" class="form-control" placeholder="{{opcion2}}" id="opcion2" name="opcion2">
+            </div>
+            <div class="mb-3">
+                <label for="opcion3" class="form-label">Opción 3:</label>
+                <input type="text" class="form-control" placeholder="{{opcion3}}" id="opcion3" name="opcion3">
+            </div>
+            <div class="mb-3">
+                <label for="opcionCorrecta" class="form-label">Opción correcta:</label>
+                <input type="text" class="form-control" placeholder="{{opcion_correcta}}" id="opcionCorrecta" name="opcionCorrecta">
+            </div>
+            <div class="mb-3">
+                <label for="nivel" class="form-label">Nivel:</label>
+                <select name="nivel" id="nivel" class="form-select">
+                    <option value="actual">{{nivel}}</option>
+                    <option value="facil">Fácil</option>
+                    <option value="normal">Normal</option>
+                    <option value="dificil">Difícil</option>
+                </select>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Modificar</button>
+            </div>
+            </form>
+        {{/pregunta}}
+    </div>
 </div>

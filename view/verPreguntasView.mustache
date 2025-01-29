@@ -1,15 +1,19 @@
-<body>
+<div class="container mt-5">
     {{#preguntas}}
-            <h2>Pregunta: {{pregunta}}</h2>
-            <h3>Opción 1: {{opcion1}}</h3>
-            <h3>Opción 2: {{opcion2}}</h3>
-            <h3>Opción 3: {{opcion3}}</h3>
-            <h3>Opción correcta: {{opcion_correcta}}</h3>
-            <br>
-            <a href="/modificarPregunta/verPregunta?id={{id_pregunta}}">Modificar</a>
-            <a href="/eliminarPregunta/eliminar?id={{id_pregunta}}">Eliminar</a>
-            <br><br>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Pregunta: {{pregunta}}</h2>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item"><strong>Opción 1:</strong> {{opcion1}}</li>
+                    <li class="list-group-item"><strong>Opción 2:</strong> {{opcion2}}</li>
+                    <li class="list-group-item"><strong>Opción 3:</strong> {{opcion3}}</li>
+                    <li class="list-group-item"><strong>Opción correcta:</strong> {{opcion_correcta}}</li>
+                </ul>
+                <div class="d-flex justify-content-end">
+                    <a href="/editor/verPregunta?id={{id_pregunta}}" class="btn btn-warning me-2">Modificar</a>
+                    <a href="/editor/eliminar?id={{id_pregunta}}" class="btn btn-danger">Eliminar</a>
+                </div>
+            </div>
+        </div>
     {{/preguntas}}
-   
-    <br>
 </div>

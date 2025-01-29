@@ -20,12 +20,6 @@ include_once("controller/PerfilController.php");
 include_once("controller/PartidaController.php");
 include_once ("controller/RankingController.php");
 include_once ("controller/EditorController.php");
-include_once ("controller/VerPreguntasController.php");
-include_once ("controller/ModificarPreguntaController.php");
-include_once ("controller/AgregarPreguntaController.php");
-include_once ("controller/EliminarPreguntaController.php");
-include_once ("controller/VerSugeridasController.php");
-include_once ("controller/VerReportesController.php");
 include_once ("controller/AdminController.php");
 include_once ("controller/ReporteController.php");
 
@@ -73,36 +67,6 @@ class Configuration
         return new EditorController($this->getPresenter(), $this->getPreguntaModel());
     }
 
-    public function getVerPreguntasController()
-    {
-        return new VerPreguntasController($this->getPresenter(), $this->getPreguntaModel());
-    }
-
-    public function getModificarPreguntaController()
-    {
-        return new ModificarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
-    }
-
-    public function getEliminarPreguntaController()
-    {
-        return new EliminarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
-    }
-
-    public function getAgregarPreguntaController()
-    {
-        return new AgregarPreguntaController($this->getPresenter(), $this->getPreguntaModel());
-    }
-
-    public function getVerSugeridasController()
-    {
-        return new VerSugeridasController($this->getPresenter(), $this->getPreguntaModel());
-    }
-
-    public function getVerReportesController()
-    {
-        return new VerReportesController($this->getPresenter(), $this->getPreguntaModel());
-    }
-  
     public function getReporteController()
     {
         return new ReporteController($this->getPresenter(),$this->getPartidaModel());

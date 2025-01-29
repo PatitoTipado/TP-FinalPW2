@@ -1,32 +1,53 @@
 <div>
-                {{#error_al_agregar}}
-                    <div class="alert alert-danger" role="alert">
-                        {{error_al_agregar}}
-                    </div>
-                {{/error_al_agregar}}
-   <form method="POST" action="/agregarPregunta/agregar">
-    <label for="pregunta">Pregunta:</label>
-       <input type="text" class="input-pregunta" id="pregunta" name="pregunta" required>
-       <br><br>
-       <label for="opcion1">Opción 1: </label>
-       <input type="text" class="input-opcion" id="opcion1" name="opcion1" required>
-       <br><br>
-       <label for="opcion2">Opción 2: </label>
-       <input type="text" class="input-opcion" id="opcion2" name="opcion2" required>
-       <br><br>
-       <label for="opcion3">Opción 3: </label>
-       <input type="text" class="input-opcion" id="opcion3" name="opcion3" required>
-       <br><br>
-       <label for="opcionCorrecta">Opción correcta: </label>
-       <input type="text" class="input-opcion-correcta" id="opcionCorrecta" name="opcionCorrecta" required>
-       <br><br>
-       <label for="nivel">Nivel: </label>
-       <select name="nivel" id="nivel">
-         <option value="facil">Fácil</option>
-         <option value="normal">Normal</option>
-         <option value="dificil">Difícil</option>
-       </select>
-       <br><br>
-       <button type="submit">Agregar</button>
-    </form>    
-</div>
+    <div class="container d-flex justify-content-center mt-5 mb-5">
+        <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 15px;">
+            <h2 class="text-center mb-4">Agregar Pregunta</h2>
+            <form method="POST" action="/editor/agregar">
+                <div class="mb-3">
+                    <label for="pregunta" class="form-label">Pregunta:</label>
+                    <input type="text" class="form-control" id="pregunta" name="pregunta" placeholder="Escribe la pregunta aquí" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="opcion1" class="form-label">Opción 1:</label>
+                    <input type="text" class="form-control" id="opcion1" name="opcion1" placeholder="Escribe la opción 1" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="opcion2" class="form-label">Opción 2:</label>
+                    <input type="text" class="form-control" id="opcion2" name="opcion2" placeholder="Escribe la opción 2" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="opcion3" class="form-label">Opción 3:</label>
+                    <input type="text" class="form-control" id="opcion3" name="opcion3" placeholder="Escribe la opción 3" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="opcionCorrecta" class="form-label">Opción correcta:</label>
+                    <input type="text" class="form-control" id="opcionCorrecta" name="opcionCorrecta" placeholder="Escribe la opción correcta" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nivel" class="form-label">Nivel:</label>
+                    <select name="nivel" id="nivel" class="form-select">
+                        <option value="facil">Fácil</option>
+                        <option value="normal">Normal</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Agregar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
+        {{#mensaje}}
+            <div class="alert alert-danger container d-flex justify-content-center mt-5 mb-5" role="alert">
+                {{mensaje}}
+            </div>
+        {{/mensaje}}
+
+    </div>
