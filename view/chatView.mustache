@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <!-- Contenedor del chat -->
+            <div class="chat-box">
+                <div id="mensajes">
+                    {{#datos}}
+                        <b>{{remitente}}: </b> {{contenido}}
+                        <br>
+                    {{/datos}}
+                </div>
+            </div>
+
+            <!-- Formulario para enviar mensaje -->
+            <form id="chatForm" action="/chat/enviar" method="POST" style="margin-top: 10px;">
+                <div class="input-group">
+                    <input type="hidden" >
+                    <textarea name="mensaje" id="mensaje" class="form-control" placeholder="Escribe tu mensaje..." style="resize: none; height: 80px;"></textarea>
+                    <div class="input-group-append">
+                        <button id="enviar" type="submit" class="btn btn-primary" style="height: 80px;">Enviar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{user}}
+
+<style>
+    .chat-box {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        max-height: 300px;
+        overflow-y: scroll;
+        border: 1px solid #ddd;
+    }
+    #mensajes {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<script>
+    const conn = new WebSocket('ws://localhost:8080');
+
+    function obtenerParametroURL(nombre) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(nombre);
+    }
+
+    const usuarioId = obtenerParametroURL("id");
+
+    document.addEventListener("DOMContentLoaded", () => {
+        conn.onopen = function() {
+            console.log("Connection established!");
+        };
+
+        conn.onmessage = function(e) {
+            let mensaje = JSON.parse(e.data).mensaje
+            let nombre= JSON.parse(e.data).nombre
+            $('#mensajes').append("<p><b>" + nombre + " :" + "</b>" + mensaje + "</p>");
+        };
+    });
+
+    $('#chatForm').submit(function (e) {
+        e.preventDefault();
+
+        let nombre = "{{user}}";
+        let mensaje = $('#mensaje').val();
+
+        $('#mensajes').append(" <p><b>{{user}}: </b>" + mensaje + "</p>");
+        $('#mensaje').val('');
+
+        let mensajes = {'nombre': nombre, 'mensaje': mensaje, 'id': usuarioId};
+
+        fetch('/chat/enviar', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(mensajes)
+        })
+
+        conn.send(JSON.stringify(mensajes));
+
+    });
+</script>

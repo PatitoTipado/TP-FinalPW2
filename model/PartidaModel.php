@@ -12,11 +12,13 @@ class PartidaModel
     public function obtenerPartidasEnCurso($id_usuario)
     {
         $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'en curso'";
+
         return $this->obtenerParidas($sql);
     }
     public function obtenerPartidasFinalizadas($id_usuario)
     {
         $sql = "SELECT * FROM partidas WHERE usuario_id='$id_usuario' AND estado = 'finalizada'";
+
         return $this->obtenerParidas($sql);
     }
 

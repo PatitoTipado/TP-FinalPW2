@@ -4,32 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="Ignore files">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e/storage_v2/_src_/schema/preguntados.HtrZJg.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/buen_jugador.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/editor.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/mal_jugador.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/usuario.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Bold.afm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/Times-Roman.afm.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/dompdf_font_family_cache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/fontawesome_normal_7ea195556637d817f455524c7885b526.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/fontawesome_normal_7ea195556637d817f455524c7885b526.ufm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/lato_normal_1e76f4095824347c5952fde032e6e608.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor/dompdf/lib/fonts/lato_normal_1e76f4095824347c5952fde032e6e608.ufm" afterDir="false" />
+    <list default="true" id="de3cd5b7-8e4c-4b6d-b089-86f8825832b3" name="Changes" comment="refactor editor para que cumpla el patron de diseño mvc">
+      <change afterPath="$PROJECT_DIR$/bin/server.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/controller/ChatController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helper/Chat.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/ChatModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view/chatView.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d2a0f6bd-efc6-4afa-a0d3-8f114856572e.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/bdExportadaMauri.sql" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/PreguntadosBaseV1.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/emailConfig.ini" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/emailConfig.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/BuenJuagdor.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/MalJugador.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Mariel.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Mauri.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Usuario.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/Configuration.php" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/Configuration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/PartidaModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/PartidaModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/RankingModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/RankingModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/UserModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/model/UserModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/footer.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/footer.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/header.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/header.mustache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/perfilView.mustache" beforeDir="false" afterPath="$PROJECT_DIR$/view/perfilView.mustache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +27,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
-    <execution />
+    <execution>
+      <executable path="composer" />
+    </execution>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -66,7 +58,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/PatitoTipado/htdocs.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/PatitoTipado/TP-FinalPW2.git&quot;,
     &quot;accountId&quot;: &quot;da532072-eb11-46c2-946c-514cef25b466&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
@@ -80,6 +72,7 @@
     &quot;repository&quot;: &quot;htdocs&quot;
   }
 }</component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -95,6 +88,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary&quot;: &quot;PHPUnit&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -187,22 +181,9 @@
       <workItem from="1732534016564" duration="31731000" />
       <workItem from="1733166163233" duration="4132000" />
       <workItem from="1733171240082" duration="3376000" />
-    </task>
-    <task id="LOCAL-00003" summary="Login y registro terminado, falta hacerlo lindo">
-      <option name="closed" value="true" />
-      <created>1728875815534</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1728875815534</updated>
-    </task>
-    <task id="LOCAL-00004" summary="cerrar sesion y sacar el warning de el action">
-      <option name="closed" value="true" />
-      <created>1728948157043</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1728948157043</updated>
+      <workItem from="1738102003152" duration="8563000" />
+      <workItem from="1738110955018" duration="910000" />
+      <workItem from="1738112089537" duration="35236000" />
     </task>
     <task id="LOCAL-00005" summary="muestra el usuario que esta logeado">
       <option name="closed" value="true" />
@@ -580,7 +561,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733168070587</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="email config actualizado">
+      <option name="closed" value="true" />
+      <created>1738112041446</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1738112041447</updated>
+    </task>
+    <task id="LOCAL-00053" summary="refactor editor para que cumpla el patron de diseño mvc">
+      <option name="closed" value="true" />
+      <created>1738112146845</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1738112146846</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,8 +595,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Muestro su maximo puntaje desde su tabla" />
-    <MESSAGE value="Con dormir un poco pude solucionarlo" />
     <MESSAGE value="Ahora puedo registrarme seleccionando la ubicacion desde un mapa" />
     <MESSAGE value="Puedo vizualizar el mapa desde mi perfil, añadi algunos estilos con boostrap y si no encuentra partidas se setea un error ya que al tener el mismo nombre englobaba todo" />
     <MESSAGE value="Puedo vizualizar el mapa desde mi perfil, añadi algunos estilos con boostrap y si no encuentra partidas se setea un error ya que al tener el mismo nombre englobaba todo&#10;Modularize vista perfil para que sea unica" />
@@ -623,6 +618,8 @@
     <MESSAGE value="ultima bd" />
     <MESSAGE value="Git ignore" />
     <MESSAGE value="Ignore files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ignore files" />
+    <MESSAGE value="email config actualizado" />
+    <MESSAGE value="refactor editor para que cumpla el patron de diseño mvc" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor editor para que cumpla el patron de diseño mvc" />
   </component>
 </project>

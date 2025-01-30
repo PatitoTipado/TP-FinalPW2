@@ -11,12 +11,9 @@ class RankingModel
 
     public function getNameAndScoreByPositionOfUsers()
     {
-        return $this->database->query('SELECT u.id AS id_usuario, u.nombre_de_usuario, MAX(p.puntaje_total) AS mejor_puntaje,  
-        RANK() OVER (ORDER BY MAX(p.puntaje_total) DESC) AS posicion FROM usuarios u                       
-        JOIN partidas p ON u.id = p.usuario_id WHERE p.estado = "finalizada"                               
-        GROUP BY u.id                                                                                      
-        ORDER BY mejor_puntaje DESC
-        LIMIT 50');
+        return $this->database->query('SELECT u.id AS id_usuario, u.nombre_de_usuario, 
+        u.puntaje_maximo AS mejor_puntaje,RANK() OVER (ORDER BY u.puntaje_maximo DESC) AS posicion 
+        FROM usuarios u WHERE u.puntaje_maximo > 0 LIMIT 10;');
     }
 
     public function obtenerUsuario($id)

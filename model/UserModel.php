@@ -218,6 +218,7 @@ class UserModel
                 $data['nombre'] = $usuario['nombre'];
                 $data['sexo'] = ($usuario['sexo'] == 'F') ? 'Femenino' : 'Masculino';
                 $data['username'] = $usuario['nombre_de_usuario'];
+                $data['id']= $usuario['id'];
 
             }
 

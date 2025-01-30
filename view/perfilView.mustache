@@ -1,5 +1,5 @@
-<div class="pag-perfil container mt-5">
 
+<div class="pag-perfil container mt-5">
     {{#not_found}}
         <div class="alert alert-danger" role="alert">
             {{not_found}}
@@ -13,6 +13,8 @@
     {{/resultado}}
 
     {{^not_found}}
+        <div></div>
+
         <div class="row justify-content-center">
             <!-- Foto de perfil -->
             <div class="col-md-3 d-flex justify-content-center mb-3">
@@ -34,11 +36,14 @@
         <div class="mt-4">
             <div id="mi_mapa" class="border rounded" style="height: 300px; width: 100%;"></div>
         </div>
+
     {{/not_found}}
 
 </div>
 
 <a href="/perfil/sugerirPregunta">sugerir pregunta</a>
+<a href="/chat?id={{id}}"> enviar mensaje</a>
+
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
           integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>

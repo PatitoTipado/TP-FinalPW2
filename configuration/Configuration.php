@@ -12,6 +12,7 @@ include_once ("model/PartidaModel.php");
 include_once ("model/RankingModel.php");
 include_once ("model/PreguntaModel.php");
 include_once ("model/AdminModel.php");
+include_once ("model/ChatModel.php");
 
 include_once("controller/LoginController.php");
 include_once("controller/HomeController.php");
@@ -22,6 +23,7 @@ include_once ("controller/RankingController.php");
 include_once ("controller/EditorController.php");
 include_once ("controller/AdminController.php");
 include_once ("controller/ReporteController.php");
+include_once ("controller/ChatController.php");
 
 include_once('vendor/Mustache/src/Mustache/Autoloader.php');
 include_once('vendor/dompdf/autoload.inc.php');
@@ -77,6 +79,10 @@ class Configuration
         return new AdminController($this->getPresenter(),$this->getAdminModel(),$this->getPdfGenerator());
     }
 
+    public function getChatController(){
+        return new ChatController($this->getPresenter(),$this->getChatModel());
+    }
+
     //MODELOS
 
     public function getRankingModel() {
@@ -101,6 +107,11 @@ class Configuration
     private function getAdminModel()
     {
         return new AdminModel($this->getDatabase());
+    }
+
+    private function getChatModel()
+    {
+        return new ChatModel($this->getDatabase());
     }
 
     //HELPER
